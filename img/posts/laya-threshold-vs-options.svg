@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" width="1320" height="705" role="img" aria-label="Grouped column chart of gate precision at confidence thresholds 0.50, 0.70, 0.85 and 0.95. With 3 options precision is 9 of 10, 7 of 7 and 3 of 3. With 20 options it is 7 of 12, 6 of 11, 5 of 9 and 5 of 7.">
+<title>Grouped column chart of gate precision at confidence thresholds 0.50, 0.70, 0.85 and 0.95. With 3 options precision is 9 of 10, 7 of 7 and 3 of 3. With 20 options it is 7 of 12, 6 of 11, 5 of 9 and 5 of 7.</title>
+<rect x="0.0" y="0.0" width="880.0" height="470.0" fill="#232427" rx="10"/>
+<text x="28.0" y="38.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="18" fill="#ffffff" font-weight="600" text-anchor="start">The same threshold means different things at different option counts</text>
+<text x="28.0" y="61.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13.5" fill="#c3c2b7" font-weight="400" text-anchor="start">Share of auto-approved answers that were right, for the same 12 texts asked as a 3-option and a 20-option question.</text>
+<text x="28.0" y="452.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="11.5" fill="#898781" font-weight="400" text-anchor="start">Data: NandhaKishorM/laya issue #394 (English checkpoint, laya 0.3.20, n = 12 per question, so read it as a demonstration).</text>
+<line x1="86.0" y1="362.0" x2="660.0" y2="362.0" stroke="#4b4d54" stroke-width="1"/>
+<text x="76.0" y="366.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="end">0%</text>
+<line x1="86.0" y1="299.5" x2="660.0" y2="299.5" stroke="#34363c" stroke-width="1"/>
+<text x="76.0" y="303.5" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="end">25%</text>
+<line x1="86.0" y1="237.0" x2="660.0" y2="237.0" stroke="#34363c" stroke-width="1"/>
+<text x="76.0" y="241.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="end">50%</text>
+<line x1="86.0" y1="174.5" x2="660.0" y2="174.5" stroke="#34363c" stroke-width="1"/>
+<text x="76.0" y="178.5" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="end">75%</text>
+<line x1="86.0" y1="112.0" x2="660.0" y2="112.0" stroke="#34363c" stroke-width="1"/>
+<text x="76.0" y="116.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="end">100%</text>
+<text x="30" y="237.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" text-anchor="middle" transform="rotate(-90 30 237.0)">precision of the gate</text>
+<text x="157.8" y="384.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="middle">≥ 0.50</text>
+<path d="M132.8,362.0 L132.8,141.0 Q132.8,137.0 136.8,137.0 L152.8,137.0 Q156.8,137.0 156.8,141.0 L156.8,362.0 Z" fill="#3987e5"/>
+<text x="144.8" y="130.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#ffffff" font-weight="400" text-anchor="middle">9/10</text>
+<path d="M158.8,362.0 L158.8,220.2 Q158.8,216.2 162.8,216.2 L178.8,216.2 Q182.8,216.2 182.8,220.2 L182.8,362.0 Z" fill="#d95926"/>
+<text x="170.8" y="209.2" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#ffffff" font-weight="400" text-anchor="middle">7/12</text>
+<text x="301.2" y="384.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="middle">≥ 0.70</text>
+<path d="M276.2,362.0 L276.2,116.0 Q276.2,112.0 280.2,112.0 L296.2,112.0 Q300.2,112.0 300.2,116.0 L300.2,362.0 Z" fill="#3987e5"/>
+<text x="288.2" y="105.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#ffffff" font-weight="400" text-anchor="middle">7/7</text>
+<path d="M302.2,362.0 L302.2,229.6 Q302.2,225.6 306.2,225.6 L322.2,225.6 Q326.2,225.6 326.2,229.6 L326.2,362.0 Z" fill="#d95926"/>
+<text x="314.2" y="218.6" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#ffffff" font-weight="400" text-anchor="middle">6/11</text>
+<text x="444.8" y="384.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="middle">≥ 0.85</text>
+<path d="M419.8,362.0 L419.8,116.0 Q419.8,112.0 423.8,112.0 L439.8,112.0 Q443.8,112.0 443.8,116.0 L443.8,362.0 Z" fill="#3987e5"/>
+<text x="431.8" y="105.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#ffffff" font-weight="400" text-anchor="middle">3/3</text>
+<path d="M445.8,362.0 L445.8,227.1 Q445.8,223.1 449.8,223.1 L465.8,223.1 Q469.8,223.1 469.8,227.1 L469.8,362.0 Z" fill="#d95926"/>
+<text x="457.8" y="216.1" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#ffffff" font-weight="400" text-anchor="middle">5/9</text>
+<text x="588.2" y="384.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="middle">≥ 0.95</text>
+<text x="575.2" y="338.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="11.5" fill="#898781" font-weight="400" text-anchor="middle">none</text>
+<text x="575.2" y="352.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="11.5" fill="#898781" font-weight="400" text-anchor="middle">pass</text>
+<path d="M589.2,362.0 L589.2,187.4 Q589.2,183.4 593.2,183.4 L609.2,183.4 Q613.2,183.4 613.2,187.4 L613.2,362.0 Z" fill="#d95926"/>
+<text x="601.2" y="176.4" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#ffffff" font-weight="400" text-anchor="middle">5/7</text>
+<text x="373.0" y="408.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="middle">confidence threshold for acting automatically</text>
+<text x="696.0" y="120.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="start">Question asked with</text>
+<rect x="696.0" y="134.0" width="12.0" height="12.0" fill="#3987e5" rx="3"/>
+<text x="716.0" y="145.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">3 options</text>
+<rect x="696.0" y="156.0" width="12.0" height="12.0" fill="#d95926" rx="3"/>
+<text x="716.0" y="167.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">20 options</text>
+<text x="696.0" y="208.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#c3c2b7" font-weight="400" text-anchor="start">Labels are correct / selected.</text>
+<text x="696.0" y="226.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start"></text>
+<text x="696.0" y="244.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">With no gate at all the model</text>
+<text x="696.0" y="262.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">is right 11/12 times on the</text>
+<text x="696.0" y="280.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">3-option question and 7/12</text>
+<text x="696.0" y="298.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">on the 20-option one.</text>
+<text x="696.0" y="316.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start"></text>
+<text x="696.0" y="334.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">At 20 options a gate at 0.85</text>
+<text x="696.0" y="352.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">passes 9 of 12 answers and</text>
+<text x="696.0" y="370.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">only 5 are right: worse than</text>
+<text x="696.0" y="388.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">having no gate.</text>
+</svg>

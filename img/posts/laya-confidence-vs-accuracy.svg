@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 624" width="1320" height="936" role="img" aria-label="Scatter plot of mean confidence against accuracy for 51 languages and two Laya checkpoints. All points lie below the diagonal of perfect calibration. For Khmer the English checkpoint is 0 percent accurate at 71 percent mean confidence.">
+<title>Scatter plot of mean confidence against accuracy for 51 languages and two Laya checkpoints. All points lie below the diagonal of perfect calibration. For Khmer the English checkpoint is 0 percent accurate at 71 percent mean confidence.</title>
+<rect x="0.0" y="0.0" width="880.0" height="624.0" fill="#232427" rx="10"/>
+<text x="28.0" y="38.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="18" fill="#ffffff" font-weight="600" text-anchor="start">Confidence stays high while accuracy collapses</text>
+<text x="28.0" y="61.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13.5" fill="#c3c2b7" font-weight="400" text-anchor="start">Each dot is one of 51 languages: mean confidence against accuracy on a 20-option intent question.</text>
+<text x="28.0" y="606.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="11.5" fill="#898781" font-weight="400" text-anchor="start">Data: NandhaKishorM/laya, research/results/cpu_51_language_sweep_refreshed.json (MASSIVE intent, 100 cases per language, as served).</text>
+<line x1="96.0" y1="524.0" x2="516.0" y2="524.0" stroke="#4b4d54" stroke-width="1"/>
+<line x1="96.0" y1="104.0" x2="96.0" y2="524.0" stroke="#4b4d54" stroke-width="1"/>
+<text x="86.0" y="528.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="end">0.0</text>
+<text x="96.0" y="544.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="middle">0.0</text>
+<line x1="96.0" y1="440.0" x2="516.0" y2="440.0" stroke="#34363c" stroke-width="1"/>
+<line x1="180.0" y1="104.0" x2="180.0" y2="524.0" stroke="#34363c" stroke-width="1"/>
+<text x="86.0" y="444.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="end">0.2</text>
+<text x="180.0" y="544.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="middle">0.2</text>
+<line x1="96.0" y1="356.0" x2="516.0" y2="356.0" stroke="#34363c" stroke-width="1"/>
+<line x1="264.0" y1="104.0" x2="264.0" y2="524.0" stroke="#34363c" stroke-width="1"/>
+<text x="86.0" y="360.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="end">0.4</text>
+<text x="264.0" y="544.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="middle">0.4</text>
+<line x1="96.0" y1="272.0" x2="516.0" y2="272.0" stroke="#34363c" stroke-width="1"/>
+<line x1="348.0" y1="104.0" x2="348.0" y2="524.0" stroke="#34363c" stroke-width="1"/>
+<text x="86.0" y="276.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="end">0.6</text>
+<text x="348.0" y="544.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="middle">0.6</text>
+<line x1="96.0" y1="188.0" x2="516.0" y2="188.0" stroke="#34363c" stroke-width="1"/>
+<line x1="432.0" y1="104.0" x2="432.0" y2="524.0" stroke="#34363c" stroke-width="1"/>
+<text x="86.0" y="192.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="end">0.8</text>
+<text x="432.0" y="544.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="middle">0.8</text>
+<line x1="96.0" y1="104.0" x2="516.0" y2="104.0" stroke="#34363c" stroke-width="1"/>
+<line x1="516.0" y1="104.0" x2="516.0" y2="524.0" stroke="#34363c" stroke-width="1"/>
+<text x="86.0" y="108.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="end">1.0</text>
+<text x="516.0" y="544.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#898781" font-weight="400" text-anchor="middle">1.0</text>
+<text x="306.0" y="568.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="middle">mean confidence</text>
+<text x="44" y="314.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" text-anchor="middle" transform="rotate(-90 44 314.0)">accuracy</text>
+<line x1="96.0" y1="524.0" x2="516.0" y2="104.0" stroke="#c3c2b7" stroke-width="1.2"/>
+<text x="222.0" y="390.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12" fill="#c3c2b7" text-anchor="middle" transform="rotate(-45 222.0 390.0)">perfectly calibrated</text>
+<circle cx="427.5" cy="377.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="362.2" cy="461.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="421.5" cy="330.8" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="398.9" cy="372.8" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="423.1" cy="335.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="397.3" cy="469.4" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="434.6" cy="305.6" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="437.5" cy="314.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="432.4" cy="339.2" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="468.8" cy="225.8" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="430.3" cy="280.4" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="430.2" cy="309.8" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="403.3" cy="381.2" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="448.9" cy="272.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="426.5" cy="368.6" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="439.4" cy="330.8" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="409.2" cy="372.8" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="416.3" cy="419.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="443.8" cy="309.8" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="429.9" cy="377.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="440.0" cy="305.6" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="463.0" cy="255.2" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="418.4" cy="398.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="383.1" cy="461.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="367.1" cy="440.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="372.3" cy="398.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="422.5" cy="326.6" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="424.4" cy="393.8" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="393.0" cy="406.4" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="405.5" cy="456.8" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="443.3" cy="351.8" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="357.2" cy="456.8" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="454.6" cy="288.8" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="455.4" cy="326.6" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="449.1" cy="314.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="437.7" cy="314.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="418.3" cy="368.6" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="456.9" cy="284.6" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="430.0" cy="368.6" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="423.4" cy="398.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="441.0" cy="318.2" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="395.0" cy="427.4" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="405.6" cy="393.8" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="397.1" cy="431.6" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="442.9" cy="322.4" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="423.5" cy="377.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="432.2" cy="356.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="413.3" cy="347.6" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="422.8" cy="381.2" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="456.8" cy="251.0" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="455.4" cy="267.8" r="4.5" fill="#d95926" stroke="#232427" stroke-width="2"/>
+<circle cx="452.5" cy="402.2" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="426.7" cy="473.6" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="383.0" cy="477.8" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="389.3" cy="482.0" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="392.8" cy="490.4" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="417.4" cy="473.6" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="463.9" cy="377.0" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="462.2" cy="347.6" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="435.7" cy="469.4" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="498.4" cy="179.6" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="484.3" cy="309.8" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="420.7" cy="465.2" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="452.5" cy="469.4" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="469.6" cy="276.2" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="425.4" cy="498.8" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="407.5" cy="482.0" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="418.7" cy="486.2" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="356.8" cy="503.0" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="444.8" cy="372.8" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="421.1" cy="477.8" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="454.4" cy="381.2" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="472.2" cy="301.4" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="444.6" cy="456.8" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="390.1" cy="486.2" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="392.1" cy="524.0" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="387.9" cy="477.8" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="428.0" cy="477.8" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="417.7" cy="482.0" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="377.8" cy="494.6" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="431.0" cy="469.4" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="422.1" cy="410.6" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="364.7" cy="498.8" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="452.1" cy="385.4" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="466.9" cy="360.2" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="429.9" cy="423.2" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="469.5" cy="326.6" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="460.1" cy="385.4" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="475.9" cy="393.8" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="431.7" cy="440.0" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="437.5" cy="435.8" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="453.0" cy="364.4" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="411.5" cy="469.4" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="379.1" cy="473.6" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="413.9" cy="486.2" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="431.1" cy="490.4" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="432.9" cy="402.2" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="401.5" cy="465.2" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="395.4" cy="494.6" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="411.0" cy="498.8" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="484.2" cy="263.6" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<circle cx="471.6" cy="330.8" r="4.5" fill="#3987e5" stroke="#232427" stroke-width="2"/>
+<text x="507.4" y="173.6" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#ffffff" font-weight="400" text-anchor="start">English</text>
+<line x1="386.1" y1="520.0" x2="352.1" y2="502.0" stroke="#898781" stroke-width="1"/>
+<text x="348.1" y="490.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#ffffff" font-weight="400" text-anchor="end">Khmer: 0% right,</text>
+<text x="348.1" y="505.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#ffffff" font-weight="400" text-anchor="end">71% confident</text>
+<text x="560.0" y="116.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="start">Checkpoint</text>
+<circle cx="566.0" cy="138.0" r="5" fill="#3987e5"/>
+<text x="580.0" y="142.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">laya (English checkpoint)</text>
+<circle cx="566.0" cy="160.0" r="5" fill="#d95926"/>
+<text x="580.0" y="164.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">laya-multilingual</text>
+<text x="560.0" y="208.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="start">How to read it</text>
+<text x="560.0" y="230.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">On the diagonal, a model that says</text>
+<text x="560.0" y="248.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">&quot;80% sure&quot; is right 80% of the time.</text>
+<text x="560.0" y="266.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start"></text>
+<text x="560.0" y="284.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">Every dot here sits below it: the</text>
+<text x="560.0" y="302.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">model claims more than it delivers.</text>
+<text x="560.0" y="320.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start"></text>
+<text x="560.0" y="338.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">The vertical gap to the diagonal is</text>
+<text x="560.0" y="356.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">roughly that language&#x27;s calibration</text>
+<text x="560.0" y="374.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">error (ECE).</text>
+<text x="560.0" y="414.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="start">Average over 51 languages</text>
+<text x="560.0" y="436.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">English checkpoint: accuracy 0.23, ECE 0.57</text>
+<text x="560.0" y="454.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#ffffff" font-weight="400" text-anchor="start">Multilingual: accuracy 0.40, ECE 0.39</text>
+</svg>

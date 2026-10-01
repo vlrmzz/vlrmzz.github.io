@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 772" width="1320" height="1158" role="img" aria-label="Architecture diagram: the input sequence holds the question, one [MASK] token per option, and the text. It passes through a ModernBERT-large encoder and a two-layer decision head. The hidden state at each [MASK] is scored by an MLP into one logit per option, and a temperature-scaled softmax turns the logits into probabilities.">
+<title>Architecture diagram: the input sequence holds the question, one [MASK] token per option, and the text. It passes through a ModernBERT-large encoder and a two-layer decision head. The hidden state at each [MASK] is scored by an MLP into one logit per option, and a temperature-scaled softmax turns the logits into probabilities.</title>
+<rect x="0.0" y="0.0" width="880.0" height="772.0" fill="#232427" rx="10"/>
+<text x="28.0" y="38.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="18" fill="#ffffff" font-weight="600" text-anchor="start">Inside the decision model</text>
+<text x="28.0" y="61.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13.5" fill="#c3c2b7" font-weight="400" text-anchor="start">Each option gets its own [MASK] slot; the model&#x27;s output at that slot becomes the option&#x27;s score.</text>
+<text x="28.0" y="754.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="11.5" fill="#898781" font-weight="400" text-anchor="start">Based on build_sequence and DecisionModel in laya/common.py. Parameter counts from the repo&#x27;s T4 benchmark file. Logits illustrative.</text>
+<text x="28.0" y="92.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#3987e5" font-weight="600" text-anchor="start">1</text>
+<text x="44.0" y="92.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13.5" fill="#ffffff" font-weight="600" text-anchor="start">The input sequence: question, options, then the text to judge</text>
+<rect x="44.0" y="106.0" width="53.6" height="28.0" fill="none" rx="5" stroke="#4b4d54" stroke-width="1"/>
+<text x="70.8" y="124.5" font-family='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="middle">[CLS]</text>
+<rect x="103.6" y="106.0" width="327.4" height="28.0" fill="#2c2f36" rx="5" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+<text x="267.3" y="124.5" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#ffffff" font-weight="400" text-anchor="middle">choice question: Which team should handle this?</text>
+<rect x="437.0" y="106.0" width="53.6" height="28.0" fill="none" rx="5" stroke="#4b4d54" stroke-width="1"/>
+<text x="463.8" y="124.5" font-family='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="middle">[SEP]</text>
+<rect x="44.0" y="140.0" width="61.1" height="28.0" fill="#3987e5" rx="5"/>
+<text x="74.6" y="158.5" font-family='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' font-size="12.5" fill="#ffffff" font-weight="600" text-anchor="middle">[MASK]</text>
+<rect x="111.2" y="140.0" width="188.2" height="28.0" fill="#2c2f36" rx="5" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+<text x="205.3" y="158.5" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#ffffff" font-weight="400" text-anchor="middle">billing: invoices, refunds</text>
+<rect x="305.4" y="140.0" width="61.1" height="28.0" fill="#3987e5" rx="5"/>
+<text x="336.0" y="158.5" font-family='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' font-size="12.5" fill="#ffffff" font-weight="600" text-anchor="middle">[MASK]</text>
+<rect x="372.5" y="140.0" width="115.4" height="28.0" fill="#2c2f36" rx="5" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+<text x="430.2" y="158.5" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#ffffff" font-weight="400" text-anchor="middle">technical: bugs</text>
+<rect x="493.9" y="140.0" width="61.1" height="28.0" fill="#3987e5" rx="5"/>
+<text x="524.5" y="158.5" font-family='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' font-size="12.5" fill="#ffffff" font-weight="600" text-anchor="middle">[MASK]</text>
+<rect x="561.1" y="140.0" width="115.4" height="28.0" fill="#2c2f36" rx="5" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+<text x="618.8" y="158.5" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#ffffff" font-weight="400" text-anchor="middle">other: the rest</text>
+<rect x="682.4" y="140.0" width="53.6" height="28.0" fill="none" rx="5" stroke="#4b4d54" stroke-width="1"/>
+<text x="709.3" y="158.5" font-family='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="middle">[SEP]</text>
+<rect x="44.0" y="174.0" width="453.2" height="28.0" fill="#2c2f36" rx="5" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+<text x="270.6" y="192.5" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#ffffff" font-weight="400" text-anchor="middle">We were billed twice for March. Please refund the duplicate today.</text>
+<rect x="503.2" y="174.0" width="53.6" height="28.0" fill="none" rx="5" stroke="#4b4d54" stroke-width="1"/>
+<text x="530.1" y="192.5" font-family='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="middle">[SEP]</text>
+<text x="836.0" y="125.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="11.5" fill="#898781" font-weight="400" text-anchor="end">question</text>
+<text x="836.0" y="159.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="11.5" fill="#898781" font-weight="400" text-anchor="end">options</text>
+<text x="836.0" y="193.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="11.5" fill="#898781" font-weight="400" text-anchor="end">state</text>
+<line x1="440.0" y1="208.0" x2="440.0" y2="226.0" stroke="#898781" stroke-width="1.5"/>
+<polygon points="440.0,234.0 444.0,226.0 436.0,226.0" fill="#898781"/>
+<text x="28.0" y="262.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#3987e5" font-weight="600" text-anchor="start">2</text>
+<rect x="44.0" y="238.0" width="792.0" height="64.0" fill="#2c2f36" rx="8" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+<rect x="44.0" y="246.0" width="3.0" height="48.0" fill="#3987e5" rx="1.5"/>
+<text x="64.0" y="266.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="14.5" fill="#ffffff" font-weight="600" text-anchor="start">Encoder: ModernBERT-large</text>
+<text x="64.0" y="286.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="start">28 layers of bidirectional attention. Every option token can see the whole text, and vice versa.</text>
+<text x="820.0" y="266.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="end">395M params</text>
+<line x1="440.0" y1="302.0" x2="440.0" y2="318.0" stroke="#898781" stroke-width="1.5"/>
+<polygon points="440.0,326.0 444.0,318.0 436.0,318.0" fill="#898781"/>
+<text x="28.0" y="354.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#3987e5" font-weight="600" text-anchor="start">3</text>
+<rect x="44.0" y="330.0" width="792.0" height="64.0" fill="#2c2f36" rx="8" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+<rect x="44.0" y="338.0" width="3.0" height="48.0" fill="#3987e5" rx="1.5"/>
+<text x="64.0" y="358.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="14.5" fill="#ffffff" font-weight="600" text-anchor="start">Decision head: 2 more transformer layers</text>
+<text x="64.0" y="378.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="start">Adds a question-type embedding (choice, score or yes/no) before the final mixing.</text>
+<text x="820.0" y="358.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="end">26.5M params (head + scorer)</text>
+<text x="28.0" y="468.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#3987e5" font-weight="600" text-anchor="start">4</text>
+<text x="44.0" y="468.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13.5" fill="#ffffff" font-weight="600" text-anchor="start">Keep the hidden states</text>
+<text x="44.0" y="486.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="start">at the three [MASK] positions</text>
+<text x="28.0" y="524.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#3987e5" font-weight="600" text-anchor="start">5</text>
+<text x="44.0" y="524.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13.5" fill="#ffffff" font-weight="600" text-anchor="start">Score each one</text>
+<text x="44.0" y="542.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="start">small MLP, one logit per option</text>
+<line x1="370.0" y1="394.0" x2="370.0" y2="444.0" stroke="#898781" stroke-width="1.5"/>
+<polygon points="370.0,452.0 374.0,444.0 366.0,444.0" fill="#898781"/>
+<rect x="310.0" y="454.0" width="120.0" height="30.0" fill="#3987e5" rx="5"/>
+<text x="370.0" y="473.5" font-family='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' font-size="12.5" fill="#ffffff" font-weight="600" text-anchor="middle">h[billing]</text>
+<line x1="370.0" y1="484.0" x2="370.0" y2="500.0" stroke="#898781" stroke-width="1.5"/>
+<polygon points="370.0,508.0 374.0,500.0 366.0,500.0" fill="#898781"/>
+<rect x="310.0" y="510.0" width="120.0" height="30.0" fill="#2c2f36" rx="5" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+<text x="370.0" y="529.5" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#ffffff" font-weight="400" text-anchor="middle">scorer MLP</text>
+<line x1="370.0" y1="540.0" x2="370.0" y2="556.0" stroke="#898781" stroke-width="1.5"/>
+<polygon points="370.0,564.0 374.0,556.0 366.0,556.0" fill="#898781"/>
+<text x="370.0" y="582.0" font-family='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' font-size="13" fill="#ffffff" font-weight="400" text-anchor="middle">logit z = +3.1</text>
+<line x1="370.0" y1="590.0" x2="370.0" y2="608.0" stroke="#898781" stroke-width="1.5"/>
+<line x1="570.0" y1="394.0" x2="570.0" y2="444.0" stroke="#898781" stroke-width="1.5"/>
+<polygon points="570.0,452.0 574.0,444.0 566.0,444.0" fill="#898781"/>
+<rect x="510.0" y="454.0" width="120.0" height="30.0" fill="#3987e5" rx="5"/>
+<text x="570.0" y="473.5" font-family='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' font-size="12.5" fill="#ffffff" font-weight="600" text-anchor="middle">h[technical]</text>
+<line x1="570.0" y1="484.0" x2="570.0" y2="500.0" stroke="#898781" stroke-width="1.5"/>
+<polygon points="570.0,508.0 574.0,500.0 566.0,500.0" fill="#898781"/>
+<rect x="510.0" y="510.0" width="120.0" height="30.0" fill="#2c2f36" rx="5" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+<text x="570.0" y="529.5" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#ffffff" font-weight="400" text-anchor="middle">scorer MLP</text>
+<line x1="570.0" y1="540.0" x2="570.0" y2="556.0" stroke="#898781" stroke-width="1.5"/>
+<polygon points="570.0,564.0 574.0,556.0 566.0,556.0" fill="#898781"/>
+<text x="570.0" y="582.0" font-family='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' font-size="13" fill="#ffffff" font-weight="400" text-anchor="middle">logit z = +0.0</text>
+<line x1="570.0" y1="590.0" x2="570.0" y2="608.0" stroke="#898781" stroke-width="1.5"/>
+<line x1="770.0" y1="394.0" x2="770.0" y2="444.0" stroke="#898781" stroke-width="1.5"/>
+<polygon points="770.0,452.0 774.0,444.0 766.0,444.0" fill="#898781"/>
+<rect x="710.0" y="454.0" width="120.0" height="30.0" fill="#3987e5" rx="5"/>
+<text x="770.0" y="473.5" font-family='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' font-size="12.5" fill="#ffffff" font-weight="600" text-anchor="middle">h[other]</text>
+<line x1="770.0" y1="484.0" x2="770.0" y2="500.0" stroke="#898781" stroke-width="1.5"/>
+<polygon points="770.0,508.0 774.0,500.0 766.0,500.0" fill="#898781"/>
+<rect x="710.0" y="510.0" width="120.0" height="30.0" fill="#2c2f36" rx="5" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+<text x="770.0" y="529.5" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#ffffff" font-weight="400" text-anchor="middle">scorer MLP</text>
+<line x1="770.0" y1="540.0" x2="770.0" y2="556.0" stroke="#898781" stroke-width="1.5"/>
+<polygon points="770.0,564.0 774.0,556.0 766.0,556.0" fill="#898781"/>
+<text x="770.0" y="582.0" font-family='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' font-size="13" fill="#ffffff" font-weight="400" text-anchor="middle">logit z = -0.7</text>
+<line x1="770.0" y1="590.0" x2="770.0" y2="608.0" stroke="#898781" stroke-width="1.5"/>
+<rect x="300.0" y="608.0" width="536.0" height="44.0" fill="#2c2f36" rx="8" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+<rect x="300.0" y="616.0" width="3.0" height="28.0" fill="#d95926" rx="1.5"/>
+<text x="320.0" y="635.0" font-family='ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' font-size="14" fill="#ffffff" font-weight="600" text-anchor="start">p = softmax(z / T)</text>
+<text x="494.0" y="635.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#c3c2b7" font-weight="400" text-anchor="start">T fitted after training (here 1.76)</text>
+<text x="28.0" y="626.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#3987e5" font-weight="600" text-anchor="start">6</text>
+<text x="44.0" y="626.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13.5" fill="#ffffff" font-weight="600" text-anchor="start">Turn scores into probabilities</text>
+<text x="44.0" y="644.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="start">temperature T sets how sharp</text>
+<text x="28.0" y="686.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13" fill="#3987e5" font-weight="600" text-anchor="start">7</text>
+<text x="44.0" y="686.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13.5" fill="#ffffff" font-weight="600" text-anchor="start">Read off the answer</text>
+<text x="44.0" y="704.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="12.5" fill="#c3c2b7" font-weight="400" text-anchor="start">the largest probability wins</text>
+<line x1="370.0" y1="652.0" x2="370.0" y2="666.0" stroke="#898781" stroke-width="1.5"/>
+<polygon points="370.0,674.0 374.0,666.0 366.0,666.0" fill="#898781"/>
+<rect x="310.0" y="678.0" width="120.0" height="10.0" fill="#34363c" rx="3"/>
+<path d="M310.0,678.0 L399.2,678.0 Q403.2,678.0 403.2,682.0 L403.2,684.0 Q403.2,688.0 399.2,688.0 L310.0,688.0 Z" fill="#3987e5"/>
+<text x="370.0" y="708.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13.5" fill="#ffffff" font-weight="600" text-anchor="middle">billing  0.78</text>
+<line x1="570.0" y1="652.0" x2="570.0" y2="666.0" stroke="#898781" stroke-width="1.5"/>
+<polygon points="570.0,674.0 574.0,666.0 566.0,666.0" fill="#898781"/>
+<rect x="510.0" y="678.0" width="120.0" height="10.0" fill="#34363c" rx="3"/>
+<path d="M510.0,678.0 L522.0,678.0 Q526.0,678.0 526.0,682.0 L526.0,684.0 Q526.0,688.0 522.0,688.0 L510.0,688.0 Z" fill="#3987e5"/>
+<text x="570.0" y="708.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13.5" fill="#ffffff" font-weight="400" text-anchor="middle">technical  0.13</text>
+<line x1="770.0" y1="652.0" x2="770.0" y2="666.0" stroke="#898781" stroke-width="1.5"/>
+<polygon points="770.0,674.0 774.0,666.0 766.0,666.0" fill="#898781"/>
+<rect x="710.0" y="678.0" width="120.0" height="10.0" fill="#34363c" rx="3"/>
+<path d="M710.0,678.0 L716.8,678.0 Q720.8,678.0 720.8,682.0 L720.8,684.0 Q720.8,688.0 716.8,688.0 L710.0,688.0 Z" fill="#3987e5"/>
+<text x="770.0" y="708.0" font-family='system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif' font-size="13.5" fill="#ffffff" font-weight="400" text-anchor="middle">other  0.09</text>
+</svg>
