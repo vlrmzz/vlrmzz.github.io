@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 604" width="1280" height="1208" role="img" aria-label="The input sequence holds the question, one MASK token per option, and the session. It passes through a ModernBERT-large encoder and a two-layer decision head. The output at each MASK position is scored into one raw score per option, and a softmax with temperature T turns the scores into probabilities.">
+<title>The input sequence holds the question, one MASK token per option, and the session. It passes through a ModernBERT-large encoder and a two-layer decision head. The output at each MASK position is scored into one raw score per option, and a softmax with temperature T turns the scores into probabilities.</title>
+<style>
+svg { --paper:#FBFAF7; --panel:#FFFFFF; --soft:#F2F1EC; --ink:#1A1C1A; --muted:#6B7069;
+      --grid:#E4E2DA; --axis:#C9C6BB; --border:#D8D5CB; --accent:#1F5C46; --on-accent:#FFFFFF;
+      --s1:#2E8B68; --s2:#C9622A; --s3:#3A6BC4; --context:#A3A89F; }
+@media (prefers-color-scheme: dark) {
+  svg { --paper:#131614; --panel:#181C19; --soft:#1B1F1C; --ink:#E9E8E2; --muted:#969C93;
+        --grid:#272B27; --axis:#3D433D; --border:#343A35; --accent:#7FC8A3; --on-accent:#131614;
+        --s1:#3FA27A; --s2:#D9703A; --s3:#5B8DEF; --context:#5F665F; }
+}
+text { font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+.mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+</style>
+<rect x="0.0" y="0.0" width="640.0" height="604.0" style="fill:var(--paper)"/>
+<text x="16.0" y="28.0" font-size="14" font-weight="600" text-anchor="start" style="fill:var(--ink)">Inside a decision model</text>
+<text x="16.0" y="58.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--accent)">1</text>
+<text x="32.0" y="58.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--ink)">The input: the question, one [MASK] per option, then the session to judge</text>
+<rect x="32.0" y="70.0" width="50.1" height="26.0" rx="5" style="fill:var(--paper);stroke:var(--axis);stroke-width:1"/>
+<text x="57.1" y="87.5" class="mono" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">[CLS]</text>
+<rect x="87.1" y="70.0" width="309.3" height="26.0" rx="5" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="241.8" y="87.5" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--ink)">choice question: Which attack is this session?</text>
+<rect x="401.4" y="70.0" width="50.1" height="26.0" rx="5" style="fill:var(--paper);stroke:var(--axis);stroke-width:1"/>
+<text x="426.5" y="87.5" class="mono" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">[SEP]</text>
+<rect x="32.0" y="102.0" width="57.3" height="26.0" rx="5" style="fill:var(--accent)"/>
+<text x="60.7" y="119.5" class="mono" font-size="12" font-weight="500" text-anchor="middle" style="fill:var(--on-accent)">[MASK]</text>
+<rect x="94.3" y="102.0" width="84.6" height="26.0" rx="5" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="136.7" y="119.5" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--ink)">brute_force</text>
+<rect x="184.0" y="102.0" width="57.3" height="26.0" rx="5" style="fill:var(--accent)"/>
+<text x="212.6" y="119.5" class="mono" font-size="12" font-weight="500" text-anchor="middle" style="fill:var(--on-accent)">[MASK]</text>
+<rect x="246.3" y="102.0" width="71.8" height="26.0" rx="5" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="282.2" y="119.5" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--ink)">port_scan</text>
+<rect x="323.1" y="102.0" width="57.3" height="26.0" rx="5" style="fill:var(--accent)"/>
+<text x="351.8" y="119.5" class="mono" font-size="12" font-weight="500" text-anchor="middle" style="fill:var(--on-accent)">[MASK]</text>
+<rect x="385.4" y="102.0" width="52.5" height="26.0" rx="5" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="411.7" y="119.5" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--ink)">benign</text>
+<rect x="443.0" y="102.0" width="50.1" height="26.0" rx="5" style="fill:var(--paper);stroke:var(--axis);stroke-width:1"/>
+<text x="468.0" y="119.5" class="mono" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">[SEP]</text>
+<rect x="32.0" y="134.0" width="389.6" height="26.0" rx="5" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="226.8" y="151.5" class="mono" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--ink)">login_fail login_fail login_ok mfa_prompt login_fail</text>
+<rect x="426.6" y="134.0" width="50.1" height="26.0" rx="5" style="fill:var(--paper);stroke:var(--axis);stroke-width:1"/>
+<text x="451.7" y="151.5" class="mono" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">[SEP]</text>
+<line x1="320.0" y1="166.0" x2="320.0" y2="174.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="320.0,181.0 323.6,174.0 316.4,174.0" style="fill:var(--muted)"/>
+<rect x="16.0" y="184.0" width="608.0" height="56.0" rx="7" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<rect x="16.0" y="191.0" width="3.0" height="42.0" rx="1.5" style="fill:var(--accent)"/>
+<text x="32.0" y="207.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--accent)">2</text>
+<text x="48.0" y="207.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--ink)">Encoder: ModernBERT-large</text>
+<text x="48.0" y="225.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">28 layers. Every word can look at every other word, so options and session are read together.</text>
+<text x="610.0" y="207.0" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">395M parameters</text>
+<line x1="320.0" y1="240.0" x2="320.0" y2="252.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="320.0,259.0 323.6,252.0 316.4,252.0" style="fill:var(--muted)"/>
+<rect x="16.0" y="262.0" width="608.0" height="56.0" rx="7" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<rect x="16.0" y="269.0" width="3.0" height="42.0" rx="1.5" style="fill:var(--accent)"/>
+<text x="32.0" y="285.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--accent)">3</text>
+<text x="48.0" y="285.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--ink)">Decision head: two more layers</text>
+<text x="48.0" y="303.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">Told which kind of question this is: choice, score or yes/no.</text>
+<text x="610.0" y="285.0" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">26.5M with the scorer</text>
+<text x="16.0" y="366.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--accent)">4</text>
+<text x="32.0" y="366.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--ink)">Keep the model&#x27;s output</text>
+<text x="32.0" y="382.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">at the three [MASK] positions</text>
+<text x="16.0" y="416.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--accent)">5</text>
+<text x="32.0" y="416.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--ink)">Score each one</text>
+<text x="32.0" y="432.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">one raw score z per option</text>
+<line x1="286.0" y1="318.0" x2="286.0" y2="340.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="286.0,347.0 289.6,340.0 282.4,340.0" style="fill:var(--muted)"/>
+<rect x="232.0" y="350.0" width="108.0" height="28.0" rx="5" style="fill:var(--accent)"/>
+<text x="286.0" y="368.5" class="mono" font-size="11.5" font-weight="500" text-anchor="middle" style="fill:var(--on-accent)">brute_force</text>
+<line x1="286.0" y1="378.0" x2="286.0" y2="390.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="286.0,397.0 289.6,390.0 282.4,390.0" style="fill:var(--muted)"/>
+<rect x="232.0" y="400.0" width="108.0" height="28.0" rx="5" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="286.0" y="418.5" font-size="12.5" font-weight="400" text-anchor="middle" style="fill:var(--ink)">scorer</text>
+<line x1="286.0" y1="428.0" x2="286.0" y2="440.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="286.0,447.0 289.6,440.0 282.4,440.0" style="fill:var(--muted)"/>
+<text x="286.0" y="463.0" class="mono" font-size="12.5" font-weight="400" text-anchor="middle" style="fill:var(--ink)">z = +3.1</text>
+<line x1="286.0" y1="470.0" x2="286.0" y2="484.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<line x1="424.0" y1="318.0" x2="424.0" y2="340.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="424.0,347.0 427.6,340.0 420.4,340.0" style="fill:var(--muted)"/>
+<rect x="370.0" y="350.0" width="108.0" height="28.0" rx="5" style="fill:var(--accent)"/>
+<text x="424.0" y="368.5" class="mono" font-size="11.5" font-weight="500" text-anchor="middle" style="fill:var(--on-accent)">port_scan</text>
+<line x1="424.0" y1="378.0" x2="424.0" y2="390.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="424.0,397.0 427.6,390.0 420.4,390.0" style="fill:var(--muted)"/>
+<rect x="370.0" y="400.0" width="108.0" height="28.0" rx="5" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="424.0" y="418.5" font-size="12.5" font-weight="400" text-anchor="middle" style="fill:var(--ink)">scorer</text>
+<line x1="424.0" y1="428.0" x2="424.0" y2="440.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="424.0,447.0 427.6,440.0 420.4,440.0" style="fill:var(--muted)"/>
+<text x="424.0" y="463.0" class="mono" font-size="12.5" font-weight="400" text-anchor="middle" style="fill:var(--ink)">z = -0.7</text>
+<line x1="424.0" y1="470.0" x2="424.0" y2="484.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<line x1="562.0" y1="318.0" x2="562.0" y2="340.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="562.0,347.0 565.6,340.0 558.4,340.0" style="fill:var(--muted)"/>
+<rect x="508.0" y="350.0" width="108.0" height="28.0" rx="5" style="fill:var(--accent)"/>
+<text x="562.0" y="368.5" class="mono" font-size="11.5" font-weight="500" text-anchor="middle" style="fill:var(--on-accent)">benign</text>
+<line x1="562.0" y1="378.0" x2="562.0" y2="390.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="562.0,397.0 565.6,390.0 558.4,390.0" style="fill:var(--muted)"/>
+<rect x="508.0" y="400.0" width="108.0" height="28.0" rx="5" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="562.0" y="418.5" font-size="12.5" font-weight="400" text-anchor="middle" style="fill:var(--ink)">scorer</text>
+<line x1="562.0" y1="428.0" x2="562.0" y2="440.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="562.0,447.0 565.6,440.0 558.4,440.0" style="fill:var(--muted)"/>
+<text x="562.0" y="463.0" class="mono" font-size="12.5" font-weight="400" text-anchor="middle" style="fill:var(--ink)">z = +0.0</text>
+<line x1="562.0" y1="470.0" x2="562.0" y2="484.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<rect x="232.0" y="484.0" width="384.0" height="40.0" rx="7" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<rect x="232.0" y="491.0" width="3.0" height="26.0" rx="1.5" style="fill:var(--s2)"/>
+<text x="248.0" y="509.0" class="mono" font-size="13" font-weight="500" text-anchor="start" style="fill:var(--ink)">p = softmax(z / T)</text>
+<text x="408.0" y="509.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">T is the temperature</text>
+<text x="16.0" y="501.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--accent)">6</text>
+<text x="32.0" y="501.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--ink)">Turn scores into</text>
+<text x="32.0" y="517.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">probabilities that add up to 1</text>
+<text x="16.0" y="560.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--accent)">7</text>
+<text x="32.0" y="560.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--ink)">Read off the answer</text>
+<text x="32.0" y="576.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">largest probability wins</text>
+<line x1="286.0" y1="524.0" x2="286.0" y2="536.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="286.0,543.0 289.6,536.0 282.4,536.0" style="fill:var(--muted)"/>
+<rect x="232.0" y="547.0" width="108.0" height="9.0" rx="3" style="fill:var(--grid)"/>
+<path d="M232.0,547.0 L312.4,547.0 Q315.9,547.0 315.9,550.5 L315.9,552.5 Q315.9,556.0 312.4,556.0 L232.0,556.0 Z" style="fill:var(--s1)"/>
+<text x="286.0" y="574.0" font-size="12.5" font-weight="600" text-anchor="middle" style="fill:var(--ink)">brute_force 0.78</text>
+<line x1="424.0" y1="524.0" x2="424.0" y2="536.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="424.0,543.0 427.6,536.0 420.4,536.0" style="fill:var(--muted)"/>
+<rect x="370.0" y="547.0" width="108.0" height="9.0" rx="3" style="fill:var(--grid)"/>
+<path d="M370.0,547.0 L376.2,547.0 Q379.7,547.0 379.7,550.5 L379.7,552.5 Q379.7,556.0 376.2,556.0 L370.0,556.0 Z" style="fill:var(--s1)"/>
+<text x="424.0" y="574.0" font-size="12.5" font-weight="400" text-anchor="middle" style="fill:var(--ink)">port_scan 0.09</text>
+<line x1="562.0" y1="524.0" x2="562.0" y2="536.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="562.0,543.0 565.6,536.0 558.4,536.0" style="fill:var(--muted)"/>
+<rect x="508.0" y="547.0" width="108.0" height="9.0" rx="3" style="fill:var(--grid)"/>
+<path d="M508.0,547.0 L518.9,547.0 Q522.4,547.0 522.4,550.5 L522.4,552.5 Q522.4,556.0 518.9,556.0 L508.0,556.0 Z" style="fill:var(--s1)"/>
+<text x="562.0" y="574.0" font-size="12.5" font-weight="400" text-anchor="middle" style="fill:var(--ink)">benign 0.13</text>
+</svg>

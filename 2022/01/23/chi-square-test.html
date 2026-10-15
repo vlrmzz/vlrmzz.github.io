@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" href="/favicon.ico">
+<title>Assessing Campaign Performance Using Chi-Square Test For Independence – Vlr Mzz</title>
+<meta name="description" content="In this project we apply Chi-Square Test For Independence (a Hypothesis Test) to assess the performance of two types of mailers that were sent out to promote a new service!">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-name" href="/">Vlr Mzz</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/work/">Work</a>
+      <a href="/projects/">Projects</a>
+      <a href="/writing/">Writing</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <h1 class="page-title">Assessing Campaign Performance Using Chi-Square Test For Independence</h1>
+  <p class="post-meta">23 January 2022 &middot; From the 2021&ndash;22 archive</p>
+  <figure><img src="/img/posts/ab-testing-title-img.png" alt=""></figure>
+<p>In this project we apply Chi-Square Test For Independence (a Hypothesis Test) to assess the performance of two types of mailers that were sent out to promote a new service! </p>
+<h2>Table of contents</h2>
+<ul>
+<li><a href="#overview-main">00. Project Overview</a><ul>
+<li><a href="#overview-context">Context</a></li>
+<li><a href="#overview-actions">Actions</a></li>
+<li><a href="#overview-results">Results &amp; Discussion</a></li>
+</ul>
+</li>
+<li><a href="#concept-overview">01. Concept Overview</a></li>
+<li><a href="#data-overview">02. Data Overview &amp; Preparation</a></li>
+<li><a href="#chi-square-application">03. Applying Chi-Square Test For Independence</a></li>
+<li><a href="#chi-square-results">04. Analysing The Results</a></li>
+<li><a href="#discussion">05. Discussion</a></li>
+</ul>
+<hr />
+<h2>Project Overview  <a id="overview-main"></a></h2>
+<h4>Context <a id="overview-context"></a></h4>
+<p>Earlier in the year, our client, a grocery retailer, ran a campaign to promote their new "Delivery Club" - an initiative that costs a customer $100 per year for membership, but offers free grocery deliveries rather than the normal cost of $10 per delivery.</p>
+<p>For the campaign promoting the club, customers were put randomly into three groups - the first group received a low quality, low cost mailer, the second group received a high quality, high cost mailer, and the third group were a control group, receiving no mailer at all.</p>
+<p>The client knows that customers who were contacted, signed up for the Delivery Club at a far higher rate than the control group, but now want to understand if there is a significant difference in signup rate between the cheap mailer and the expensive mailer.  This will allow them to make more informed decisions in the future, with the overall aim of optimising campaign ROI!</p>
+<h4>Actions <a id="overview-actions"></a></h4>
+<p>For this test, as it is focused on comparing the <em>rates</em> of two groups - we applied the Chi-Square Test For Independence.  Full details of this test can be found in the dedicated section below.</p>
+<p><strong>Note:</strong> Another option when comparing "rates" is a test known as the <em>Z-Test For Proportions</em>.  While, we could absolutely use this test here, we have chosen the Chi-Square Test For Independence because:</p>
+<ul>
+<li>The resulting test statistic for both tests will be the same</li>
+<li>The Chi-Square Test can be represented using 2x2 tables of data - meaning it can be easier to explain to stakeholders</li>
+<li>The Chi-Square Test can extend out to more than 2 groups - meaning the client can have one consistent approach to measuring signficance</li>
+</ul>
+<p>From the <em>campaign_data</em> table in the client database, we isolated customers that received "Mailer 1" (low cost) and "Mailer 2" (high cost) for this campaign, and excluded customers who were in the control group.</p>
+<p>We set out our hypotheses and Acceptance Criteria for the test, as follows:</p>
+<p><strong>Null Hypothesis:</strong> There is no relationship between mailer type and signup rate. They are independent.
+<strong>Alternate Hypothesis:</strong> There is a relationship between mailer type and signup rate. They are not independent.
+<strong>Acceptance Criteria:</strong> 0.05</p>
+<p>As a requirement of the Chi-Square Test For Independence, we aggregated this data down to a 2x2 matrix for <em>signup_flag</em> by <em>mailer_type</em> and fed this into the algorithm (using the <em>scipy</em> library) to calculate the Chi-Square Statistic, p-value, Degrees of Freedom, and expected values</p>
+<h4>Results &amp; Discussion <a id="overview-results"></a></h4>
+<p>Based upon our observed values, we can give this all some context with the sign-up rate of each group.  We get:</p>
+<ul>
+<li>Mailer 1 (Low Cost): <strong>32.8%</strong> signup rate</li>
+<li>Mailer 2 (High Cost): <strong>37.8%</strong> signup rate</li>
+</ul>
+<p>However, the Chi-Square Test gives us the following statistics:</p>
+<ul>
+<li>Chi-Square Statistic: <strong>1.94</strong></li>
+<li>p-value: <strong>0.16</strong></li>
+</ul>
+<p>The Critical Value for our specified Acceptance Criteria of 0.05 is <strong>3.84</strong></p>
+<p>Based upon these statistics, we retain the null hypothesis, and conclude that there is no relationship between mailer type and signup rate.</p>
+<p>In other words - while we saw that the higher cost Mailer 2 had a higher signup rate (37.8%) than the lower cost Mailer 1 (32.8%) it appears that this difference is not significant, at least at our Acceptance Criteria of 0.05.</p>
+<p>Without running this Hypothesis Test, the client may have concluded that they should always look to go with higher cost mailers - and from what we've seen in this test, that may not be a great decision.  It would result in them spending more, but not <em>necessarily</em> gaining any extra revenue as a result</p>
+<p>Our results here also do not say that there <em>definitely isn't a difference between the two mailers</em> - we are only advising that we should not make any rigid conclusions <em>at this point</em>.  </p>
+<p>Running more A/B Tests like this, gathering more data, and then re-running this test may provide us, and the client more insight!</p>
+<hr />
+<h2>Concept Overview  <a id="concept-overview"></a></h2>
+<h5>A/B Testing</h5>
+<p>An A/B Test can be described as a randomised experiment containing two groups, A &amp; B, that receive different experiences. Within an A/B Test, we look to understand and measure the response of each group - and the information from this helps drive future business decisions.</p>
+<p>Application of A/B testing can range from testing different online ad strategies, different email subject lines when contacting customers, or testing the effect of mailing customers a coupon, vs a control group.  Companies like Amazon are running these tests in an almost never-ending cycle, testing new website features on randomised groups of customers...all with the aim of finding what works best so they can stay ahead of their competition.  Reportedly, Netflix will even test different images for the same movie or show, to different segments of their customer base to see if certain images pull more viewers in.</p>
+<h5>Hypothesis Testing</h5>
+<p>A Hypothesis Test is used to assess the plausibility, or likelihood of an assumed viewpoint based on sample data - in other words, a it helps us assess whether a certain view we have about some data is likely to be true or not.</p>
+<p>There are many different scenarios we can run Hypothesis Tests on, and they all have slightly different techniques and formulas - however they all have some shared, fundamental steps &amp; logic that underpin how they work.</p>
+<p><strong>The Null Hypothesis</strong></p>
+<p>In any Hypothesis Test, we start with the Null Hypothesis. The Null Hypothesis is where we state our initial viewpoint, and in statistics, and specifically Hypothesis Testing, our initial viewpoint is always that the result is purely by chance or that there is no relationship or association between two outcomes or groups</p>
+<p><strong>The Alternate Hypothesis</strong></p>
+<p>The aim of the Hypothesis Test is to look for evidence to support or reject the Null Hypothesis.  If we reject the Null Hypothesis, that would mean we’d be supporting the Alternate Hypothesis.  The Alternate Hypothesis is essentially the opposite viewpoint to the Null Hypothesis - that the result is <em>not</em> by chance, or that there <em>is</em> a relationship between two outcomes or groups</p>
+<p><strong>The Acceptance Criteria</strong></p>
+<p>In a Hypothesis Test, before we collect any data or run any numbers - we specify an Acceptance Criteria.  This is a p-value threshold at which we’ll decide to reject or support the null hypothesis.  It is essentially a line we draw in the sand saying "if I was to run this test many many times, what proportion of those times would I want to see different results come out, in order to feel comfortable, or confident that my results are not just some unusual occurrence"</p>
+<p>Conventionally, we set our Acceptance Criteria to 0.05 - but this does not have to be the case.  If we need to be more confident that something did not occur through chance alone, we could lower this value down to something much smaller, meaning that we only come to the conclusion that the outcome was special or rare if it’s extremely rare.</p>
+<p>So to summarise, in a Hypothesis Test, we test the Null Hypothesis using a p-value and then decide it’s fate based on the Acceptance Criteria.</p>
+<p><strong>Types Of Hypothesis Test</strong></p>
+<p>There are many different types of Hypothesis Tests, each of which is appropriate for use in differing scenarios - depending on a) the type of data that you’re looking to test and b) the question that you’re asking of that data.</p>
+<p>In the case of our task here, where we are looking to understand the difference in sign-up <em>rate</em> between two groups - we will utilise the Chi-Square Test For Independence.</p>
+<h5>Chi-Square Test For Independence</h5>
+<p>The Chi-Square Test For Independence is a type of Hypothesis Test that assumes observed frequencies for categorical variables will match the expected frequencies.</p>
+<p>The <em>assumption</em> is the Null Hypothesis, which as discussed above is always the viewpoint that the two groups will be equal.  With the Chi-Square Test For Independence we look to calculate a statistic which, based on the specified Acceptance Criteria will mean we either reject or support this initial assumption.</p>
+<p>The <em>observed frequencies</em> are the true values that we’ve seen.</p>
+<p>The <em>expected frequencies</em> are essentially what we would <em>expect</em> to see based on all of the data.</p>
+<p><strong>Note:</strong> Another option when comparing "rates" is a test known as the <em>Z-Test For Proportions</em>.  While, we could absolutely use this test here, we have chosen the Chi-Square Test For Independence because:</p>
+<ul>
+<li>The resulting test statistic for both tests will be the same</li>
+<li>The Chi-Square Test can be represented using 2x2 tables of data - meaning it can be easier to explain to stakeholders</li>
+<li>The Chi-Square Test can extend out to more than 2 groups - meaning the business can have one consistent approach to measuring signficance</li>
+</ul>
+<hr />
+<h2>Data Overview &amp; Preparation  <a id="data-overview"></a></h2>
+<p>In the client database, we have a <em>campaign_data</em> table which shows us which customers received each type of "Delivery Club" mailer, which customers were in the control group, and which customers joined the club as a result.</p>
+<p>For this task, we are looking to find evidence that the Delivery Club signup rate for customers that received "Mailer 1" (low cost) was different to those who received "Mailer 2" (high cost) and thus from the <em>campaign_data</em> table we will just extract customers in those two groups, and exclude customers who were in the control group.</p>
+<p>In the code below, we:</p>
+<ul>
+<li>Load in the Python libraries we require for importing the data and performing the chi-square test (using scipy)</li>
+<li>Import the required data from the <em>campaign_data</em> table</li>
+<li>Exclude customers in the control group, giving us a dataset with Mailer 1 &amp; Mailer 2 customers only</li>
+</ul>
+<pre><code class="language-python">
+## install the required python libraries
+import pandas as pd
+from scipy.stats import chi2_contingency, chi2
+
+## import campaign data
+campaign_data = ...
+
+## remove customers who were in the control group
+campaign_data = campaign_data.loc[campaign_data[&quot;mailer_type&quot;] != &quot;Control&quot;]
+
+</code></pre>
+<p>A sample of this data (the first 10 rows) can be seen below:</p>
+<table>
+<thead>
+<tr>
+<th><strong>customer_id</strong></th>
+<th><strong>campaign_name</strong></th>
+<th><strong>mailer_type</strong></th>
+<th><strong>signup_flag</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>74</td>
+<td>delivery_club</td>
+<td>Mailer1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>524</td>
+<td>delivery_club</td>
+<td>Mailer1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>607</td>
+<td>delivery_club</td>
+<td>Mailer2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>343</td>
+<td>delivery_club</td>
+<td>Mailer1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>322</td>
+<td>delivery_club</td>
+<td>Mailer2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>115</td>
+<td>delivery_club</td>
+<td>Mailer2</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>delivery_club</td>
+<td>Mailer2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>120</td>
+<td>delivery_club</td>
+<td>Mailer1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>52</td>
+<td>delivery_club</td>
+<td>Mailer1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>405</td>
+<td>delivery_club</td>
+<td>Mailer1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>435</td>
+<td>delivery_club</td>
+<td>Mailer2</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>In the DataFrame we have:</p>
+<ul>
+<li>customer_id</li>
+<li>campaign name</li>
+<li>mailer_type (either Mailer1 or Mailer2)</li>
+<li>signup_flag (either 1 or 0)</li>
+</ul>
+<hr />
+<h2>Applying Chi-Square Test For Independence <a id="chi-square-application"></a></h2>
+<h5>State Hypotheses &amp; Acceptance Criteria For Test</h5>
+<p>The very first thing we need to do in any form of Hypothesis Test is state our Null Hypothesis, our Alternate Hypothesis, and the Acceptance Criteria (more details on these in the section above)</p>
+<p>In the code below we code these in explcitly &amp; clearly so we can utilise them later to explain the results.  We specify the common Acceptance Criteria value of 0.05.</p>
+<pre><code class="language-python">
+## specify hypotheses &amp; acceptance criteria for test
+null_hypothesis = &quot;There is no relationship between mailer type and signup rate.  They are independent&quot;
+alternate_hypothesis = &quot;There is a relationship between mailer type and signup rate.  They are not independent&quot;
+acceptance_criteria = 0.05
+
+</code></pre>
+<h5>Calculate Observed Frequencies &amp; Expected Frequencies</h5>
+<p>As mentioned in the section above, in a Chi-Square Test For Independence, the <em>observed frequencies</em> are the true values that we’ve seen, in other words the actual rates per group in the data itself.  The <em>expected frequencies</em> are what we would <em>expect</em> to see based on <em>all</em> of the data combined.</p>
+<p>The below code:</p>
+<ul>
+<li>Summarises our dataset to a 2x2 matrix for <em>signup_flag</em> by <em>mailer_type</em></li>
+<li>Based on this, calculates the:<ul>
+<li>Chi-Square Statistic</li>
+<li>p-value</li>
+<li>Degrees of Freedom</li>
+<li>Expected Values</li>
+</ul>
+</li>
+<li>Prints out the Chi-Square Statistic &amp; p-value from the test</li>
+<li>Calculates the Critical Value based upon our Acceptance Criteria &amp; the Degrees Of Freedom</li>
+<li>Prints out the Critical Value</li>
+</ul>
+<pre><code class="language-python">
+## aggregate our data to get observed values
+observed_values = pd.crosstab(campaign_data[&quot;mailer_type&quot;], campaign_data[&quot;signup_flag&quot;]).values
+
+## run the chi-square test
+chi2_statistic, p_value, dof, expected_values = chi2_contingency(observed_values, correction = False)
+
+## print chi-square statistic
+print(chi2_statistic)
+&gt;&gt; 1.94
+
+## print p-value
+print(p_value)
+&gt;&gt; 0.16
+
+## find the critical value for our test
+critical_value = chi2.ppf(1 - acceptance_criteria, dof)
+
+## print critical value
+print(critical_value)
+&gt;&gt; 3.84
+
+</code></pre>
+<p>Based upon our observed values, we can give this all some context with the sign-up rate of each group.  We get:</p>
+<ul>
+<li>Mailer 1 (Low Cost): <strong>32.8%</strong> signup rate</li>
+<li>Mailer 2 (High Cost): <strong>37.8%</strong> signup rate</li>
+</ul>
+<p>From this, we can see that the higher cost mailer does lead to a higher signup rate.  The results from our Chi-Square Test will provide us more information about how confident we can be that this difference is robust, or if it might have occured by chance.</p>
+<p>We have a Chi-Square Statistic of <strong>1.94</strong> and a p-value of <strong>0.16</strong>.  The critical value for our specified Acceptance Criteria of 0.05 is <strong>3.84</strong></p>
+<p><strong>Note</strong> When applying the Chi-Square Test above, we use the parameter <em>correction = False</em> which means we are applying what is known as the <em>Yate's Correction</em> which is applied when your Degrees of Freedom is equal to one.  This correction helps to prevent overestimation of statistical signficance in this case.</p>
+<hr />
+<h2>Analysing The Results <a id="chi-square-results"></a></h2>
+<p>At this point we have everything we need to understand the results of our Chi-Square test - and just from the results above we can see that, since our resulting p-value of <strong>0.16</strong> is <em>greater</em> than our Acceptance Criteria of 0.05 then we will <em>retain</em> the Null Hypothesis and conclude that there is no significant difference between the signup rates of Mailer 1 and Mailer 2.</p>
+<p>We can make the same conclusion based upon our resulting Chi-Square statistic of <strong>1.94</strong> being <em>lower</em> than our Critical Value of <strong>3.84</strong></p>
+<p>To make this script more dynamic, we can create code to automatically interpret the results and explain the outcome to us...</p>
+<pre><code class="language-python">
+## print the results (based upon p-value)
+if p_value &lt;= acceptance_criteria:
+    print(f&quot;As our p-value of {p_value} is lower than our acceptance_criteria of {acceptance_criteria} - we reject the null hypothesis, and conclude that: {alternate_hypothesis}&quot;)
+else:
+    print(f&quot;As our p-value of {p_value} is higher than our acceptance_criteria of {acceptance_criteria} - we retain the null hypothesis, and conclude that: {null_hypothesis}&quot;)
+
+&gt;&gt; As our p-value of 0.16351 is higher than our acceptance_criteria of 0.05 - we retain the null hypothesis, and conclude that: There is no relationship between mailer type and signup rate.  They are independent
+
+
+## print the results (based upon p-value)
+if chi2_statistic &gt;= critical_value:
+    print(f&quot;As our chi-square statistic of {chi2_statistic} is higher than our critical value of {critical_value} - we reject the null hypothesis, and conclude that: {alternate_hypothesis}&quot;)
+else:
+    print(f&quot;As our chi-square statistic of {chi2_statistic} is lower than our critical value of {critical_value} - we retain the null hypothesis, and conclude that: {null_hypothesis}&quot;)
+
+&gt;&gt; As our chi-square statistic of 1.9414 is lower than our critical value of 3.841458820694124 - we retain the null hypothesis, and conclude that: There is no relationship between mailer type and signup rate.  They are independent
+
+</code></pre>
+<p>As we can see from the outputs of these print statements, we do indeed retain the null hypothesis.  We could not find enough evidence that the signup rates for Mailer 1 and Mailer 2 were different - and thus conclude that there was no significant difference.</p>
+<hr />
+<h2>Discussion <a id="discussion"></a></h2>
+<p>While we saw that the higher cost Mailer 2 had a higher signup rate (37.8%) than the lower cost Mailer 1 (32.8%) it appears that this difference is not significant, at least at our Acceptance Criteria of 0.05.</p>
+<p>Without running this Hypothesis Test, the client may have concluded that they should always look to go with higher cost mailers - and from what we've seen in this test, that may not be a great decision.  It would result in them spending more, but not <em>necessarily</em> gaining any extra revenue as a result</p>
+<p>Our results here also do not say that there <em>definitely isn't a difference between the two mailers</em> - we are only advising that we should not make any rigid conclusions <em>at this point</em>.  </p>
+<p>Running more A/B Tests like this, gathering more data, and then re-running this test may provide us, and the client more insight!</p>
+
+  <p class="back"><a href="/archive/">Back to the archive</a></p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span><a class="eml" href="/#contact" data-e="em.mp@gnitlusnoc.ia.rlv">Email me</a></span>
+    <span><a href="https://github.com/vlrmzz">GitHub</a> &nbsp; <a href="https://www.linkedin.com/in/vlrmzzz/">LinkedIn</a> &nbsp; <a href="https://x.com/vlraime">X</a></span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" href="/favicon.ico">
+<title>Confident and wrong – Vlr Mzz</title>
+<meta name="description" content="A small model that sorts security alerts and says how sure it is, trained three ways in a toy world where the right level of confidence is known. How it was trained mattered less than how much data it saw.">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-name" href="/">Vlr Mzz</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/work/">Work</a>
+      <a href="/projects/">Projects</a>
+      <a href="/writing/" aria-current="page">Writing</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <h1 class="page-title">Confident and wrong</h1>
+  <p class="post-meta">2 October 2026 &middot; When can you trust a model that says how sure it is?</p>
+  <p class="post-meta"><a href="https://colab.research.google.com/github/vlrmzz/ai-claims-experiments/blob/main/confident-and-wrong/confident_and_wrong.ipynb">Run it in Colab</a> &middot; <a href="https://github.com/vlrmzz/ai-claims-experiments/tree/main/confident-and-wrong">Code on GitHub</a></p>
+
+  <p class="lede">Some AI models do not write text. You give them a text and a list of possible answers, and they give back a probability for each answer. The promise is that you can rely on that probability: let the model act when it says 95&nbsp;%, send the case to a person when it says 60&nbsp;%. I built a small model of this kind for sorting security alerts and tested where that reliability comes from. The way the model was trained mattered far less than its makers suggest. What mattered was how much data it had seen and whether the input looked like that data. On logs it could not read, it was right 26&nbsp;% of the time and still 52&nbsp;% sure.</p>
+
+  <h2>The claim</h2>
+  <p>Many steps in an AI system are decisions, not writing: which team gets this support ticket, whether this message is an attack, what kind of alert this is. The usual way to make them is to ask a chatbot-style model and read its reply. That is slow and costly for what is really a multiple-choice question.</p>
+  <p>A <em>decision model</em> is built for the multiple-choice question. It takes a text and a list of options and returns one probability per option, in a single step. In September 2026 the company TypeSafe launched one called Jev, available only through its paid service. Shortly afterwards Nandakishor M released <a href="https://github.com/NandhaKishorM/laya">Laya</a>, a free and open one, which collected about 29,500 stars on GitHub in two weeks. This post examines the open one in a toy world. I did a test of Jev on real agent failures in a second post, <a href="/writing/jev-agent-failures.html">Can a decision model find where an agent failed?</a></p>
+  <p>Two words carry the rest of this post.</p>
+  <ul class="plain">
+    <li><strong>Confidence</strong> is the probability the model gives to the answer it picked.</li>
+    <li>A model is <strong>calibrated</strong> when its confidence matches how often it is right. Of all the answers it gives with 80&nbsp;% confidence, about 80&nbsp;% should be correct. A model that says 99&nbsp;% and is right 80&nbsp;% of the time is <em>over-confident</em>.</li>
+  </ul>
+  <p>Calibration is what makes a rule like &ldquo;act automatically above 90&nbsp;%&rdquo; safe. Without it, the number is decoration.</p>
+  <p>Laya's author says its calibration comes from the way it is trained. Training works like this: the model answers many examples, a formula gives each answer a score, and the model is adjusted to score higher. I will call that formula the <em>reward</em>. The standard reward is called <em>cross-entropy</em>. The author argues that cross-entropy makes a model over-confident, and that Laya avoids this with a different training method, called RLCD. Laya's documentation draws the practical conclusion: because of that training, its &ldquo;confidence scores are statistically meaningful&rdquo;.</p>
+  <p>That is a claim about a reward, and a reward can be tested on a small model.</p>
+
+  <h2>Hypothesis</h2>
+  <p>First, what makes a reward good for calibration. Suppose an answer is truly 70&nbsp;% likely to be right, and the model has to report a probability.</p>
+  <ul class="plain">
+    <li>If the reward is <em>one point for a right answer</em>, the model does best by always claiming 100&nbsp;%. Claiming more never costs anything.</li>
+    <li>A better reward punishes a wrong answer more the surer the model was. With the right formula, the model's average reward is highest when it reports exactly 70&nbsp;%. Statisticians call such a formula a <em>proper scoring rule</em>. Put simply, it is a reward that pays for honesty.</li>
+  </ul>
+
+  <figure>
+    <img src="/img/posts/confident-and-wrong-scoring-rules.svg" alt="Average reward against reported probability when the truth is 70 percent: one point for a right answer peaks at 100 percent, the log score and the spherical score peak at 70 percent" width="1280" height="636">
+    <figcaption>The average reward for each probability the model could report, when the truth is 70&nbsp;%. Only the two on the right reward the honest answer.</figcaption>
+  </figure>
+
+  <p>The middle panel, the log score, is cross-entropy under another name. Laya's reward is the log score plus half of the spherical score in the right panel. Both pay for honesty, so I doubted that the choice between them decides anything. My two predictions:</p>
+  <ul class="plain">
+    <li>A model trained with cross-entropy and a model trained with Laya's method end up equally calibrated. A model trained with one point per right answer ends up over-confident.</li>
+    <li>Whichever reward is used, the model is calibrated only on input that resembles its training data. A reward can teach honesty about the examples it sees and says nothing about anything else.</li>
+  </ul>
+  <p>If Laya's documentation is right, the first prediction should fail: Laya's method should give a clearly better-calibrated model than cross-entropy.</p>
+
+  <h2>Setup</h2>
+  <h3>How a decision model works</h3>
+  <p>A chatbot-style model writes its answer in small pieces, each a word or part of a word. Every piece needs one full run of the network, and each new piece is fed back in to produce the next. If you ask it how sure it is, that number is written text as well, and nothing ties it to how often the model is right. A decision model runs the network once and reads the probabilities directly.</p>
+
+  <figure>
+    <img src="/img/posts/confident-and-wrong-llm-vs-decision.svg" alt="A generative LLM writes its answer one piece at a time and the text is then parsed; a decision model returns one probability per option in a single run" width="1280" height="692">
+    <figcaption>The same decision, two ways.</figcaption>
+  </figure>
+
+  <p>Inside Laya the trick is in how the input is laid out. For each question it builds one sequence: the question, then every option with a placeholder in front of it, written <code>[MASK]</code>, then the text to judge.</p>
+
+  <figure>
+    <img src="/img/posts/confident-and-wrong-architecture.svg" alt="The input passes through an encoder and a decision head; the output at each MASK position is turned into a raw score per option, and a formula called softmax turns the scores into probabilities" width="1280" height="1208">
+    <figcaption>Laya's design, drawn from the code in its repository, with a security example. The scores are made up for illustration.</figcaption>
+  </figure>
+
+  <p>Reading the diagram from top to bottom:</p>
+  <ul class="plain">
+    <li><code>[CLS]</code> and <code>[SEP]</code> are plain markers: one for the start, the others for where one part ends and the next begins.</li>
+    <li>The network reads the question, the options and the text together, so each option is judged against the whole text.</li>
+    <li>At each <code>[MASK]</code> placeholder it produces one <em>raw score</em> for that option. A higher score means a better fit.</li>
+    <li>A standard formula called <em>softmax</em> turns the raw scores into probabilities that add up to 1.</li>
+    <li>Before that, the scores are divided by one number, the <strong>temperature</strong>. It never changes which option wins. A higher temperature makes the probabilities more even, so the model sounds less sure; a lower one makes it sound more sure. It is chosen after training, and it comes back later in this post.</li>
+  </ul>
+  <p>The size of a network is counted in <em>parameters</em>, the numbers that training adjusts. Laya has 421 million. My model has 76,353. It is the same design, small enough to train on a laptop in a couple of minutes.</p>
+
+  <h3>A world where the right confidence is known</h3>
+  <p>Calibration is normally checked by comparing confidence with accuracy on examples that have a known answer. I wanted something stricter: for every single case, the probability that an ideal model should report. To have that, I had to generate the data myself.</p>
+  <p>The setting is a security team. Monitoring software raises alerts, and someone has to decide what each one is. This sorting is called <em>alert triage</em>. In my toy version:</p>
+  <ul class="plain">
+    <li>An alert is a <em>session</em>: between 4 and 10 log events, such as <code>login_fail</code>, <code>port_probe</code>, <code>sql_error</code> or <code>large_upload</code>. There are 30 kinds of event.</li>
+    <li>Each session belongs to one of 12 <em>classes</em>: normal activity, called benign, or one of 11 kinds of attack.</li>
+    <li>Every class produces ordinary events most of the time. About 30&nbsp;% of the time it produces an event typical of that class: failed logins for password guessing, probes for a port scan.</li>
+    <li>Some attacks look alike on purpose. <em>Brute force</em>, guessing passwords, and <em>credential stuffing</em>, trying stolen passwords, both produce failed logins.</li>
+  </ul>
+  <p>Because I wrote the program that generates the sessions, I can calculate the exact probability of each class for any session. A short, ambiguous session has an honest answer that is well below 100&nbsp;%.</p>
+
+  <figure>
+    <img src="/img/posts/confident-and-wrong-world.svg" alt="An example session of five events and the exact probability of each of four offered classes: brute force 0.63, credential stuffing 0.34, phishing 0.00, benign 0.02" width="1280" height="428">
+    <figcaption>Two failed logins among ordinary activity. An ideal model would say 63&nbsp;% brute force, and no more.</figcaption>
+  </figure>
+
+  <p>Each question offers the true class and a few wrong ones, in random order. With 4 options, even an ideal model is right only 84.7&nbsp;% of the time, because the remaining sessions are truly ambiguous. That is the best possible accuracy in this world.</p>
+  <p>The sessions are invented. Nothing here comes from real logs. The security setting is there because it makes the stakes easy to see: a confident wrong answer is either an attack filed as harmless or an analyst's morning spent on nothing.</p>
+
+  <h3>Three ways to train it</h3>
+  <p>The same small model is trained with three rewards.</p>
+  <ul class="plain">
+    <li><strong>Cross-entropy.</strong> The standard reward.</li>
+    <li><strong>One point if right.</strong> The reward from the left panel of the figure above, included as the one that should fail.</li>
+    <li><strong>Laya's method.</strong> RLCD, as its author describes it: make small random changes to the model's raw scores, see which changes earn more of the honesty-paying reward, and adjust the model in that direction.</li>
+  </ul>
+  <p>Each is trained on 1,000, 4,000, 16,000 or 64,000 sessions, for the same number of training steps. Every run is repeated three times with different random starting points, and I report the average. That makes 36 training runs.</p>
+
+  <h3>What is measured</h3>
+  <p>Each trained model answers 5,000 new sessions, and I record three numbers:</p>
+  <ul class="plain">
+    <li><strong>Accuracy</strong>: how often its answer is right.</li>
+    <li><strong>Confidence</strong>: how sure it says it is, on average.</li>
+    <li><strong>Calibration error</strong>: roughly, the average gap between the two. It is computed by grouping answers of similar confidence and comparing each group's confidence with its accuracy. Zero is perfect, and 0.20 means the confidence is off by about 20 percentage points. By chance alone, even an ideal model scores about 0.01 on 5,000 sessions, so 0.01 is the best achievable.</li>
+  </ul>
+  <p>The models are tested in five situations:</p>
+  <ul class="plain">
+    <li><strong>Like training</strong>: 4 options, the same kind of sessions.</li>
+    <li><strong>8 options and 12 options</strong>: more than the model ever saw in training, where it had 2 to 6.</li>
+    <li><strong>Unreadable log format</strong>: the same sessions, but every event is written with a symbol the model has never seen, as if the logs came from an unfamiliar system. The model cannot read them, so the honest answer is 25&nbsp;% for each of 4 options.</li>
+    <li><strong>90&nbsp;% benign traffic</strong>: in training, all 12 classes were equally common. Here nine sessions in ten are benign, which is closer to what a real queue looks like.</li>
+  </ul>
+
+  <h2>Experiment</h2>
+  <h3>On sessions like the training data</h3>
+  <p>Calibration error with 4 options. Each cell is the average of 3 runs, with the spread between runs after the &plusmn;. Lower is better and 0.010 is the best achievable.</p>
+  <table>
+    <thead>
+      <tr><th>training sessions</th><th>cross-entropy</th><th>Laya's method</th><th>one point if right</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1,000</td><td>0.198 ± 0.005</td><td>0.201 ± 0.003</td><td>0.209 ± 0.004</td></tr>
+      <tr><td>4,000</td><td>0.152 ± 0.015</td><td>0.108 ± 0.010</td><td>0.163 ± 0.002</td></tr>
+      <tr><td>16,000</td><td>0.016 ± 0.002</td><td>0.019 ± 0.004</td><td>0.153 ± 0.003</td></tr>
+      <tr><td>64,000</td><td>0.009 ± 0.002</td><td>0.011 ± 0.002</td><td>0.148 ± 0.003</td></tr>
+    </tbody>
+  </table>
+
+  <figure>
+    <img src="/img/posts/confident-and-wrong-sizes.svg" alt="Calibration error against training-set size: cross-entropy and Laya's method fall together from 0.20 to 0.01, one point if right stays near 0.15" width="1280" height="732">
+    <figcaption>The shaded band is the spread between the 3 runs. The grey line is the best achievable.</figcaption>
+  </figure>
+
+  <p><strong>Cross-entropy and Laya's method give the same result.</strong> With 16,000 sessions or more, both reach the best achievable value: their confidence is the true probability, give or take chance. With 1,000 sessions both are badly over-confident, 97&nbsp;% sure and 77&nbsp;% right. A small model shown the same few examples many times ends up memorising them instead of learning the pattern, and a model that has memorised its examples is sure of everything.</p>
+  <p>So the amount of data changes the calibration error twenty-fold. The choice between these two rewards changes nothing at three of the four sizes. At 4,000 sessions Laya's method is somewhat better, 0.108 against 0.152. My guess is that its random changes slow the memorising down a little. I did not test that, and 0.108 is still ten times the best achievable.</p>
+  <p><strong>One point if right never becomes calibrated.</strong> That model is 99&nbsp;% confident at every size, and its error stays at 0.15 however much data it sees. Its accuracy is as good as the others', 84.2&nbsp;%. It knows the answer as well as they do and has learned to overclaim, as the figure in the hypothesis predicted.</p>
+  <p>The first prediction holds. A reward that pays for honesty is needed. Laya's method is one way to get it, and ordinary cross-entropy is another.</p>
+
+  <h3>On sessions unlike the training data</h3>
+  <p>This is the best case for every model, 64,000 training sessions. Each cell shows accuracy, then confidence. When the two numbers are close, the model is calibrated.</p>
+  <table>
+    <thead>
+      <tr><th>situation</th><th>cross-entropy</th><th>Laya's method</th><th>one point if right</th><th>best possible accuracy</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>like training</td><td>84&nbsp;% / 85&nbsp;%</td><td>84&nbsp;% / 85&nbsp;%</td><td>84&nbsp;% / 99&nbsp;%</td><td>85&nbsp;%</td></tr>
+      <tr><td>8 options</td><td>78&nbsp;% / 76&nbsp;%</td><td>78&nbsp;% / 77&nbsp;%</td><td>77&nbsp;% / 99&nbsp;%</td><td>78&nbsp;%</td></tr>
+      <tr><td>12 options</td><td>73&nbsp;% / 71&nbsp;%</td><td>73&nbsp;% / 70&nbsp;%</td><td>73&nbsp;% / 98&nbsp;%</td><td>73&nbsp;%</td></tr>
+      <tr><td>unreadable format</td><td>26&nbsp;% / 52&nbsp;%</td><td>27&nbsp;% / 50&nbsp;%</td><td>26&nbsp;% / 89&nbsp;%</td><td>25&nbsp;%</td></tr>
+      <tr><td>90&nbsp;% benign</td><td>86&nbsp;% / 69&nbsp;%</td><td>86&nbsp;% / 70&nbsp;%</td><td>86&nbsp;% / 99&nbsp;%</td><td>98&nbsp;%</td></tr>
+    </tbody>
+  </table>
+
+  <figure>
+    <img src="/img/posts/confident-and-wrong-conditions.svg" alt="Accuracy and confidence in five situations for the three training methods; they coincide like training and with more options, and separate on the unreadable format and under 90 percent benign traffic" width="1280" height="704">
+    <figcaption>The filled dot is accuracy, the ring is confidence. Where they sit together the model is calibrated; the further apart, the less its confidence means.</figcaption>
+  </figure>
+
+  <p><strong>More options did no harm.</strong> I expected this to break calibration, and it did not. With 8 and 12 options, cross-entropy and Laya's method stay within three points of the truth. This design treats the options as an unordered list, so a longer list is nothing new to it.</p>
+  <p><strong>Input it cannot read breaks it completely.</strong> On the unreadable format, accuracy drops to 26&nbsp;%, which is what guessing gives, and confidence is 52&nbsp;%. The honest answer was 25&nbsp;%. The reward taught the model to be honest about sessions like the ones it saw. It has no way of noticing that these are different. The model trained with one point if right is 89&nbsp;% confident on the same input.</p>
+  <p><strong>A different mix of traffic breaks it the other way.</strong> When 90&nbsp;% of sessions are benign, a model that knew this would be right 98&nbsp;% of the time. These models are right 86&nbsp;% of the time and too <em>unsure</em>, at 69&nbsp;%. They learned from data where every class was equally common, so they keep suspecting attacks that are not there.</p>
+  <p>The second prediction holds, with one correction. Not every change matters. The ones that do are the ones that change what the evidence means.</p>
+
+  <h3>What this does to an automatic rule</h3>
+  <p>Take the rule &ldquo;handle the session automatically when confidence is 90&nbsp;% or more, otherwise pass it to a person&rdquo;. The 90&nbsp;% is the <em>threshold</em>. For the model trained with cross-entropy:</p>
+  <table>
+    <thead>
+      <tr><th>situation</th><th>handled automatically</th><th>of those, right</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>like training, 64,000 training sessions</td><td>62&nbsp;%</td><td>98.6&nbsp;%</td></tr>
+      <tr><td>like training, 1,000 training sessions</td><td>90&nbsp;%</td><td>81&nbsp;%</td></tr>
+      <tr><td>unreadable format</td><td>3&nbsp;%</td><td>40&nbsp;%</td></tr>
+      <tr><td>90&nbsp;% benign</td><td>9&nbsp;%</td><td>84&nbsp;%</td></tr>
+    </tbody>
+  </table>
+  <p>The first row is the promise kept: an ideal model would handle 62&nbsp;% at 98.7&nbsp;%, and this one matches it. The second row is the same design and the same reward with less data. It handles nine sessions in ten on its own and gets one in five of them wrong. In the last row the rule fails quietly in the opposite direction. It passes 91&nbsp;% of an almost entirely harmless queue to people, where an ideal model would have handled 95&nbsp;% of it automatically.</p>
+
+  <h3>Can it be repaired afterwards?</h3>
+  <p>The usual repair uses the temperature from the diagram. Take some examples with known answers that the model was not trained on, try different temperatures, and keep the one that makes confidence match accuracy. It is one number, and it cannot change which option the model picks.</p>
+
+  <figure>
+    <img src="/img/posts/confident-and-wrong-temperature.svg" alt="The same five raw scores at temperatures 0.5, 1 and 2: the top probability is 0.78, 0.52 and 0.35 and the order of options does not change" width="1280" height="592">
+    <figcaption>The same raw scores at three temperatures. The winner stays the winner; only how sure the model sounds changes.</figcaption>
+  </figure>
+
+  <p>For each model and each situation I chose the temperature on 5,000 separate sessions <em>from that same situation</em>, then measured again on the test sessions.</p>
+  <table>
+    <thead>
+      <tr><th>case</th><th>calibration error before</th><th>after</th><th>temperature chosen</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>cross-entropy, 1,000 training sessions, like training</td><td>0.198</td><td>0.017</td><td>7.8</td></tr>
+      <tr><td>one point if right, 64,000 training sessions, like training</td><td>0.148</td><td>0.020</td><td>12.4</td></tr>
+      <tr><td>cross-entropy, 64,000 training sessions, unreadable format</td><td>0.259</td><td>0.031</td><td>12.6</td></tr>
+      <tr><td>cross-entropy, 64,000 training sessions, 90&nbsp;% benign</td><td>0.195</td><td>0.061</td><td>0.6</td></tr>
+    </tbody>
+  </table>
+  <p>One number repairs both over-confident models almost completely, including the one trained with the wrong reward. That model was ranking the options correctly all along and only its scale was off. On the unreadable format the repair turns the temperature up until every answer is close to 25&nbsp;%, which is honest and of no use. For the benign-heavy traffic it helps least, and accuracy stays at 86&nbsp;% where 98&nbsp;% was possible. A temperature cannot tell the model that most traffic is harmless.</p>
+  <p>In every row, the repair needed examples with known answers from the very situation being repaired.</p>
+
+  <h2>The same pattern in the real model</h2>
+  <p>I did not run Laya itself. Its repository publishes its own test results, and they show the same pattern.</p>
+  <p>My unreadable-format test has a direct counterpart. Laya comes in an English version and a multilingual one, and the project tested both on the same 20-option question in 51 languages, 100 cases each.</p>
+
+  <figure>
+    <img src="/img/posts/confident-and-wrong-languages.svg" alt="Confidence against accuracy for 51 languages and two versions of Laya; every point lies below the diagonal of perfect calibration" width="1280" height="972">
+    <figcaption>Laya's own measurement, re-plotted from its result files. On the diagonal a model is calibrated; every dot is below it, so the model is more sure than it is right.</figcaption>
+  </figure>
+
+  <p>On Khmer, the English version gets 0 of 100 right while being 71&nbsp;% sure on average. This is why Laya ships with a language check that runs before the model and sends non-English text to the multilingual version. The safeguard had to sit outside the model, because the model's own confidence gave no warning.</p>
+  <p>The repair has a counterpart too. Choosing a new temperature on separate examples, across 49 test sets, takes the English version's average calibration error from 0.466 to 0.081.</p>
+
+  <figure>
+    <img src="/img/posts/confident-and-wrong-refit.svg" alt="Calibration error on 49 test sets for two versions of Laya: averages of 0.466 and 0.314 as released, 0.081 and 0.106 after choosing a new temperature" width="1280" height="1094">
+    <figcaption>Laya's own measurement, re-plotted from its result files. Each dot is one test set; the tick marks the average.</figcaption>
+  </figure>
+
+  <p>A model whose error falls by four fifths when one number is changed was not made calibrated by its training. It behaves like my models trained on too little data: the ranking is sound and the scale is wrong.</p>
+  <p>One result differs. My model stayed calibrated with more options, and Laya's does not: a report in its repository shows a 0.85 threshold working with 3 options and failing with 20. The same report finds the cause in the temperature that Laya is released with for long option lists, 0.10, which makes every answer sound about ten times surer. So this is the repair step going wrong, not the design of the model.</p>
+  <p>It is to the project's credit that all of this is in its own repository, much of it under a heading called &ldquo;Honest limits&rdquo;.</p>
+
+  <h2>Conclusion</h2>
+  <p>The claim was that the training method is what makes a decision model's confidence trustworthy. In a world where the right confidence is known, the result was narrower. A reward that pays for honesty is needed, and without one the model overclaims however much data it sees. But Laya's method and plain cross-entropy were indistinguishable. What decided whether either was calibrated was how much data it had, and whether the input resembled that data.</p>
+  <p>So the confidence of a decision model is a raw signal. It ranks answers well. It becomes a probability you can act on only after it has been checked, and usually adjusted, on examples from the place where it will be used. That checking is the job of whoever puts the model to work.</p>
+
+  <figure>
+    <img src="/img/posts/confident-and-wrong-pipeline.svg" alt="An alert passes a format check, a decision model answers attack type, severity and exfiltration questions in one run, and a confidence rule sends the result to close as benign, contain automatically, or escalate to an analyst" width="1280" height="940">
+    <figcaption>Where such a model sits in alert triage, with the two things the experiment says it needs: a check before it and a feedback loop after it.</figcaption>
+  </figure>
+
+  <p>If I were putting one in front of a security team, I would:</p>
+  <ul class="plain">
+    <li>Check that the input is something the model can read before it runs. Its confidence will not say so.</li>
+    <li>Choose the temperature on examples with the same log sources, the same question and the same mix of harmless and malicious traffic as in real use.</li>
+    <li>Pick the threshold by measuring how often the model is right above it, not by copying a number from the documentation.</li>
+    <li>Tell the model how common attacks really are, or correct for it afterwards.</li>
+    <li>Run it alongside the analysts first, recording what it would have done, and automate a small part that is easy to undo.</li>
+    <li>Measure again whenever the log sources, the list of options or the mix of traffic changes.</li>
+  </ul>
+
+  <h2>Limitations</h2>
+  <p>This is a toy. Sessions are a handful of independent events from a program I wrote, and my model is several thousand times smaller than Laya. The toy can show whether a reward produces calibration when everything else is kept the same. It cannot say how large these effects are in the real model reading real text.</p>
+  <p>My version of Laya's method follows the author's written description, because the code that trained the released model is not public. The fine-tuning code that is public uses different settings and, notably, adds ordinary cross-entropy to the reward. If anything that makes the two methods more alike than I made them.</p>
+  <p>All three rewards used the same training settings, chosen once and not tuned for each. With a fixed number of steps, the small training sets are seen many times over. Stopping training earlier would have reduced the over-confidence at 1,000 and 4,000 sessions, and it would have done so for every reward.</p>
+  <p>My unreadable format is harsher than a real unknown language, where some characters and word pieces are shared. Laya's numbers suggest the real case is no kinder: 0&nbsp;% on Khmer at 71&nbsp;% confidence.</p>
+  <p>The Laya figures are the project's own measurements, taken from its repository on 1 October 2026 at version 0.3.22. Some samples are small, 100 cases per language, and the project changes quickly. I have not run the real model, and that is the obvious next step.</p>
+
+  <h2>Run it yourself</h2>
+  <p>The quickest way is the notebook. <a href="https://colab.research.google.com/github/vlrmzz/ai-claims-experiments/blob/main/confident-and-wrong/confident_and_wrong.ipynb">Open it in Colab</a> and it runs in your browser, with nothing to install. It shows one session with its exact probabilities, trains the model in the three ways in a short run of about a minute, and draws the two main charts from the saved results of the full run. All the code and the results are in the <a href="https://github.com/vlrmzz/ai-claims-experiments/tree/main/confident-and-wrong">repository on GitHub</a>.</p>
+  <p>To run the full experiment on your own machine:</p>
+  <p>The experiment needs PyTorch and NumPy and runs on an ordinary processor; the full set of runs took about 45 minutes on an M1 laptop. The figure script needs only Python.</p>
+  <pre><code>pip install torch numpy
+python alert_triage.py smoke     # under a minute, checks the setup
+python alert_triage.py run       # all 36 runs -> results.json
+python alert_triage.py example   # the worked session -> example.json
+python make_figs.py              # the figures</code></pre>
+  <p>The code is here: <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/confident-and-wrong/alert_triage.py">alert_triage.py</a> and <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/confident-and-wrong/make_figs.py">make_figs.py</a>, with the <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/confident-and-wrong/results.json">raw results</a>. The two Laya result files that the figure script reads, <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/confident-and-wrong/data/cpu_51_language_sweep_refreshed.json">the 51-language test</a> and <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/confident-and-wrong/data/t4_colab_benchmark.json">the benchmark results</a>, are unchanged copies from its repository, which is published under the Apache 2.0 licence.</p>
+  <p>Two things worth changing: <code>SIGNAL</code>, which sets how often a session shows its class's typical events and therefore how ambiguous the world is; and the share of benign traffic in the <code>benign90</code> situation, to see how quickly the automatic rule degrades.</p>
+
+  <h2>Sources</h2>
+  <ul class="plain">
+    <li>The <a href="https://github.com/NandhaKishorM/laya">Laya repository</a>: its documentation including &ldquo;Honest limits&rdquo;, its benchmark report, its model and fine-tuning code, and its result files.</li>
+    <li><a href="https://github.com/NandhaKishorM/laya/issues/394">Report #394</a> in that repository, on a confidence threshold that works with 3 options and fails with 20.</li>
+    <li>The author's <a href="https://dev.to/nandakishor_m_6cc0adfde9f/i-built-non-autoregressive-decision-models-a-year-ago-then-a-frontier-lab-called-it-a-18me">launch article</a>, for the design, the argument against cross-entropy and the description of RLCD.</li>
+  </ul>
+
+  <p class="back"><a href="/writing/">Back to writing</a></p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span><a class="eml" href="/#contact" data-e="em.mp@gnitlusnoc.ia.rlv">Email me</a></span>
+    <span><a href="https://github.com/vlrmzz">GitHub</a> &nbsp; <a href="https://www.linkedin.com/in/vlrmzzz/">LinkedIn</a> &nbsp; <a href="https://x.com/vlraime">X</a></span>
+  </div>
+</footer>
+</body>
+</html>

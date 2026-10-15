@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" href="/favicon.ico">
+<title>Writing – Vlr Mzz</title>
+<meta name="description" content="Small, runnable experiments that take a popular claim about AI and test it.">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-name" href="/">Vlr Mzz</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/work/">Work</a>
+      <a href="/projects/">Projects</a>
+      <a href="/writing/" aria-current="page">Writing</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <h1 class="page-title">Writing</h1>
+  <p class="lede">Small experiments that take a popular claim about AI and test it. Each one has the same shape: the claim, a hypothesis, the setup, the experiment and the conclusion. Each one has a notebook that you can run in your browser.</p>
+  <ul class="entries">
+    <li>
+      <h3><a href="/writing/jev-agent-failures.html">Can a decision model find where an agent failed?</a></h3>
+      <p>Jev is a decision model: it answers typed questions with probabilities, for a fraction of a cent. I tested it on 257 failed agent runs that people labelled by hand. On runs that fit in its window, it finds the failing step about as often as a frontier model. It cannot name the kind of failure. It knows when it is unsure.</p>
+      <span class="meta">6 October 2026</span>
+    </li>
+    <li>
+      <h3><a href="/writing/confident-and-wrong.html">Confident and wrong</a></h3>
+      <p>A small model sorts security alerts and says how sure it is. I trained it in three ways, in a toy world where the right confidence is known. The training method mattered much less than the amount of data. On logs that it could not read, it was right 26&nbsp;% of the time and still 52&nbsp;% sure.</p>
+      <span class="meta">2 October 2026</span>
+    </li>
+    <li>
+      <h3><a href="/writing/pixels-vs-tokens.html">Is visual data really richer than text?</a></h3>
+      <p>A toy world where a picture and a list of symbols carry exactly the same information. The picture model learns better. Remove its convolution and the advantage is gone. Richness belongs to the representation <em>and</em> to the thing that reads it.</p>
+      <span class="meta">18 August 2026</span>
+    </li>
+    <li>
+      <h3><a href="/writing/nobody-told-it-what-a-noun-is.html">Nobody told it what a noun is</a></h3>
+      <p>A very small language model reads four novels for five minutes. Nouns, verbs, adjectives and adverbs separate inside it, and nothing in the training mentions grammar. Shuffle the word order and they do not.</p>
+      <span class="meta">21 July 2026</span>
+    </li>
+  </ul>
+  <h2 class="sec-label">Archive</h2>
+  <p class="meta">Data-science projects from 2021&ndash;22, kept for the record: <a href="/archive/">older posts</a>.</p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span><a class="eml" href="/#contact" data-e="em.mp@gnitlusnoc.ia.rlv">Email me</a></span>
+    <span><a href="https://github.com/vlrmzz">GitHub</a> &nbsp; <a href="https://www.linkedin.com/in/vlrmzzz/">LinkedIn</a> &nbsp; <a href="https://x.com/vlraime">X</a></span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,15 +1,112 @@
----
-layout: default
----
-<div class="container">
-    <div class="row">
-        <div class="col col-12 col-t-12">
-            <div class="row">
-                {% for post in paginator.posts %}
-                    {% include post-card.html %}
-                {% endfor %}
-            </div>
-            {% include pagination.html %}
-        </div>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" href="/favicon.ico">
+<title>Vlr Mzz</title>
+<meta name="description" content="AI engineer and tech lead in Zurich. I build agent harness systems, fine-tune models for specific domains with supervised or reinforcement learning, and work on foundation models for structured data.">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-name" href="/">Vlr Mzz</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/work/">Work</a>
+      <a href="/projects/">Projects</a>
+      <a href="/writing/">Writing</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <section class="intro">
+    <div class="intro-head">
+      <img src="/img/valerio-round.jpg" alt="Cartoon of Valerio in a hoodie, smiling, with both arms up and making an OK sign" width="128" height="128">
+      <h1>Hi, I'm Valerio.</h1>
     </div>
-</div>
+    <p>I'm an AI engineer and tech lead in Zurich. I build agent harness systems: the orchestration, the tools and the evaluation that an agent needs to work every time, not only in a demo. I also fine-tune models for specific domains. I use supervised fine-tuning or reinforcement learning, depending on what the task needs. And I work on foundation models for structured data. Before AI, I studied physics and did a PhD in electrical engineering at KAUST.</p>
+    <p id="contact">Working on an AI project? Agents, fine-tuning, evaluation or AI security: <a class="eml" href="/#contact" data-e="em.mp@gnitlusnoc.ia.rlv" data-keep>email me</a> with a few lines about it.</p>
+    <noscript><p class="meta">The address: <span class="rev">em.mp@gnitlusnoc.ia.rlv</span></p></noscript>
+  </section>
+
+  <h2 class="sec-label" id="work"><a href="/work/">Selected work</a></h2>
+  <ul class="entries">
+    <li>
+      <h3><a href="/work/mimic-iv.html">A generative model for relational health records</a></h3>
+      <p>A model that learns from hospital records as linked tables, ordered in time, and writes synthetic patient records with the same structure.</p>
+      <span class="meta">My own research, in progress</span>
+    </li>
+    <li>
+      <h3><a href="/work/rl-pentesting.html">Reinforcement learning for an autonomous pentesting agent</a></h3>
+      <p>I fine-tuned Qwen 32B with reinforcement learning for a multi-agent penetration-testing system. The training worked, and the frontier models still moved faster. Here is when fine-tuning pays.</p>
+      <span class="meta">Cybersecurity client</span>
+    </li>
+    <li>
+      <h3><a href="/work/poker-coaching.html">AI coaching from poker hand histories</a></h3>
+      <p>Tech lead on a coaching product. I contribute to its agent architecture and have shipped several of its AI coaching features. A system of several agents turns raw hand data into short, specific feedback that a player can act on.</p>
+      <span class="meta">Online coaching platform</span>
+    </li>
+    <li>
+      <h3><a href="/work/search-sdac.html">SDAC: assessing synthetic health data</a></h3>
+      <p>SEARCH is a European project for health research with synthetic data. I work on the part about trust: does a synthetic dataset protect the people behind the real data, and is it still good enough to use?</p>
+      <span class="meta">EU project, a consortium of 26 institutions</span>
+    </li>
+  </ul>
+
+  <h2 class="sec-label" id="projects"><a href="/projects/">Personal projects</a></h2>
+  <p>Things I build in my own time. Usually I want to know whether something is possible before I have an opinion about it.</p>
+  <ul class="entries">
+    <li>
+      <h3><a href="/projects/autome.html">autome</a></h3>
+      <p>A personal AI assistant in Telegram. Send it messages, voice notes, photos and documents. It files them into a wiki that you can ask questions of, and keeps trackers, reminders and shared spaces.</p>
+      <span class="meta">My own product, live at <a href="https://autome.click">autome.click</a></span>
+    </li>
+    <li>
+      <h3><a href="/projects/primer.html">The Primer</a></h3>
+      <p>An AI tutor that teaches young children reading, writing and arithmetic. The curriculum lives in an engine outside the model. The model leads the conversation and does not decide what to teach.</p>
+      <span class="meta">In development</span>
+    </li>
+  </ul>
+  <p class="also">I also built MISTERO, an AI murder-mystery game, and Bussola, a platform for neutral analysis of public debates.</p>
+
+  <h2 class="sec-label" id="writing"><a href="/writing/">Writing</a></h2>
+  <p>Small experiments that take a popular claim about AI and test it. You can run each one yourself.</p>
+  <ul class="entries">
+    <li>
+      <h3><a href="/writing/jev-agent-failures.html">Can a decision model find where an agent failed?</a></h3>
+      <p>I tested Jev, a decision model, on 257 failed agent runs that people labelled by hand. On runs that fit in its window, it finds the failing step about as often as a frontier model. It cannot name the kind of failure. It knows when it is unsure.</p>
+      <span class="meta">6 October 2026</span>
+    </li>
+    <li>
+      <h3><a href="/writing/confident-and-wrong.html">Confident and wrong</a></h3>
+      <p>When can you trust a model that says how sure it is? I built a toy security world where the right confidence is known. Two of three training methods became honest, but only with enough data. Unfamiliar input broke all three.</p>
+      <span class="meta">2 October 2026</span>
+    </li>
+    <li>
+      <h3><a href="/writing/pixels-vs-tokens.html">Is visual data really richer than text?</a></h3>
+      <p>A picture and a list of symbols that carry exactly the same information about a toy world. The picture model learns better. Take away its convolution and the advantage is gone.</p>
+      <span class="meta">18 August 2026</span>
+    </li>
+    <li>
+      <h3><a href="/writing/nobody-told-it-what-a-noun-is.html">Nobody told it what a noun is</a></h3>
+      <p>A very small language model reads four novels for five minutes. Nouns, verbs, adjectives and adverbs separate inside it, and nothing in the training mentions grammar. With shuffled word order, they do not.</p>
+      <span class="meta">21 July 2026</span>
+    </li>
+  </ul>
+  <p class="meta"><a href="/archive/">Older data-science projects, 2021&ndash;22</a></p>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span><a class="eml" href="/#contact" data-e="em.mp@gnitlusnoc.ia.rlv">Email me</a></span>
+    <span><a href="https://github.com/vlrmzz">GitHub</a> &nbsp; <a href="https://www.linkedin.com/in/vlrmzzz/">LinkedIn</a> &nbsp; <a href="https://x.com/vlraime">X</a></span>
+  </div>
+</footer>
+</body>
+</html>

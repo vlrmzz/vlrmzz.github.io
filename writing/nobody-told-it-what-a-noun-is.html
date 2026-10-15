@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" href="/favicon.ico">
+<title>Nobody told it what a noun is – Vlr Mzz</title>
+<meta name="description" content="A one-head attention model reads four novels and learns to predict the next word. Nouns, verbs, adjectives and adverbs separate inside it, with no grammar in the training. With shuffled word order, they do not.">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-name" href="/">Vlr Mzz</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/work/">Work</a>
+      <a href="/projects/">Projects</a>
+      <a href="/writing/" aria-current="page">Writing</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <h1 class="page-title">Nobody told it what a noun is</h1>
+  <p class="post-meta">21 July 2026 &middot; Word classes from next-word prediction, with a shuffled-order control</p>
+  <p class="post-meta"><a href="https://colab.research.google.com/github/vlrmzz/ai-claims-experiments/blob/main/nobody-told-it-what-a-noun-is/nobody_told_it.ipynb">Run it in Colab</a> &middot; <a href="https://github.com/vlrmzz/ai-claims-experiments/tree/main/nobody-told-it-what-a-noun-is">Code on GitHub</a></p>
+
+  <p class="lede">I trained a very small language model on four novels for five minutes. It had one task: predict the next word. I never mentioned grammar. At the end, nouns, verbs, adjectives and adverbs sat in different regions inside the model, and a simple test could read a word's class from its position 83&nbsp;% of the time. Then I shuffled the words inside each sentence and trained again. This time, nothing of the kind happened.</p>
+
+  <figure>
+    <img src="/img/posts/embeddings-training.gif" alt="Dots for 1,320 words, coloured by word class, separate into groups during training" width="512" height="352">
+    <figcaption>The 1,320 measured words during training. Each dot is a word, coloured by its class. The axes are fixed from the final state, so the movement that you see is real.</figcaption>
+  </figure>
+
+  <p>This post explains why that happens, why it is hard to show honestly, and what it tells you about the categories inside a language model.</p>
+
+  <h2>The claim</h2>
+  <p>You do not have to teach a language model word classes. They appear when the model learns to predict the next word. Words that occur in the same contexts receive the same corrections, so they move to the same place. &ldquo;Noun&rdquo; is the name that we give to one of the groups that form.</p>
+
+  <h2>Hypothesis: why prediction alone gives word classes</h2>
+  <p>If the claim is right, you can see it in a model small enough to inspect.</p>
+  <p>The model stores each word as a list of 64 numbers, called an <em>embedding</em>. Think of it as the position of the word in a space. Nobody tells the model that <em>cat</em>, <em>river</em> and <em>hobbit</em> belong together. But after training, their embeddings are near each other. The reason is in the training signal.</p>
+  <p>Take the word <em>the</em>. To predict what follows it, the model must find every word that can follow it: nouns and adjectives. The cheapest way is to make all those words look similar. Now take a noun. To predict what follows <em>cat</em>, <em>river</em> or <em>hobbit</em>, the model must find verbs such as <em>was</em>, <em>ran</em> and <em>sat</em>. The cheapest way is again to make the nouns similar to each other, and the verbs similar to each other. Each context that a class of words shares is one more push in the same direction.</p>
+  <p>So the model does not discover a label called &ldquo;noun&rdquo;. A noun is a member of an <strong>equivalence class under prediction</strong>: the set of words for which the same predictions are useful, about what comes before and about what comes after. Linguists call this a distributional definition, and it is older than neural networks. Training adds a way to find these classes in plain text, with nobody specifying them.</p>
+  <figure>
+    <svg class="diagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 344" role="img" aria-label="Words that share a context are pushed to the same place" font-size="13"><defs><marker id="class-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"></path></marker></defs><text x="24" y="30" font-size="15" font-weight="600" fill="var(--ink)">Words that share a context are pushed to the same place</text><g><rect x="15" y="68" width="190" height="56" rx="8" fill="var(--accent)" fill-opacity="0.12" stroke="var(--accent)" stroke-width="2"></rect><text x="110" y="92" text-anchor="middle" font-weight="600" fill="var(--ink)">after "the" comes … ?</text><text x="110" y="110" text-anchor="middle" font-size="11.5" fill="var(--muted)">one query, q_the</text></g><g><rect x="320" y="52" width="416" height="88" rx="8" fill="var(--soft)" stroke="var(--muted)" stroke-width="1.25"></rect><text x="336" y="74" font-size="11.5" fill="var(--muted)">every key it must land on: they end up close</text><rect x="344" y="92" width="80" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><rect x="440" y="92" width="80" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><rect x="536" y="92" width="80" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><rect x="632" y="92" width="80" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><text x="384" y="112" text-anchor="middle" fill="var(--ink)">k_cat</text><text x="480" y="112" text-anchor="middle" fill="var(--ink)">k_river</text><text x="576" y="112" text-anchor="middle" fill="var(--ink)">k_hobbit</text><text x="672" y="112" text-anchor="middle" fill="var(--ink)">k_old</text></g><g><rect x="15" y="200" width="190" height="56" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><text x="110" y="224" text-anchor="middle" font-weight="600" fill="var(--ink)">after a noun comes … ?</text><text x="110" y="242" text-anchor="middle" font-size="11.5" fill="var(--muted)">q_cat, q_river, q_hobbit ask alike</text></g><g><rect x="320" y="184" width="416" height="88" rx="8" fill="var(--soft)" stroke="var(--muted)" stroke-width="1.25"></rect><text x="336" y="206" font-size="11.5" fill="var(--muted)">every key they must land on: they end up close</text><rect x="344" y="224" width="80" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><rect x="440" y="224" width="80" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><rect x="536" y="224" width="80" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><rect x="632" y="224" width="80" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><text x="384" y="244" text-anchor="middle" fill="var(--ink)">k_was</text><text x="480" y="244" text-anchor="middle" fill="var(--ink)">k_ran</text><text x="576" y="244" text-anchor="middle" fill="var(--ink)">k_sat</text><text x="672" y="244" text-anchor="middle" fill="var(--ink)">k_flowed</text></g><g fill="none" stroke="var(--muted)" stroke-width="1.25"><path d="M205 96H320" marker-end="url(#class-arrow)"></path><path d="M205 228H320" marker-end="url(#class-arrow)"></path></g><text x="262.5" y="88" text-anchor="middle" font-size="11.5" fill="var(--muted)">must match</text><text x="262.5" y="220" text-anchor="middle" font-size="11.5" fill="var(--muted)">must match</text><text x="24" y="308" fill="var(--ink)">Cheapest way to satisfy both: give words that share a context similar vectors.</text><text x="24" y="328" font-size="11.5" fill="var(--muted)">Every shared context is one more gradient pushing the class together. "Noun" is the class that falls out.</text></svg>
+    <figcaption>Why a class forms. The query for <em>the</em> must match many keys, so those keys end up close. The same happens for the words that follow a noun.</figcaption>
+  </figure>
+  <p>Three consequences:</p>
+  <ul class="plain">
+    <li><strong>The class has degrees.</strong> <em>Light</em> is a noun and an adjective. It lands between the two groups, because its contexts are mixed.</li>
+    <li><strong>Word class is only one direction.</strong> The same pressure also groups words by tense, number, topic and mood, all at once, in different directions of the same space.</li>
+    <li><strong>A rare word does not move.</strong> A word that the model sees once receives one small correction and stays where it started. The effect needs repetition, so the size of the text decides whether you see anything.</li>
+  </ul>
+
+  <h2>Where the idea comes from: memory that you address by content</h2>
+  <p>Attention uses three words: <em>query</em>, <em>key</em> and <em>value</em>. They come from an older idea in computer science. If you follow that idea, you see why attention has the shape it has.</p>
+  <p>Ordinary computer memory is addressed by location. <code>array[5]</code> gives you the contents of slot 5, and you must already know the slot. A <strong>content-addressable memory</strong> works the other way round. You show it a piece of content, and it gives you the entry that matches. In hardware this is a CAM chip, which compares the input with every stored word at the same time. Network routers and processor caches still use them. In software the same idea is a dictionary: <code>sounds["cat"]</code> looks up the <strong>key</strong> <code>"cat"</code> and gives back the <strong>value</strong> <code>"meow"</code>. You never say where the entry is. The match finds it.</p>
+  <pre><code>key: "cat"  → value: "meow"
+key: "dog"  → value: "bark"
+
+query: "cat"  → matches the key "cat"  → returns "meow"</code></pre>
+  <p>This is the right kind of question for language. In &ldquo;the cat sat because it was tired&rdquo;, what does <em>it</em> refer to? You do not know that the answer is three positions back. You know what kind of thing you want, and you want the memory to find it.</p>
+  <p>Two differences separate a dictionary from attention. The history of the idea is the history of removing them.</p>
+  <p><strong>The exact match became a soft match.</strong> A dictionary finds the key or it fails. A Hopfield network (1982) could already retrieve a stored pattern from a partial or noisy cue. The Neural Turing Machine (2014) gave the modern form: score the query against every memory slot, turn the scores into weights that sum to 1, and read out a weighted mix of all the slots. That is the attention formula. But the program still wrote the contents of the memory.</p>
+  <p><strong>Stored entries became learned entries.</strong> In a dictionary, a person writes every key and value. Bahdanau, Cho and Bengio (2014) let a translation model use its own internal states as the memory, and the model learned how to score them. The Transformer (2017) took the last step. The query, the key and the value are each a learned view of the same embedding, so no person writes any part of the lookup. The paper named the three parts after the lookup that they generalise.</p>
+  <figure>
+    <svg class="diagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 276" role="img" aria-label="Attention is a lookup table that learned its own entries" font-size="11.5"><defs><marker id="lineage-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"></path></marker></defs><text x="24" y="30" font-size="15" font-weight="600" fill="var(--ink)">Attention is a lookup table that learned its own entries</text><g fill="none" stroke="var(--muted)" stroke-width="1.25"><path d="M256 96H270" marker-end="url(#lineage-arrow)"></path><path d="M490 96H504" marker-end="url(#lineage-arrow)"></path><path d="M614 132V156H146V180" marker-end="url(#lineage-arrow)"></path><path d="M256 216H270" marker-end="url(#lineage-arrow)"></path><path d="M490 216H504" marker-end="url(#lineage-arrow)"></path></g><g><rect x="36" y="60" width="220" height="72" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><text x="48" y="84" font-size="13" font-weight="600" fill="var(--ink)">Random-access memory</text><text x="48" y="102" fill="var(--muted)">give an address, get the byte</text><text x="48" y="118" fill="var(--muted)">you must know where to look</text></g><g><rect x="270" y="60" width="220" height="72" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><text x="282" y="84" font-size="13" font-weight="600" fill="var(--ink)">Content-addressable memory</text><text x="282" y="102" fill="var(--muted)">give content, get the match</text><text x="282" y="118" fill="var(--muted)">hardware CAM, hash tables, 1950s</text></g><g><rect x="504" y="60" width="220" height="72" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><text x="516" y="84" font-size="13" font-weight="600" fill="var(--ink)">Hopfield network, 1982</text><text x="516" y="102" fill="var(--muted)">a partial cue retrieves the</text><text x="516" y="118" fill="var(--muted)">whole stored pattern: soft match</text></g><g><rect x="36" y="180" width="220" height="72" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><text x="48" y="204" font-size="13" font-weight="600" fill="var(--ink)">Neural Turing Machine, 2014</text><text x="48" y="222" fill="var(--muted)">similarity to every slot, softmax,</text><text x="48" y="238" fill="var(--muted)">weighted read: the formula</text></g><g><rect x="270" y="180" width="220" height="72" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><text x="282" y="204" font-size="13" font-weight="600" fill="var(--ink)">Bahdanau attention, 2014</text><text x="282" y="222" fill="var(--muted)">the memory is the encoder's states,</text><text x="282" y="238" fill="var(--muted)">the scoring is learned</text></g><g><rect x="504" y="180" width="220" height="72" rx="8" fill="var(--accent)" fill-opacity="0.12" stroke="var(--accent)" stroke-width="2"></rect><text x="516" y="204" font-size="13" font-weight="600" fill="var(--ink)">Transformer, 2017</text><text x="516" y="222" fill="var(--muted)">query, key, value: all three</text><text x="516" y="238" fill="var(--muted)">learned, named after the lookup</text></g></svg>
+    <figcaption>Six steps from memory addressed by location to attention.</figcaption>
+  </figure>
+  <p>A note on who was first. Schmidhuber's fast weight programmers (1991) have one network write the weights of another, with vectors that act like keys and values, read out by a query. <a href="https://arxiv.org/abs/2102.11174">Schlag, Irie and Schmidhuber (2021)</a> show that this is a linear form of the same idea, without the step that turns scores into weights. That step, and the framing that scaled, came in 2014 to 2017. This is why most people date attention to those years and he dates it to 1991.</p>
+  <p>The second difference is the hard one. A neural network has no entries stored in advance. Words arrive as vectors that start random. Nobody labels them, and nobody can say in advance what makes a good match. So the network must learn how to search and what to find at the same time, from a signal that mentions neither.</p>
+  <p>The solution has three parts:</p>
+  <ul class="plain">
+    <li>Learn three matrices, <code>W_Q</code>, <code>W_K</code> and <code>W_V</code>, that turn an embedding into a query, a key and a value.</li>
+    <li>Measure similarity with the dot product. It is cheap enough to compute against every key, and smooth enough to learn from.</li>
+    <li>Let one loss control all three, so that the same errors shape the search and the thing searched for.</li>
+  </ul>
+  <table>
+    <thead>
+      <tr><th></th><th>classical content-addressable memory</th><th>attention</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>query</td><td>written by the program</td><td><code>W_Q e</code>, learned</td></tr>
+      <tr><td>keys</td><td>written by the program</td><td><code>W_K e</code>, learned</td></tr>
+      <tr><td>values</td><td>stored by the program</td><td><code>W_V e</code>, learned</td></tr>
+      <tr><td>match rule</td><td>exact, or a fixed similarity</td><td>dot product, with a learned meaning</td></tr>
+      <tr><td>selection</td><td>best match</td><td>weighted mix of all matches</td></tr>
+      <tr><td>what the keys mean</td><td>designed</td><td>comes from the prediction loss</td></tr>
+    </tbody>
+  </table>
+  <p>The last row is the subject of the rest of this post.</p>
+
+  <h2>Attention, in one page</h2>
+  <p>Here is what one attention layer computes, and what the training signal sees. The first tells you where the classes can live. The second tells you why nothing else could have put them there.</p>
+  <p>Take &ldquo;the cat sat because it was tired&rdquo; and the word <em>cat</em>. The word has three jobs:</p>
+  <ul class="plain">
+    <li><strong>As a key</strong>, <em>cat</em> must be easy to find for the searches that will look for it later: a pronoun that looks for the thing it refers to, a verb that looks for its subject. Its key carries something like &ldquo;singular, alive, a noun that can act&rdquo;.</li>
+    <li><strong>As a query</strong>, <em>cat</em> does its own search: for the article before it, and for anything that describes it. Its query must reach <em>the</em> and nearby adjectives, and ignore a verb three words away.</li>
+    <li><strong>As a value</strong>, <em>cat</em> decides what to hand over when it is selected. When <em>it</em> attends to <em>cat</em>, the useful content is &ldquo;the subject is a small animal, singular&rdquo;, not the spelling of the word.</li>
+  </ul>
+  <p>The same word does all three jobs, and each job uses a different view of the same embedding:</p>
+  <pre><code>q_i = W_Q e_i     query:  the search that this position sends to earlier positions
+k_i = W_K e_i     key:    the label that this position shows, so that queries can match it
+v_i = W_V e_i     value:  the content that is copied if this position is selected</code></pre>
+  <p>Think of a job market. The query is the job advert. The key is the headline on a CV. The value is the work that the person does after they are hired. It is one person and three documents, and each document is written for one purpose.</p>
+  <figure>
+    <svg class="diagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 268" role="img" aria-label="One embedding, three linear views, three jobs" font-size="13"><defs><marker id="hats-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"></path></marker></defs><text x="24" y="30" font-size="15" font-weight="600" fill="var(--ink)">One embedding, three linear views, three jobs</text><g><rect x="35" y="120" width="150" height="56" rx="8" fill="var(--accent)" fill-opacity="0.12" stroke="var(--accent)" stroke-width="2"></rect><text x="110" y="144" text-anchor="middle" font-weight="600" fill="var(--ink)">e_cat</text><text x="110" y="162" text-anchor="middle" font-size="11.5" fill="var(--muted)">the embedding of cat</text></g><g fill="none" stroke="var(--muted)" stroke-width="1.25"><path d="M185 148H250V80H330" marker-end="url(#hats-arrow)"></path><path d="M250 148V148H330" marker-end="url(#hats-arrow)"></path><path d="M250 148V216H330" marker-end="url(#hats-arrow)"></path></g><text x="262" y="74" font-size="11.5" fill="var(--muted)">W_Q</text><text x="262" y="142" font-size="11.5" fill="var(--muted)">W_K</text><text x="262" y="210" font-size="11.5" fill="var(--muted)">W_V</text><g><rect x="330" y="52" width="406" height="56" rx="8" fill="none" stroke="var(--muted)" stroke-width="1.25"></rect><text x="346" y="76" font-weight="600" fill="var(--ink)">q_cat · the query: what cat searches for</text><text x="346" y="94" font-size="11.5" fill="var(--muted)">reaches the article before it and nearby adjectives</text></g><g><rect x="330" y="120" width="406" height="56" rx="8" fill="none" stroke="var(--muted)" stroke-width="1.25"></rect><text x="346" y="144" font-weight="600" fill="var(--ink)">k_cat · the key: how cat is found</text><text x="346" y="162" font-size="11.5" fill="var(--muted)">"singular, animate noun" so a pronoun's query lands on it</text></g><g><rect x="330" y="188" width="406" height="56" rx="8" fill="none" stroke="var(--muted)" stroke-width="1.25"></rect><text x="346" y="212" font-weight="600" fill="var(--ink)">v_cat · the value: what cat hands over</text><text x="346" y="230" font-size="11.5" fill="var(--muted)">"small animal, singular", the payload once selected</text></g></svg>
+    <figcaption>The word <em>cat</em>: one embedding, three vectors.</figcaption>
+  </figure>
+  <p>The split between matching (Q and K) and content (V) is important. One vector does not have to be a good address and a good payload at the same time. Nobody writes these descriptions. The three matrices arrive at them because they make the next word easier to predict.</p>
+
+  <h3>The three operations</h3>
+  <p>For the word at position <em>i</em>, attention is three lines:</p>
+  <pre><code>score_j  = q_i · k_j                       one score for each earlier position j
+w_j      = exp(score_j) / Σ exp(score_m)   softmax: scores → weights that sum to 1
+output_i = Σ w_j v_j                       a mix of the values, by weight</code></pre>
+  <ul class="plain">
+    <li><strong>The dot product</strong> measures alignment. Two vectors that point the same way get a high score.</li>
+    <li><strong>The softmax</strong> turns the scores into weights. A few positions that match well get most of the weight, with no hard cut-off.</li>
+    <li><strong>The weighted sum</strong> lets several positions contribute. When <em>it</em> could refer to two things, the mix keeps both.</li>
+  </ul>
+  <p>Now compute the output for <em>it</em>. Stage one scores the query of <em>it</em> against every key. Suppose that the weights are <code>[0.02, 0.15, 0.05, 0.06, 0.14, 0.09, 0.49]</code> for <em>the, cat, sat, because, it, was, tired</em>. These numbers are for illustration. In a trained model, <em>cat</em> would usually get the most weight for a pronoun.</p>
+  <p>Stop and look at what these numbers are: one share for each position. They say <em>from whom</em> to take, and nothing else. From this list alone, you cannot tell what <em>cat</em> is.</p>
+  <p>Stage two moves the content. Give each word a value of two numbers. The first means &ldquo;animal&rdquo; and the second means &ldquo;state&rdquo;: <code>v_cat = [1, 0]</code>, <code>v_tired = [0, 1]</code>, and every other word <code>[0, 0]</code>. Then:</p>
+  <pre><code>output_it = 0.15·[1, 0] + 0.49·[0, 1] + 0.02·[0, 0] + … = [0.15, 0.49]</code></pre>
+  <p>This vector replaces the plain &ldquo;I am the word <em>it</em>&rdquo; at position 5. Position 5 now holds a little of <em>cat</em> and a lot of <em>tired</em>, so the output layer can prefer <em>was</em> to <em>ran</em>.</p>
+  <p>Attention is a gather. Each position rewrites itself as a weighted average of the values of all positions. Q·K answers &ldquo;from whom?&rdquo;. V answers &ldquo;what?&rdquo;. The sum is the act of taking it. Attention returns the value and not the key for the same reason that a dictionary does: the key is made to be found, and the value is made to be useful when found.</p>
+  <figure>
+    <svg class="diagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 452" role="img" aria-label="Q·K picks from whom, V says what, the sum takes it" font-size="13"><defs><marker id="gather-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"></path></marker></defs><text x="24" y="30" font-size="15" font-weight="600" fill="var(--ink)">Q·K picks from whom, V says what, the sum takes it</text><g><rect x="170" y="64" width="76" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><rect x="250" y="64" width="76" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><rect x="330" y="64" width="76" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><rect x="410" y="64" width="76" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><rect x="490" y="64" width="76" height="32" rx="8" fill="var(--accent)" fill-opacity="0.12" stroke="var(--accent)" stroke-width="2"></rect><rect x="570" y="64" width="76" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><rect x="650" y="64" width="76" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--muted)" stroke-width="1.25"></rect><text x="208" y="84" text-anchor="middle" fill="var(--ink)">the</text><text x="288" y="84" text-anchor="middle" fill="var(--ink)">cat</text><text x="368" y="84" text-anchor="middle" fill="var(--ink)">sat</text><text x="448" y="84" text-anchor="middle" fill="var(--ink)">because</text><text x="528" y="84" text-anchor="middle" font-weight="600" fill="var(--ink)">it</text><text x="608" y="84" text-anchor="middle" fill="var(--ink)">was</text><text x="688" y="84" text-anchor="middle" fill="var(--ink)">tired</text><text x="24" y="84" font-size="11.5" fill="var(--muted)">position 5 asks</text></g><g><line x1="170" x2="726" y1="176" y2="176" stroke="var(--rule)"></line><rect x="190" y="173" width="36" height="3" rx="3" fill="var(--muted)" fill-opacity="0.25"></rect><rect x="270" y="153.5" width="36" height="22.5" rx="3" fill="var(--accent)" fill-opacity="0.55"></rect><rect x="350" y="168.5" width="36" height="7.5" rx="3" fill="var(--muted)" fill-opacity="0.25"></rect><rect x="430" y="167" width="36" height="9" rx="3" fill="var(--muted)" fill-opacity="0.25"></rect><rect x="510" y="155" width="36" height="21.000000000000004" rx="3" fill="var(--muted)" fill-opacity="0.25"></rect><rect x="590" y="162.5" width="36" height="13.5" rx="3" fill="var(--muted)" fill-opacity="0.25"></rect><rect x="670" y="102.5" width="36" height="73.5" rx="3" fill="var(--accent)" fill-opacity="0.55"></rect><text x="208" y="192" text-anchor="middle" font-size="11.5" fill="var(--muted)">0.02</text><text x="288" y="192" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink)">0.15</text><text x="368" y="192" text-anchor="middle" font-size="11.5" fill="var(--muted)">0.05</text><text x="448" y="192" text-anchor="middle" font-size="11.5" fill="var(--muted)">0.06</text><text x="528" y="192" text-anchor="middle" font-size="11.5" fill="var(--muted)">0.14</text><text x="608" y="192" text-anchor="middle" font-size="11.5" fill="var(--muted)">0.09</text><text x="688" y="192" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink)">0.49</text><text x="24" y="136" font-size="12" font-weight="600" fill="var(--ink)">1 · q_it · k, softmax</text><text x="24" y="152" font-size="11.5" fill="var(--muted)">from whom? weights sum to 1;</text><text x="24" y="167" font-size="11.5" fill="var(--muted)">nothing has moved yet</text></g><g><rect x="170" y="216" width="76" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--rule)" stroke-width="1.25"></rect><rect x="250" y="216" width="76" height="32" rx="8" fill="var(--accent)" fill-opacity="0.12" stroke="var(--accent)" stroke-width="1.25"></rect><rect x="330" y="216" width="76" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--rule)" stroke-width="1.25"></rect><rect x="410" y="216" width="76" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--rule)" stroke-width="1.25"></rect><rect x="490" y="216" width="76" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--rule)" stroke-width="1.25"></rect><rect x="570" y="216" width="76" height="32" rx="8" fill="none" fill-opacity="1" stroke="var(--rule)" stroke-width="1.25"></rect><rect x="650" y="216" width="76" height="32" rx="8" fill="var(--accent)" fill-opacity="0.12" stroke="var(--accent)" stroke-width="1.25"></rect><text x="208" y="236" text-anchor="middle" font-size="12" fill="var(--muted)">[0, 0]</text><text x="288" y="236" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">[1, 0]</text><text x="368" y="236" text-anchor="middle" font-size="12" fill="var(--muted)">[0, 0]</text><text x="448" y="236" text-anchor="middle" font-size="12" fill="var(--muted)">[0, 0]</text><text x="528" y="236" text-anchor="middle" font-size="12" fill="var(--muted)">[0, 0]</text><text x="608" y="236" text-anchor="middle" font-size="12" fill="var(--muted)">[0, 0]</text><text x="688" y="236" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">[0, 1]</text><text x="24" y="224" font-size="12" font-weight="600" fill="var(--ink)">2 · value v</text><text x="24" y="240" font-size="11.5" fill="var(--muted)">= [animal, state]</text></g><g fill="none" stroke="var(--muted)" stroke-width="1.25"><path d="M208 248L248 300" marker-end="url(#gather-arrow)"></path><path d="M288 248L318 300" marker-end="url(#gather-arrow)"></path><path d="M368 248L388 300" marker-end="url(#gather-arrow)"></path><path d="M448 248L454 300" marker-end="url(#gather-arrow)"></path><path d="M528 248L522 300" marker-end="url(#gather-arrow)"></path><path d="M608 248L588 300" marker-end="url(#gather-arrow)"></path><path d="M688 248L648 300" marker-end="url(#gather-arrow)"></path><path d="M448 356V384" marker-end="url(#gather-arrow)"></path></g><g><rect x="218" y="300" width="460" height="56" rx="8" fill="var(--soft)" stroke="var(--muted)" stroke-width="1.25"></rect><text x="448" y="324" text-anchor="middle" font-weight="600" fill="var(--ink)">output_it = 0.15·[1, 0] + 0.49·[0, 1] + … = [0.15, 0.49]</text><text x="448" y="342" text-anchor="middle" font-size="11.5" fill="var(--muted)">position 5 now carries a little of cat and a lot of tired</text><text x="24" y="324" font-size="12" font-weight="600" fill="var(--ink)">3 · Σ w · v</text><text x="24" y="340" font-size="11.5" fill="var(--muted)">the act of taking</text></g><g><rect x="268" y="384" width="360" height="40" rx="8" fill="var(--accent)" fill-opacity="0.12" stroke="var(--accent)" stroke-width="2"></rect><text x="448" y="409" text-anchor="middle" font-weight="600" fill="var(--ink)">output layer reads it, predicts next word: was</text></g></svg>
+    <figcaption>Attention for the word <em>it</em>. The bars are the weights (stage 1). The boxes below them are the values (stage 2). The sum is the only place where the two meet.</figcaption>
+  </figure>
+
+  <h3>What the training optimises, and what it never sees</h3>
+  <p>The loss is one number: how much probability the model gave to the word that came next. That is the complete training signal. Nothing checks the attention weights. Nothing tells the model that <em>it</em> should point at <em>cat</em>, or which words are nouns.</p>
+  <p>Many explanations, and my own first draft, say that training &ldquo;compares the attention weights with the correct answer&rdquo;. It does not. That difference is the point of this post.</p>
+  <p>For each example, the loop is:</p>
+  <ol>
+    <li>Forward: embed the words, run attention, and give a probability to every word in the vocabulary as the next word.</li>
+    <li>Loss: <code>−log p(actual next word)</code>.</li>
+    <li>Backward: the error flows back through the output layer, the weighted sum, the softmax and the scores, into <code>W_Q</code>, <code>W_K</code>, <code>W_V</code> and the embeddings.</li>
+    <li>Step: each parameter moves a little in the direction that makes the right word more probable.</li>
+  </ol>
+  <p>So <code>q · k</code> has no built-in meaning of &ldquo;relevance&rdquo;. If more weight on <em>cat</em> helps to predict <em>was</em>, the update turns <code>q_it</code> and <code>k_cat</code> towards each other. If weight on <em>because</em> hurts, it turns them apart. After millions of these small updates, the dot product encodes what is useful to attend to, because that is the only way to lower the loss. Nobody defines relevance. It is what remains after optimisation.</p>
+  <p>&ldquo;Turn&rdquo; is the correct word. The score is <code>q · k = |q| |k| cos θ</code>, so a high score and a small angle are the same fact. And the derivative of <code>q_it · k_cat</code> with respect to <code>q_it</code> is <code>k_cat</code>. When the loss asks for a higher score on <em>cat</em>, the update adds a little of <code>k_cat</code> to <code>q_it</code>, and a little of <code>q_it</code> to <code>k_cat</code>. That is a rotation towards each other. &ldquo;Make this score larger&rdquo; and &ldquo;align these two vectors&rdquo; are one operation.</p>
+  <figure>
+    <svg class="diagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 248" role="img" aria-label="A gradient step on q·k is a rotation" font-size="13"><defs><marker id="rot-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"></path></marker><marker id="rot-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--accent)"></path></marker></defs><text x="24" y="30" font-size="15" font-weight="600" fill="var(--ink)">A gradient step on q·k is a rotation</text><text x="24" y="52" font-size="11.5" fill="var(--muted)">q · k = |q| |k| cos θ, and ∂(q · k) / ∂q = k: the gradient of a dot product is the other vector</text><g><g fill="none" stroke="var(--muted)" stroke-width="1.5"><line x1="150" y1="186" x2="202" y2="89" marker-end="url(#rot-arrow)"></line><line x1="150" y1="186" x2="255" y2="152" marker-end="url(#rot-arrow)"></line><path d="M188 174A40 40 0 0 0 169 151" stroke="var(--rule)" stroke-dasharray="3 3"></path></g><line x1="202" y1="89" x2="219" y2="109" stroke="var(--accent)" stroke-width="2" marker-end="url(#rot-acc)"></line><line x1="255" y1="152" x2="238" y2="132" stroke="var(--accent)" stroke-width="2" marker-end="url(#rot-acc)"></line><text x="190" y="108" text-anchor="end" fill="var(--ink)">q_it</text><text x="263" y="156" fill="var(--ink)">k_cat</text><text x="196" y="156" font-size="11.5" fill="var(--muted)">θ</text><text x="210" y="212" text-anchor="middle" font-weight="600" fill="var(--ink)">score on cat should be higher</text><text x="210" y="230" text-anchor="middle" font-size="11.5" fill="var(--muted)">a bit of k_cat is added to q_it, and vice versa: they rotate together</text></g><g><g fill="none" stroke="var(--muted)" stroke-width="1.5"><line x1="500" y1="186" x2="552" y2="89" marker-end="url(#rot-arrow)"></line><line x1="500" y1="186" x2="605" y2="152" marker-end="url(#rot-arrow)"></line><path d="M538 174A40 40 0 0 0 519 151" stroke="var(--rule)" stroke-dasharray="3 3"></path></g><line x1="552" y1="89" x2="535" y2="69" stroke="var(--accent)" stroke-width="2" marker-end="url(#rot-acc)"></line><line x1="605" y1="152" x2="622" y2="172" stroke="var(--accent)" stroke-width="2" marker-end="url(#rot-acc)"></line><text x="540" y="108" text-anchor="end" fill="var(--ink)">q_it</text><text x="613" y="156" fill="var(--ink)">k_because</text><text x="546" y="156" font-size="11.5" fill="var(--muted)">θ</text><text x="560" y="212" text-anchor="middle" font-weight="600" fill="var(--ink)">score on because should be lower</text><text x="560" y="230" text-anchor="middle" font-size="11.5" fill="var(--muted)">same steps with the sign flipped: they rotate apart</text></g></svg>
+    <figcaption>One training step on a dot product, in two cases.</figcaption>
+  </figure>
+  <p>There is no deep reason why the dot product must work. It works because it is cheap, smooth and flexible enough for training to shape the matrices into a solution.</p>
+
+  <h2>Three ways to cheat</h2>
+  <p>This is harder to show in a small demo than it sounds. Each shortcut that makes the picture clean also makes it meaningless. I tried three before the run below. You have probably seen all three in other explanations.</p>
+  <table>
+    <thead>
+      <tr><th>attempt</th><th>what it did</th><th>why it does not count</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>k-means on the embeddings</td><td>grouped the points with a clustering algorithm</td><td>we added the groups, the model did not learn them; the algorithm finds groups in noise too</td></tr>
+      <tr><td>designed sentences</td><td>8 words, each noun followed by <em>it</em>, each verb by a verb</td><td>the classes were built into the data; the model could only repeat them</td></tr>
+      <tr><td>60 hand-written sentences</td><td>natural text, but about 140 words, each seen once or twice</td><td>too little repetition: the loss fell, the embeddings almost did not move</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Setup</h2>
+  <p>The run that counts uses none of these:</p>
+  <ul class="plain">
+    <li><strong>Text:</strong> four published novels, not edited: Jane Austen's <em>Emma</em>, <em>Persuasion</em> and <em>Sense and Sensibility</em>, and Lewis Carroll's <em>Alice's Adventures in Wonderland</em>. Together they have about 394,000 words. The vocabulary is the 3,110 words that occur 8 times or more.</li>
+    <li><strong>Model:</strong> one attention head over embeddings of 64 numbers, with a residual connection and an output layer. It has about 420,000 parameters. It is trained on the next-word loss only.</li>
+    <li><strong>Labels:</strong> a separate program, the NLTK part-of-speech tagger, gives each word a class afterwards. The model never sees these labels.</li>
+    <li><strong>Measured words:</strong> the 1,320 nouns, verbs, adjectives and adverbs that occur 25 times or more.</li>
+  </ul>
+  <p>Two numbers show whether word classes have appeared:</p>
+  <ul class="plain">
+    <li><strong>Neighbours.</strong> For each word, take its 10 nearest words in the embedding space. What share of them has the same class?</li>
+    <li><strong>Probe.</strong> Train a simple linear classifier to read the class of a word from its embedding. How often is it right on words that it did not train on?</li>
+  </ul>
+  <p>Each number has a chance level. For the neighbours, it is the share you get if the words are placed at random. For the probe, it is the score you get if you always answer &ldquo;noun&rdquo;.</p>
+
+  <h2>Results</h2>
+  <p>Training took 4,000 steps, about five minutes on a laptop.</p>
+  <table>
+    <thead>
+      <tr><th>measure</th><th>before training</th><th>after 4,000 steps</th><th>chance</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>neighbours with the same class, all words</td><td>34&nbsp;%</td><td>64&nbsp;%</td><td>34&nbsp;%</td></tr>
+      <tr><td>nouns</td><td>47&nbsp;%</td><td>72&nbsp;%</td><td>47&nbsp;%</td></tr>
+      <tr><td>verbs</td><td>31&nbsp;%</td><td>68&nbsp;%</td><td>31&nbsp;%</td></tr>
+      <tr><td>adjectives</td><td>15&nbsp;%</td><td>49&nbsp;%</td><td>14&nbsp;%</td></tr>
+      <tr><td>adverbs</td><td>8&nbsp;%</td><td>32&nbsp;%</td><td>8&nbsp;%</td></tr>
+      <tr><td>probe reads the class from the embedding</td><td>41&nbsp;%</td><td>83&nbsp;%</td><td>47&nbsp;%</td></tr>
+    </tbody>
+  </table>
+  <p>Before training, every number is at chance. There is no structure at the start. After five minutes, the neighbours of a word share its class almost twice as often as chance, and the probe reads the class correctly 83&nbsp;% of the time. The loss went from 8.4 to 4.25 in the same steps. The loss falls and the two measures rise together.</p>
+  <figure>
+    <img src="/img/posts/pos-emergence.png" alt="Four scatter plots of the words during training, the loss curve, and the two measures rising above chance" width="1362" height="881">
+    <figcaption>Top row: the same 1,320 words at four moments, on axes fixed from the final state. Bottom left: the loss, which is the only thing that the training looks at. Bottom right: the share of neighbours with the same class, for each class, against its chance level (dotted), and the probe (dashed).</figcaption>
+  </figure>
+
+  <h2>The control: the same words, with the order destroyed</h2>
+  <p>You can still doubt this result. The structure could come from something other than word order: from how frequent a word is, from which words share a sentence, or from the tagger. So I ran the same model on the same text with one change. I shuffled the words inside each sentence. Each word keeps its frequency and the other words of its sentence. Only the order is gone.</p>
+  <table>
+    <thead>
+      <tr><th>measure</th><th>real text</th><th>shuffled</th><th>chance</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>loss after 4,000 steps</td><td>4.25</td><td>5.45</td><td>8.04 at the start</td></tr>
+      <tr><td>neighbours with the same class</td><td>64&nbsp;%</td><td>36&nbsp;%</td><td>34&nbsp;%</td></tr>
+      <tr><td>nouns / verbs / adjectives / adverbs</td><td>72 / 68 / 49 / 32</td><td>49 / 32 / 15 / 9</td><td>47 / 31 / 14 / 8</td></tr>
+      <tr><td>probe reads the class</td><td>83&nbsp;%</td><td>47&nbsp;%</td><td>47&nbsp;%</td></tr>
+    </tbody>
+  </table>
+  <p>The shuffled model still learns. Its loss falls from 8.4 to 5.45, because it can still learn which words are frequent and which words occur in the same sentence. But both measures stay at chance. Word classes come from what stands <em>next to</em> a word, and the shuffle removes exactly that.</p>
+  <figure>
+    <img src="/img/posts/pos-control.png" alt="Loss, neighbours and probe for real and shuffled text: only the real text rises above chance" width="1635" height="453">
+    <figcaption>Real text against shuffled text. The loss falls in both. The two measures rise only for the real text.</figcaption>
+  </figure>
+
+  <h2>Why this matters</h2>
+  <p>The point is not nouns. A category that nobody specified appeared as a side effect of a task that never mentioned it, in a model small enough to read.</p>
+  <p>The same mechanism runs in a production language model, with thousands of these directions and not four: tense, number, mood, style, topic, and things that have no name. Each one is a direction that made prediction cheaper.</p>
+  <p>When people argue about whether a language model &ldquo;understands&rdquo; grammar, this is the concrete thing they are arguing about. The model was not given a rule. The statistics of the text pushed it into a structure, and a linear probe can read that structure back.</p>
+
+  <h2>Limitations</h2>
+  <ul class="plain">
+    <li><strong>The picture understates the result.</strong> The two axes of the scatter plots hold about 7&nbsp;% of the variation in the 64 dimensions. The neighbours and the probe are measured in the full space. They are the evidence. The plot is an illustration. Other projection methods draw tighter groups, but they exaggerate groups by design, so I did not use them.</li>
+    <li><strong>The model is very small.</strong> It has one head and one layer, and it trains for minutes. It shows the mechanism, not the scale.</li>
+    <li><strong>The labels are not perfect.</strong> Each word gets the class that the tagger gave it most often. Part of the remaining 36&nbsp;% is words that belong to two classes, such as <em>light</em>, <em>back</em> and <em>close</em>. Part is errors of the tagger. Part is structure along directions other than word class.</li>
+    <li><strong>&ldquo;Noun&rdquo; means the distributional class here</strong>, not a linguist's definition. In English the two agree most of the time, which is why the tagger and the model agree as much as they do.</li>
+    <li><strong>These are not the numbers of my first run.</strong> An earlier version of this post reported 67&nbsp;% and 88&nbsp;%, from a run whose code I did not keep. I wrote the experiment again from its description, and all numbers and figures here come from that code, which is public.</li>
+  </ul>
+
+  <h2>Run it yourself</h2>
+  <p>The quickest way is the notebook. <a href="https://colab.research.google.com/github/vlrmzz/ai-claims-experiments/blob/main/nobody-told-it-what-a-noun-is/nobody_told_it.ipynb">Open it in Colab</a> and it runs in your browser, with nothing to install. It shows the text and the labels, trains the model in a short run of about a minute, draws the figures from the saved runs, and lets you look up the nearest neighbours of any word.</p>
+  <p>To run the full experiment on your own machine, you need PyTorch and NLTK. It runs on a CPU and takes about five minutes for each run.</p>
+  <pre><code>pip install torch nltk numpy matplotlib
+python attn_emergence.py 4000            # the real run
+python attn_emergence.py 4000 --shuffle  # the control
+python viz_emergence.py                  # the figures and the table</code></pre>
+  <p>The code is here: <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/nobody-told-it-what-a-noun-is/attn_emergence.py">attn_emergence.py</a> and <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/nobody-told-it-what-a-noun-is/viz_emergence.py">viz_emergence.py</a>, with the saved <a href="https://github.com/vlrmzz/ai-claims-experiments/tree/main/nobody-told-it-what-a-noun-is">results of both runs</a>. The first run downloads the novels and the tagger.</p>
+  <p>Two things to try. Change the text: any text of the NLTK Gutenberg collection works, and <em>Moby Dick</em> is a good one. Or change the size of the embeddings: 32 numbers still work, and 8 almost do not.</p>
+
+  <h2>Sources</h2>
+  <ul class="plain">
+    <li>Texts: <em>Emma</em>, <em>Persuasion</em> and <em>Sense and Sensibility</em> (Jane Austen) and <em>Alice's Adventures in Wonderland</em> (Lewis Carroll), from <a href="https://www.gutenberg.org/">Project Gutenberg</a> as packaged in the <a href="https://www.nltk.org/nltk_data/">NLTK Gutenberg corpus</a>.</li>
+    <li>Part-of-speech labels: the NLTK averaged-perceptron tagger with the <a href="https://www.nltk.org/book/ch05.html">universal tagset</a>. Each word gets its most frequent label.</li>
+    <li>The history: <a href="https://doi.org/10.1073/pnas.79.8.2554">Hopfield, &ldquo;Neural networks and physical systems with emergent collective computational abilities&rdquo; (1982)</a>; <a href="https://arxiv.org/abs/1410.5401">Graves, Wayne and Danihelka, &ldquo;Neural Turing Machines&rdquo; (2014)</a>; <a href="https://arxiv.org/abs/1409.0473">Bahdanau, Cho and Bengio, &ldquo;Neural Machine Translation by Jointly Learning to Align and Translate&rdquo; (2014)</a>; <a href="https://arxiv.org/abs/1706.03762">Vaswani et al., &ldquo;Attention Is All You Need&rdquo; (2017)</a>.
+      <ul>
+        <li>On who was first: <a href="https://doi.org/10.1162/neco.1992.4.1.131">Schmidhuber, &ldquo;Learning to control fast-weight memories&rdquo; (1992)</a> and <a href="https://arxiv.org/abs/2102.11174">Schlag, Irie and Schmidhuber, &ldquo;Linear Transformers Are Secretly Fast Weight Programmers&rdquo; (2021)</a>.</li>
+      </ul>
+    </li>
+    <li>The distributional view of word classes: <a href="https://doi.org/10.1080/00437956.1954.11659520">Harris, &ldquo;Distributional Structure&rdquo; (1954)</a>.</li>
+  </ul>
+
+  <p class="back"><a href="/writing/">Back to writing</a></p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span><a class="eml" href="/#contact" data-e="em.mp@gnitlusnoc.ia.rlv">Email me</a></span>
+    <span><a href="https://github.com/vlrmzz">GitHub</a> &nbsp; <a href="https://www.linkedin.com/in/vlrmzzz/">LinkedIn</a> &nbsp; <a href="https://x.com/vlraime">X</a></span>
+  </div>
+</footer>
+</body>
+</html>

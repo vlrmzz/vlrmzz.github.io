@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" href="/favicon.ico">
+<title>Can a decision model find where an agent failed? – Vlr Mzz</title>
+<meta name="description" content="A benchmark of Jev, TypeSafe's decision model, on failed AI-agent runs: which step went wrong, which agent, which kind of failure. Measured on 257 human-labelled runs, against published results and against a frontier model, for $0.44 in total.">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-name" href="/">Vlr Mzz</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/work/">Work</a>
+      <a href="/projects/">Projects</a>
+      <a href="/writing/" aria-current="page">Writing</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <h1 class="page-title">Can a decision model find where an agent failed?</h1>
+  <p class="post-meta">6 October 2026 &middot; Jev on 257 human-labelled failed runs, against published results and a frontier model</p>
+  <p class="post-meta"><a href="https://colab.research.google.com/github/vlrmzz/ai-claims-experiments/blob/main/agent-trace-failures/agent_trace_failures.ipynb">See the results in Colab</a> &middot; <a href="https://github.com/vlrmzz/ai-claims-experiments/tree/main/agent-trace-failures">Code on GitHub</a></p>
+
+  <p class="lede">When an AI agent fails a task, a person must read the run and find the step where it went wrong. That work is slow. Jev is a decision model: it does not write text, and it answers typed questions with probabilities for a fraction of a cent. I did a test of Jev on 257 failed agent runs that people annotated by hand. On runs that fit in its window, it finds the failing step approximately as often as a frontier model. It cannot name the kind of failure, but its confidence tells you which answers to trust.</p>
+
+  <p>This post is the practical half of a pair. <a href="/writing/confident-and-wrong.html">Confident and wrong</a> uses a toy world to examine when you can trust the confidence of a decision model. This post does a test of a real decision model on a real job.</p>
+
+  <h2>The claim</h2>
+  <p>Decision models are sold as a cheap layer for routing and classification. You give the model some text and a closed set of options, and it returns a choice with a probability, in milliseconds. The pitch is that this covers the many small decisions in a software system that do not need a text-generating model.</p>
+  <p>Reading a failed agent run is not a small decision. A run has dozens of steps, tool calls and tool outputs. To find the step where it went wrong, a reader must read the plan. The reader must compare each action with the policy and find the point of no return. This is the kind of task that usually goes to a large reasoning model, or to a person. The claim under test is that a decision model can do a useful part of it.</p>
+  <p>There is a practical reason for this test. A team with an agent in production has hundreds of failed runs a week and nobody to read them. A model that costs cents could point at the right step in a good share of runs, and say when it is unsure. Then the team gets triage for free.</p>
+
+  <h2>Hypothesis</h2>
+  <p>I expected four things.</p>
+  <ul class="plain">
+    <li>Jev finds the failing step more often than chance, but less often than a frontier model that reads the full run.</li>
+    <li>Its confidence is informative: the answers it gives with high probability are right more often.</li>
+    <li>It does worse on long runs and on multi-agent runs. Its own documentation says that accuracy falls with long states full of unrelated detail, and with questions that need several steps of reasoning.</li>
+    <li>It does worse at naming the kind of failure than at pointing at the step. A category needs a judgement of why. A step needs only where.</li>
+  </ul>
+
+  <h2>Setup</h2>
+  <h3>The task</h3>
+  <p>A failed run comes in. The reader gets the task, the policy if there is one, and every step in order. The reader answers three questions:</p>
+  <ul class="plain">
+    <li><strong>Step:</strong> which step contains the decisive mistake?</li>
+    <li><strong>Agent:</strong> in a multi-agent system, which agent made it?</li>
+    <li><strong>Category:</strong> which kind of failure is it, from a fixed list?</li>
+  </ul>
+  <p>An answer counts as correct when it is the same as the human annotation. For the step I also report &ldquo;within 1 step&rdquo;.</p>
+
+  <h3>The human-labelled runs</h3>
+  <p>In two public datasets, people marked the answers on failed runs:</p>
+  <ul class="plain">
+    <li><a href="https://github.com/microsoft/AgentRx">AgentRx</a> (Microsoft, 2026): 29 runs of a tau-bench retail customer-service agent and 44 runs of Magentic-One, a multi-agent web system. Each run has the failing step, the responsible agent, and a category from a list of 9.</li>
+    <li><a href="https://huggingface.co/datasets/Kevin355/Who_and_When">Who&amp;When</a> (Zhang et al., 2025): 58 runs of Magentic-One and 126 runs of generated multi-agent teams. Each run has the failing step and the responsible agent.</li>
+  </ul>
+  <p>That is 257 runs. The runs are short in the customer-service and generated-team sets, and long in the Magentic-One sets: the longest has approximately 300,000 characters. I did not use MAST, because an LLM judge made the labels of its 1,642 traces, not people.</p>
+
+  <h3>Jev</h3>
+  <p>Jev is a decision model from TypeSafe. A request has a state and a map of typed questions. A <em>choice</em> question returns the chosen option and a probability for each option. A <em>noul</em> question returns the probability of yes. The model reads at most 32,000 tokens per request.</p>
+  <p>I called it through its API, model <code>jev-1.13.0</code>. The list price is $0.042 per million input tokens. Everything in this post cost $0.44.</p>
+  <p>For each run, the state held the task, the policy if any, and the steps as a list of <code>{step, who, content}</code> objects. The step question was a choice over all step ids. The agent question was a choice over the agent names. The category question was a choice over the 9 categories. When a run did not fit, I cut every step to the same maximum length, the largest that fit. This affected 33 of the 257 runs.</p>
+
+  <h3>The comparators</h3>
+  <p><strong>Baselines.</strong> Chance, and &ldquo;always answer the most common step in this dataset&rdquo;, which is a strong baseline when runs are short and failures come early.</p>
+  <p><strong>Published results.</strong> The AgentRx paper (2026) reports GPT-5 and o3 as judges on its runs, and its own method. The Who&amp;When paper (2025) reports GPT-4o with three methods. I quote their numbers with the caveats they need.</p>
+  <p><strong>Claude.</strong> To get a like-for-like competitor, Claude (Fable 5.1) read 130 of the runs in full and answered the same questions, with the same category definitions. It did not see the human labels. It read the runs in batches, several per session.</p>
+
+  <h3>The tuning protocol</h3>
+  <p>I cannot train Jev's weights. I can change how I ask the questions. To keep that honest, I split the 257 runs in half by a hash of the run id. The tuning half has 127 runs and the test half has 130. I tried changes on the tuning half, chose by the mean accuracy across the four datasets, and scored the test half once. All Claude comparisons are on the test half.</p>
+
+  <h2>Experiment</h2>
+  <h3>1. Jev, untuned, on all 257 runs</h3>
+  <p>I wrote each question once and did not change it.</p>
+
+  <table>
+    <thead>
+      <tr><th>dataset</th><th>runs</th><th>step: Jev</th><th>step: most common</th><th>step: chance</th><th>agent: Jev</th><th>category: Jev</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>AgentRx, tau-bench retail</td><td>29</td><td>12 (41%)</td><td>14%</td><td>3%</td><td>&ndash;</td><td>2 (7%)</td></tr>
+      <tr><td>AgentRx, Magentic-One</td><td>44</td><td>8 (18%)</td><td>14%</td><td>5%</td><td>25 (57%)</td><td>12 (27%)</td></tr>
+      <tr><td>Who&amp;When, Magentic-One</td><td>58</td><td>12 (21%)</td><td>17%</td><td>4%</td><td>22 (38%)</td><td>&ndash;</td></tr>
+      <tr><td>Who&amp;When, generated teams</td><td>126</td><td>63 (50%)</td><td>27%</td><td>12%</td><td>77 (61%)</td><td>&ndash;</td></tr>
+    </tbody>
+  </table>
+
+  <p>Four things stand out.</p>
+  <ul class="plain">
+    <li><strong>Short runs go well, long runs do not.</strong> Jev named the right step in 94 of the 224 runs that fit in its window. It named the right step in 1 of the 33 runs that I had to cut.</li>
+    <li><strong>The category does not work.</strong> On the tau-bench runs, Jev matched the human category in 2 of 29. It answered &ldquo;instruction/plan adherence failure&rdquo; for 24 of them. Always answering the most common category would give 28 percent.</li>
+    <li><strong>The agent is mixed.</strong> On the generated teams, with many agents to choose from, Jev reached 61 percent. On Magentic-One it over-blamed the orchestrator, and on the Who&amp;When set it did worse than always naming the most common agent (38 against 57 percent).</li>
+    <li><strong>The confidence is informative.</strong> When Jev gave its step answer a probability of 0.7 or more, it was right in 58 percent of those runs. Below 0.3, in 15 percent.</li>
+  </ul>
+
+  <h3>2. Published results from stronger models</h3>
+  <p>The AgentRx numbers are from 2026: the paper's first version is from February 2026, and I read the version of August 2026. The Who&amp;When numbers are from 2025: the paper is from April 2025, revised in June 2025. I ran Jev (version 1.13.0) in October 2026.</p>
+  <table>
+    <thead>
+      <tr><th>task</th><th>GPT-5 as judge (paper, 2026)</th><th>o3 as judge (paper, 2026)</th><th>AgentRx method, GPT-5 (paper, 2026)</th><th>Jev, untuned (this post, Oct 2026)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>tau-bench: step</td><td>29.9%</td><td>29.1%</td><td>42.7%</td><td>41%</td></tr>
+      <tr><td>tau-bench: category</td><td>30.8%</td><td>32.5%</td><td>47.0%</td><td>7%</td></tr>
+      <tr><td>Magentic-One: step</td><td>32.6%</td><td>&ndash;</td><td>36.4%</td><td>18%</td></tr>
+      <tr><td>Magentic-One: category</td><td>35.6%</td><td>&ndash;</td><td>46.2%</td><td>27%</td></tr>
+      <tr><td>Magentic-One: agent</td><td>&ndash;</td><td>&ndash;</td><td>71.2%</td><td>57%</td></tr>
+    </tbody>
+  </table>
+  <p>The Who&amp;When paper (2025) reports GPT-4o with three methods, without the correct answer. The best method gets 16.6 percent on the step and 51.1 percent on the agent for the generated teams. For Magentic-One it gets 8.8 and 53.4 percent. Jev, untuned, gets 50 and 61 percent on the generated teams, and 21 and 38 percent on Magentic-One.</p>
+  <p>These comparisons are loose, for three reasons. The AgentRx paper's tau-bench set has 39 runs and the public set has 29, so they are not the same runs. The Who&amp;When results are from 2025 and use GPT-4o, an older model than the GPT-5 and o3 in the AgentRx paper. And both datasets are public. It is possible that Jev saw them in training. I cannot check that.</p>
+
+  <h3>3. Tuning</h3>
+  <p>I tried four changes on the tuning half.</p>
+  <ul class="plain">
+    <li><strong>Wording.</strong> Four versions of the step question, with and without a note of who acted at each step. None was reliably better than the first, so the first stayed.</li>
+    <li><strong>Windows.</strong> A scan of long runs in overlapping windows, with an &ldquo;elsewhere&rdquo; option, instead of a cut. On the 22 long runs in the tuning half it found 1 step instead of 0. It did not help.</li>
+    <li><strong>Agent from step.</strong> Instead of asking for the agent, read it off the step that Jev chose. This helped.</li>
+    <li><strong>Category by yes/no.</strong> One noul question per category, with the paper's own definitions, and a correction for each category's average yes-rate on the tuning half. Then take the highest. This helped.</li>
+  </ul>
+  <p>On the 130 held-out runs, the step stayed at 54 correct of 130. The agent went from 59 to 66 correct of 109. The category went from 6 to 13 correct of 42. The tuning cost $0.22. Changing the questions has little left to give.</p>
+
+  <h3>4. Jev against Claude on the held-out runs</h3>
+
+  <figure>
+    <img src="/img/posts/agent-trace-failures-step.png" alt="Grouped bar chart. For each of the four datasets, the share of runs where Jev and where Claude name the same failing step as the human. Claude leads on three datasets; Jev leads slightly on the generated teams." width="1059" height="675">
+    <figcaption>Share of held-out runs where each model names the same step as the human annotator. Jev is tuned as above; Claude reads the full run.</figcaption>
+  </figure>
+
+  <table>
+    <thead>
+      <tr><th>question (130 held-out runs)</th><th>Claude</th><th>Jev, tuned</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>names the human's step</td><td>60 (46%)</td><td>54 (42%)</td></tr>
+      <tr><td>within 1 step of the human's</td><td>71 (55%)</td><td>60 (46%)</td></tr>
+      <tr><td>names the responsible agent (109 runs)</td><td>73 (67%)</td><td>66 (61%)</td></tr>
+      <tr><td>names the human's category (42 runs)</td><td>21 (50%)</td><td>13 (31%)</td></tr>
+      <tr><td>names the step on the 11 long runs</td><td>4</td><td>0</td></tr>
+    </tbody>
+  </table>
+
+  <p>On the step, the two results are almost the same. The difference is 6 runs in 130, which chance can produce at this sample size. Both were right on 43 runs, only Claude on 17, only Jev on 11, and neither on 59. They chose the same step in 64 runs. Claude is clearly better where reading matters: on long runs, on the multi-agent runs, and on the category. On the short generated-team runs, Jev was slightly ahead (56 against 52 percent).</p>
+  <p>Even the frontier model matches the human step in less than half of the runs. Part of that is real error. Part of it is probably disagreement on which step is the decisive one. Each run has one annotation, so I cannot separate the two.</p>
+
+  <figure>
+    <img src="/img/posts/agent-trace-failures-confidence.png" alt="Two bar charts. For Jev and for Claude, the share of correct step answers rises with the confidence the model gave its own answer. Jev goes from 6 percent to 73 percent; Claude from 31 percent to 80 percent." width="1168" height="544">
+    <figcaption>Confidence means something for both. When Jev gave its answer a probability of 0.7 or more, it was right in 30 of 41 runs. Below 0.3, in 1 of 16.</figcaption>
+  </figure>
+
+  <p>Cost and speed are the other difference. Jev scored the 130 runs for approximately $0.05, in less than 1 second each. Claude used approximately 2.5 million tokens, in batches that took minutes.</p>
+
+  <h3>5. A second use: patterns in 159 failed runs of GPT-5</h3>
+  <p>The human-labelled sets measure whether Jev can point at a step. A second question is whether it can detect known failure patterns across many runs. For that I used a set without human labels: the 159 failed runs of GPT-5 on <a href="https://github.com/sierra-research/tau2-bench">tau2-bench</a>, airline and retail. They come from Sierra's own leaderboard run of August 2025: 656 runs, 4 trials per task. In that run, 73 of the 164 tasks had at least one failure.</p>
+
+  <figure>
+    <img src="/img/posts/agent-trace-failures-sample.png" alt="Grid of all 656 runs, one cell per run, four trials per task. The failed runs cluster on some tasks." width="1346" height="424">
+    <figcaption>Every run as one cell. 73 of the 164 tasks account for all 159 failed runs.</figcaption>
+  </figure>
+
+  <p>Claude read the 159 runs first, with a <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/agent-trace-failures/labelling_brief.md">written brief</a>, and labelled each with what went wrong, whose fault it was, and the cheapest fix. I merged its 48 free-text names into 8 patterns. These are model labels in one pass, with no human check.</p>
+  <p>By that reading, 128 of the 159 failed runs were the benchmark's fault, not the agent's. The task expected an action that the policy forbids (49 runs). The simulated customer left its script (39). The script did not specify a detail that the grader checked (14). The expected action contradicted the data (13). The agent's own mistakes were 19 runs, with 12 more shared.</p>
+
+  <figure>
+    <img src="/img/posts/agent-trace-failures-patterns.png" alt="Horizontal bar chart of the eight failure patterns by number of runs, each bar split by whose fault the run was. The three largest patterns are almost entirely the benchmark's fault." width="1508" height="737">
+    <figcaption>The 8 patterns in the 159 runs, by number of runs, as read by Claude. Colour shows whose fault the reader gave for each run.</figcaption>
+  </figure>
+
+  <p>One independent check exists. After this run, Amazon published <a href="https://github.com/amazon-agi/tau2-bench-verified">tau2-bench-verified</a> and Sierra revised its own tasks. Of the 67 runs the reader marked as &ldquo;task definition is wrong&rdquo;, 60 are on a task that one of the two later changed. Of the 19 runs it marked as the agent's fault, 10 are. The reader did not see the corrections.</p>
+  <p>Then Jev scored each run against the 8 patterns, with the policy, the customer's script and the grader's expectation in the state. It chose the same pattern as the reader in 92 of 159 runs (58 percent; the most common pattern alone gives 31 percent). For the largest pattern, a yes/no question found 44 of the 49 runs, with 64 flags in total.</p>
+  <p>When Jev gave its answer a probability of 0.9 or more, it agreed with the reader in 9 of 9 runs. Below 0.5, it agreed in 24 of 63. For the question &ldquo;whose fault&rdquo;, Jev agreed with the reader in 130 of 159 runs. But &ldquo;always answer benchmark&rdquo; would agree in 128. That single verdict adds nothing. This part compares Jev with a model's labels, not with people; it shows the shape of a use, not a measured accuracy.</p>
+
+  <h2>Conclusion</h2>
+  <p>Three of the four expectations held, and one did not.</p>
+  <ul class="plain">
+    <li>Jev finds the failing step far above chance and the most-common-step baseline. On runs that fit in its window, it is approximately level with a frontier model: 54 against 60 correct of 130. I expected a larger gap.</li>
+    <li>Its confidence is informative. The confident third of its answers is right approximately 3 times in 4. The least confident answers are almost always wrong.</li>
+    <li>Long runs and multi-agent runs are its weak point. It found no step in 11 long held-out runs; Claude found 4. Windows did not fix this.</li>
+    <li>It cannot name the kind of failure. After tuning it reaches 31 percent on 42 runs, level with a plain GPT-5 judge in the AgentRx paper and well below that paper's method.</li>
+  </ul>
+  <p>So for this task Jev is a triage tool, not a judge. You run it over every failed run for cents. It says &ldquo;look at step 17&rdquo; with a probability. The confident answers are mostly right, and the rest go to a person or a stronger model. It does not tell you what kind of failure you have, and it does not handle runs longer than its window.</p>
+
+  <h2>Limitations</h2>
+  <p>The human-labelled sets are small. With 21 to 61 runs per dataset on the test half, a few answers move a percentage by several points. Each set has one annotation per run. Both datasets are public, so it is possible that both models saw them in training.</p>
+  <p>The comparison between Jev and Claude is not equal on input. Claude read the full runs. For Jev, I cut the long runs or scanned them in windows. Each model ran once, so there is no measure of run-to-run variation. Claude judged several runs per session, not one fresh call per run.</p>
+  <p>The published numbers come from different run sets, methods and models, and I quote them as context, not as a direct comparison.</p>
+  <p>The tuning was small: four wordings, one window scheme, two structural changes, chosen on 127 runs. A larger tuning set, or a fitted combiner on Jev's probabilities, could move the category result. It cannot move the long-run result, which is a limit of the context window.</p>
+  <p>The 159 tau2-bench runs have model labels, not human labels. The pattern names are mine. A person who reads the same runs would draw some lines elsewhere. The published sheet has a one-line reason and the decisive evidence for each run, so you can check each label against the run.</p>
+  <p>On prior work: the AgentRx and Who&amp;When papers define and measure this task for text-generating models, and taxonomies of agent failures exist (<a href="https://arxiv.org/abs/2503.13657">MAST</a>, <a href="https://arxiv.org/abs/2505.08638">TRAIL</a>). I did not find a test of a decision model on these datasets. My search was limited.</p>
+
+  <h2>Check it yourself</h2>
+  <p>The quickest way is the notebook. <a href="https://colab.research.google.com/github/vlrmzz/ai-claims-experiments/blob/main/agent-trace-failures/agent_trace_failures.ipynb">Open it in Colab</a> and it shows the saved results as tables and charts in your browser. It does not call Jev, so you do not need a key.</p>
+  <p>Jev's answers on the human-labelled runs are in <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/agent-trace-failures/ground_truth_scores.csv">ground_truth_scores.csv</a> (untuned, all 257) and <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/agent-trace-failures/tuned_test_scores.csv">tuned_test_scores.csv</a> (tuned, the 130 held-out). Claude's are in <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/agent-trace-failures/judge_scores.csv">judge_scores.csv</a>. The reference labels for the 159 tau2-bench runs are in <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/agent-trace-failures/reference_labels.csv">reference_labels.csv</a>. The scripts fetch the datasets:</p>
+  <pre><code>python fetch_annotated.py      # 11 MB: AgentRx and Who&amp;When
+python jev_ground_truth.py     # Jev, untuned, on the 257 runs (needs a TypeSafe key)
+python jev_tune.py             # tuning on one half, test on the other
+python judge_score.py          # Claude's answers against the same labels
+python fetch.py                # 27 MB: the tau2-bench traces and task versions
+python jev_score.py            # Jev against the 8 patterns on the 159 runs
+python figures.py              # the four figures</code></pre>
+  <p>The code is in <a href="https://github.com/vlrmzz/ai-claims-experiments/tree/main/agent-trace-failures">the repository on GitHub</a>, with the exact questions in <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/agent-trace-failures/jev_ground_truth.py">jev_ground_truth.py</a> and <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/agent-trace-failures/patterns.json">patterns.json</a>, and the <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/agent-trace-failures/labelling_brief.md">brief</a> that the reader used.</p>
+
+  <h2>Sources</h2>
+  <ul class="plain">
+    <li>The decision model: <a href="https://docs.typesafe.ai/">TypeSafe Jev documentation</a>, including its page on known weak points.</li>
+    <li>Human-labelled failures: <a href="https://arxiv.org/abs/2602.02475">AgentRx (Microsoft, February 2026, revised August 2026)</a>, data at <a href="https://github.com/microsoft/AgentRx">github.com/microsoft/AgentRx</a>; <a href="https://arxiv.org/abs/2505.00212">Who&amp;When (Zhang et al., April 2025, revised June 2025)</a>, data at <a href="https://huggingface.co/datasets/Kevin355/Who_and_When">Hugging Face</a>.</li>
+    <li>The tau2-bench traces: <a href="https://github.com/sierra-research/tau2-bench">sierra-research/tau2-bench</a> and the leaderboard at <a href="https://taubench.com">taubench.com</a>; the corrected tasks at <a href="https://github.com/amazon-agi/tau2-bench-verified">amazon-agi/tau2-bench-verified</a>.</li>
+    <li>Taxonomies: <a href="https://arxiv.org/abs/2503.13657">Cemri et al., MAST (2025)</a>; <a href="https://arxiv.org/abs/2505.08638">Deshpande et al., TRAIL (2025)</a>.</li>
+  </ul>
+
+  <p>Reading a system's failed runs, and building the tools that read them at scale, is usually the first thing I do with a client's agent.</p>
+
+  <p class="back"><a href="/writing/">Back to writing</a></p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span><a class="eml" href="/#contact" data-e="em.mp@gnitlusnoc.ia.rlv">Email me</a></span>
+    <span><a href="https://github.com/vlrmzz">GitHub</a> &nbsp; <a href="https://www.linkedin.com/in/vlrmzzz/">LinkedIn</a> &nbsp; <a href="https://x.com/vlraime">X</a></span>
+  </div>
+</footer>
+</body>
+</html>

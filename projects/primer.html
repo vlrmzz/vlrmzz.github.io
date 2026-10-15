@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" href="/favicon.ico">
+<title>The Primer – Vlr Mzz</title>
+<meta name="description" content="The Primer: an AI tutor that teaches young children reading, writing and arithmetic. The curriculum lives in an engine outside the model.">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-name" href="/">Vlr Mzz</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/work/">Work</a>
+      <a href="/projects/" aria-current="page">Projects</a>
+      <a href="/writing/">Writing</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <h1 class="page-title">The Primer</h1>
+  <p class="lede">An AI tutor that teaches young children reading, writing and arithmetic. I built it as a real platform and not as a demo, because I wanted to know what it takes.</p>
+  <dl class="facts">
+    <dt>Status</dt><dd>Personal project, in development</dd>
+    <dt>Stack</dt><dd>TypeScript, React, Hono, SQLite; Python and Pipecat for live voice</dd>
+    <dt>Methods</dt><dd>Tool-calling agents, real-time voice, vision, spaced repetition</dd>
+  </dl>
+
+  <h2>The problem</h2>
+  <p>A good private tutor does something that a worksheet cannot. The tutor watches the child work, sees the exact thing that confuses them, and changes the next step. Most educational software gives a fixed sequence and marks the answers.</p>
+  <p>A language model can have that kind of conversation. The hard part is everything around it:</p>
+  <ul class="plain">
+    <li>What do you teach next?</li>
+    <li>Has the child learned something, or were they lucky?</li>
+    <li>How do you keep a model that improvises on the curriculum?</li>
+  </ul>
+
+  <h2>What I built</h2>
+  <p>The teaching logic is a core that does no input or output at all. It holds four things:</p>
+  <ul class="plain">
+    <li>a graph of 157 skills for reading, writing and maths, from kindergarten to year 6</li>
+    <li>a model of what the child has mastered</li>
+    <li>a placement for the first session, done as a search over the graph</li>
+    <li>a schedule that brings each skill back at growing intervals</li>
+  </ul>
+  <p>The model leads the conversation. It does not decide the curriculum.</p>
+  <figure>
+    <svg class="diagram" viewBox="0 0 760 290" role="img" aria-label="The child speaks, types or draws. Two voice paths reach one tool runtime, which is the only way to the core engine." xmlns="http://www.w3.org/2000/svg" font-size="13">
+      <defs><marker id="primer-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+      <text x="24" y="30" font-size="15" font-weight="600" fill="var(--ink)">Two ways to talk, one set of teaching rules</text>
+      <g fill="none" stroke="var(--muted)" stroke-width="1.25">
+        <rect x="20" y="118" width="130" height="56" rx="8"/>
+        <path d="M150 136H176V86H200" marker-end="url(#primer-arrow)"/><path d="M150 156H176V206H200" marker-end="url(#primer-arrow)"/>
+        <rect x="202" y="58" width="210" height="56" rx="8"/><rect x="202" y="178" width="210" height="56" rx="8"/>
+        <path d="M412 86H446V136H478" marker-end="url(#primer-arrow)"/><path d="M412 206H446V156H478" marker-end="url(#primer-arrow)"/>
+        <rect x="480" y="118" width="120" height="56" rx="8" fill="var(--soft)"/>
+        <path d="M600 146H628" marker-end="url(#primer-arrow)" marker-start="url(#primer-arrow)"/>
+      </g>
+      <rect x="630" y="100" width="110" height="92" rx="8" fill="var(--accent)" fill-opacity="0.12" stroke="var(--accent)" stroke-width="2"/>
+      <g fill="var(--ink)" text-anchor="middle">
+        <text x="85" y="142" font-weight="600">the child</text><text x="85" y="160" font-size="11.5" fill="var(--muted)">speaks, types, draws</text>
+        <text x="307" y="80" font-weight="600">step by step</text><text x="307" y="98" font-size="11.5" fill="var(--muted)">hear the speech → tutor → speak</text>
+        <text x="307" y="200" font-weight="600">live call</text><text x="307" y="218" font-size="11.5" fill="var(--muted)">the browser calls a realtime model</text>
+        <text x="540" y="142" font-weight="600">tool runtime</text><text x="540" y="160" font-size="11.5" fill="var(--muted)">the same for both</text>
+        <text x="685" y="130" font-weight="600">core engine</text><text x="685" y="148" font-size="11.5" fill="var(--muted)">skills, mastery,</text><text x="685" y="163" font-size="11.5" fill="var(--muted)">placement,</text><text x="685" y="178" font-size="11.5" fill="var(--muted)">schedule</text>
+      </g>
+      <text x="24" y="268" font-size="11.5" fill="var(--muted)">The model can reach the teaching logic only through the tools. The core has no input or output, so it is tested without a model.</text>
+    </svg>
+    <figcaption>Both voice paths use the same tools, so the teaching rules cannot become different between them.</figcaption>
+  </figure>
+  <p>Around the core, these are the parts I found most interesting:</p>
+  <ul class="plain">
+    <li><strong>Two voice paths, one brain.</strong> In the first, each step is separate: the microphone, speech recognition, the tutor, speech synthesis. In the second, the browser holds a live call with a Python agent that runs a realtime model. Both go through the same tool runtime.</li>
+    <li><strong>The tutor can look.</strong> One vision call lets it see what the child drew: traced letters, or working on the scratch paper. The platform checks the verdict before it reaches the session. No drawing is stored, and there is a switch that turns this off.</li>
+    <li><strong>It fails in steps.</strong> Cloud speech falls back to a local voice, then to the voice of the browser. With no API keys at all, a fixed mock tutor still runs the complete platform.</li>
+    <li><strong>You can type everything.</strong> It is made for touch on a tablet, but nothing needs speech or a touchscreen.</li>
+  </ul>
+
+  <h2>What I learned</h2>
+  <ul class="plain">
+    <li><strong>Keep the curriculum out of the model.</strong> A model improvises. With the plan in ordinary code, the model cannot leave the plan.</li>
+    <li><strong>Code with no input or output is code that you can test.</strong> The core is fully unit-tested. The tests need no model, so they are fast and they give the same result each time.</li>
+    <li><strong>One tool runtime for every path.</strong> A second way to talk to the tutor did not need a second copy of the rules.</li>
+    <li><strong>Build the path with no keys.</strong> The mock tutor made every other part testable with no paid service.</li>
+    <li><strong>Check what the model says it saw.</strong> A verdict about a child's drawing goes through a check before the session can use it.</li>
+  </ul>
+
+  <p class="back"><a href="/projects/">Back to projects</a></p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span><a class="eml" href="/#contact" data-e="em.mp@gnitlusnoc.ia.rlv">Email me</a></span>
+    <span><a href="https://github.com/vlrmzz">GitHub</a> &nbsp; <a href="https://www.linkedin.com/in/vlrmzzz/">LinkedIn</a> &nbsp; <a href="https://x.com/vlraime">X</a></span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" href="/favicon.ico">
+<title>Quantifying Sales Uplift With Causal Impact Analysis – Vlr Mzz</title>
+<meta name="description" content="In this project we use Causal Impact Analysis to analyse &amp;amp; understand the sales uplift of customers that joined the new &quot;Delivery Club&quot; campaign!.">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-name" href="/">Vlr Mzz</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/work/">Work</a>
+      <a href="/projects/">Projects</a>
+      <a href="/writing/">Writing</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <h1 class="page-title">Quantifying Sales Uplift With Causal Impact Analysis</h1>
+  <p class="post-meta">23 January 2022 &middot; From the 2021&ndash;22 archive</p>
+  <figure><img src="/img/posts/causal-impact-title-img.png" alt=""></figure>
+<p>In this project we use Causal Impact Analysis to analyse &amp; understand the sales uplift of customers that joined the new "Delivery Club" campaign!.</p>
+<h2>Table of contents</h2>
+<ul>
+<li><a href="#overview-main">00. Project Overview</a><ul>
+<li><a href="#overview-context">Context</a></li>
+<li><a href="#overview-actions">Actions</a></li>
+<li><a href="#overview-results">Results</a></li>
+<li><a href="#overview-growth">Growth/Next Steps</a></li>
+</ul>
+</li>
+<li><a href="#causal-impact-overview">01. Causal Impact Analysis Overview</a></li>
+<li><a href="#causal-impact-data-prep">02. Data Overview &amp; Preparation</a></li>
+<li><a href="#causal-impact-fit">03. Applying Causal Impact Analysis</a></li>
+<li><a href="#causal-impact-results">04. Analysing The Results</a></li>
+<li><a href="#growth-next-steps">05. Growth &amp; Next Steps</a></li>
+</ul>
+<hr />
+<h2>Project Overview  <a id="overview-main"></a></h2>
+<h4>Context <a id="overview-context"></a></h4>
+<p>Earlier in the year, our client, a grocery retailer, ran a campaign to promote their new "Delivery Club" - an initiative that costs a customer $100 per year for membership, but offers free grocery deliveries rather than the normal cost of $10 per delivery.</p>
+<p>They want to understand if customers who did join the club have increased their spend in the three months following.  The hypothesis is that, if customers are not paying for deliveries, they will be tempted to shop more frequently, and hopefully purchase more each time.</p>
+<p>The aim of this work is to understand and quantify the uplift in sales for customers that joined the club, over and above what they <em>would</em> have spent had the club not come into existence!</p>
+<h4>Actions <a id="overview-actions"></a></h4>
+<p>We applied Causal Impact Analysis (see full details below) using the <em>pycausalimpact</em> library.</p>
+<p>In the client database, we have a <em>campaign_data</em> table which shows us which customers received each type of "Delivery Club" mailer, which customers were in the control group, and which customers joined the club as a result.</p>
+<p>Since Delivery Club membership was open to <em>all customers</em> - the control group we have in the <em>campaign_data</em> table would help us measure the impact of <em>contacting</em> customers but here, we are actually look to measure the overall impact on sales from the Delivery Club itself.  Because of this, we instead used customers who did not sign up as the control.  The hypothesis was that customers who did not sign up should continue their normal shopping habits after the club went live, and this will help us create the counter-factual for the customers that did sign-up.</p>
+<p>Sales data was from the <em>transactions</em> table and was aggregated from a customer/transaction/product area level to customer/date level as per the requirements of the algorithm.</p>
+<p>We used a 3 months pre-period for the algorithm to model, 3 months post-period for the counterfactual.</p>
+<h4>Results <a id="overview-results"></a></h4>
+<p>We saw a 41.1% uplift in sales for those customers that joined the Delivery Club, over and above what we believe they would have spent, had the club not been in existence.  This was across the three month post-period, and the uplift was deemed to be significantly significant (@ 95%).</p>
+<h4>Growth/Next Steps <a id="overview-growth"></a></h4>
+<p>It would be interesting to look at this pool of customers (both those who did and did not join the Delivery club) and investigate if there were any differences in sales in these time periods <em>last year</em> - this would help us understand if any of the uplift we are seeing here is actually the result of seasonality.</p>
+<p>It would be interesting to track this uplift over time and see if:</p>
+<ul>
+<li>It continues to grow</li>
+<li>It flattens or returns to normal</li>
+<li>We see any form of uplift pull-forward</li>
+</ul>
+<p>It would also be interesting to analyse what it is that is making up this uplift.  Are customers increasing their spend across the same categories - or are they buying into new categories</p>
+<hr />
+<h2>Causal Impact Analysis Overview  <a id="causal-impact-overview"></a></h2>
+<h5>Context</h5>
+<p>One of the most common tasks we undertake in Data Science &amp; Data Analysis is <em>understanding and quantifying a change in a key business metric after some event has taken place</em>.</p>
+<p>Depending on the industry - this could be the uplift in sales after a promotion or a product release, the additional clicks, conversions, or signups generated by an online ad campaign, the change in share price after a market event, or even the change in the value of the US dollar after the president opens his mouth.</p>
+<p>Whatever the scenario, the task is <em>essentially</em> the same - we want to understand how big this change was.</p>
+<p>But to understand this <em>robustly &amp; reliably</em> we really need to understand what <em>would have happened</em> had the event not taken place.</p>
+<p>In most cases the trends <em>preceding the event in question</em> isn’t tame, it is filled with lumps and bumps and ups and downs.  When some key event does take place, understanding what <em>would have happened had the event not taken place</em> so we can estimate the true impact can be difficult!</p>
+<p>In many cases, the event that we’re analysing is part of a randomised &amp; controlled experiment, and this means understanding the difference between the group that was affected by the event can be compared to a control group, that was purposely held back from the effect of the event.</p>
+<p>But there are a lot of cases where we just can’t run a randomised experiment, either because it’s expensive, or potentially it’s just impossible.  As an example, in the case of measuring the change in a share price after an event, we don’t really have a direct control group to lean on for comparison purposes.</p>
+<p>An approach that works really well in both scenarios, is Causal Impact Analysis.</p>
+<h5>How It Works</h5>
+<p>Causal Impact is a time-series technique, originally developed by Google.</p>
+<p>It estimates what <em>would have happened</em> (known as a "counterfactual") by applying a model to <em>comparable data</em> in a pre-period and projecting this model onto that data in a post-period. The difference between the actual data and the counterfactual in the post-period, is the estimated impact of the event.</p>
+<p>The <em>comparable data</em> that we pass in can be a control group, another set of related data, or even multiple sets of related data - but for this approach to work robustly &amp; reliably, this additional data must must adhere to several rules:</p>
+<p>It must not be affected by the event that we’re measuring, but it must be predictive of our output, or have some relationship with our initial time-series data.</p>
+<p>So, in the case of randomised experiment, we could use the control group as our additional set of data.</p>
+<p>In the case where we don't have a control group, we need to find other sets of data that meet the aforementoined rules. These must not be affected by the event, but they should have some relationship or correlation with the time-series data we’re measuring.  If we were measuring stock prices, perhaps we could use other stocks that are in a similar industry to us.  If we were measuring the sales of a certain section of the grocery store, say health and beauty products, perhaps our second time-series could be the sales of another non-food category in the store.</p>
+<p>Either way, this additional data provides the algorithm insights into the trends of the data over time.</p>
+<p>The algorithm uses these insights to models the relationship between the two (or more) time-series in the pre-period.  In other words, it finds a set of rules that best predict the time-series of interest, based on the movements and fluctuations of the other time-series that we provided it.</p>
+<p>Once the algorithm has modelled this relationship, it then looks to apply the learnings from this model in the post-period, the result of which is an estimation for the counterfactual, or what the model <em>believes would have happened</em> to our time series if our event never took place!</p>
+<p>Once we have this counterfactual, we can proceed to calculate the estimation for the causal effect, or in other words, the effect caused by our event!</p>
+<h5>Application</h5>
+<p>Here we will utilise a Python package called <strong>pycausalimpact</strong> to apply this algorithm to our data.  This will model the relationships, and provide very useful plots and summarises to help us understand the results.</p>
+<hr />
+<h2>Data Overview &amp; Preparation  <a id="causal-impact-data-prep"></a></h2>
+<p>In the client database, we have a <em>campaign_data</em> table which shows us which customers received each type of "Delivery Club" mailer, which customers were in the control group, and which customers joined the club as a result.</p>
+<p>Since Delivery Club membership was open to <em>all customers</em> - the control group we have in the <em>campaign_data</em> table would help us measure the impact of <em>contacting</em> customers but here, we are actually look to measure the overall impact on sales from the Delivery Club itself.  Because of this, we will instead just use customers who did not sign up as the control.  The customers who did not sign up should continue their normal shopping habits after the club went live, and this will help us create the counter-factual for the customers that did sign-up.</p>
+<p>In the code below, we:</p>
+<ul>
+<li>Load in the Python libraries we require</li>
+<li>Import the required data from the <em>transactions</em> and <em>campaign_data</em> tables (3 months prior, 3 months post campaign)</li>
+<li>Aggregate the transactions table from customer/transaction/product area level to customer/date level</li>
+<li>Merge on the signup flag from the <em>campaign_data</em> table</li>
+<li>Pivot &amp; aggregate to give us aggregated daily sales by signed-up/did not sign-up groups</li>
+<li>Manoeuvre the data specifically for the pycausalimpact algorithm</li>
+<li>Give our groups some meaningful names, to help with interpretation</li>
+</ul>
+<pre><code class="language-python">
+## install the required python libraries
+from causalimpact import CausalImpact
+import pandas as pd
+
+## import data tables
+transactions = ...
+campaign_data = ...
+
+## aggregate transaction data to customer, date level
+customer_daily_sales = transactions.groupby([&quot;customer_id&quot;, &quot;transaction_date&quot;])[&quot;sales_cost&quot;].sum().reset_index()
+
+## merge on the signup flag
+customer_daily_sales = pd.merge(customer_daily_sales, campaign_data, how = &quot;inner&quot;, on = &quot;customer_id&quot;)
+
+## pivot the data to aggregate daily sales by signup group
+causal_impact_df = customer_daily_sales.pivot_table(index = &quot;transaction_date&quot;,
+                                                    columns = &quot;signup_flag&quot;,
+                                                    values = &quot;sales_cost&quot;,
+                                                    aggfunc = &quot;mean&quot;)
+
+## provide a frequency for our DateTimeIndex (avoids a warning message)
+causal_impact_df.index.freq = &quot;D&quot;
+
+## ensure the impacted group is in the first column (the library expects this)
+causal_impact_df = causal_impact_df[[1,0]]
+
+## rename columns to something lear &amp; meaningful
+causal_impact_df.columns = [&quot;member&quot;, &quot;non_member&quot;]
+
+</code></pre>
+<p>A sample of this data (the first 5 days of data) can be seen below:</p>
+<table>
+<thead>
+<tr>
+<th><strong>transaction_date</strong></th>
+<th><strong>member</strong></th>
+<th><strong>non_member</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01/04/2020</td>
+<td>194.49</td>
+<td>74.46</td>
+</tr>
+<tr>
+<td>02/04/2020</td>
+<td>185.16</td>
+<td>75.56</td>
+</tr>
+<tr>
+<td>03/04/2020</td>
+<td>118.12</td>
+<td>74.39</td>
+</tr>
+<tr>
+<td>04/04/2020</td>
+<td>198.53</td>
+<td>63.00</td>
+</tr>
+<tr>
+<td>05/04/2020</td>
+<td>145.46</td>
+<td>72.44</td>
+</tr>
+</tbody>
+</table>
+<p>In the DataFrame we have the transaction data, and then a column showing the average daily sales for those who signed up (member) and those who did not (non_member).  This is the required format for applying the algorithm.</p>
+<hr />
+<h2>Applying The Causal Impact Algorithm <a id="causal-impact-fit"></a></h2>
+<p>In the code below, we specify the start and end dates of the "pre-period" and the start and end dates of the "post-period". We then apply the algorithm by passing in the DataFrame and the specified pre and post period time windows.</p>
+<p>The algorithm will model the relationship between members &amp; non-members in the pre-period - and it will use this to create the counterfactual, in other words what it believes would happen to the average daily spend for members in the post-period if no event was to have taken place!</p>
+<p>The difference between this counterfactual and the actual data in the post-period will be our "causal impact"</p>
+<pre><code class="language-python">
+## specify the pre &amp; post periods
+pre_period = [&quot;2020-04-01&quot;,&quot;2020-06-30&quot;]
+post_period = [&quot;2020-07-01&quot;,&quot;2020-09-30&quot;]
+
+## apply the algorithm
+ci = CausalImpact(causal_impact_df, pre_period, post_period)
+
+</code></pre>
+<p>We can use the created object (called ci above) to examine &amp; plot the results.</p>
+<hr />
+<h2>Analysing The Results <a id="causal-impact-results"></a></h2>
+<h5>Plotting The Results</h5>
+<p>The <em>pycausalimpact</em> library makes plotting the results extremely easy - all done with the single line of code below:</p>
+<pre><code class="language-python">
+## plot the results
+ci.plot()
+
+</code></pre>
+<p>The resulting plot(s) can be seen below.</p>
+<p><img alt="alt text" src="/img/posts/causal-impact-results-plot.png" title="Causal Impact Results Plot" /></p>
+<p>To explain what we have in the above image...</p>
+<p>The vertical dotted line down the middle of each plot is the date that the Delivery Club membership started.  Everything to the left of this dotted line is the pre-period, and everything to the right of the dotted line is the post-period.</p>
+<p><strong>Chart 1:  Actual vs. Counterfactual</strong></p>
+<p>The top chart shows the actual data for the impacted group as a black line, in other words the <em>actual</em> average daily sales for customers who did go on to sign up to the Delivery Club.  You can also see the counterfactual, which is shown with the blue dotted line.  The purple area around the blue dotted line represent the confidence intervals around the counterfactual - in other words, the range in which the algorithm believes the prediction should fall in.  A wider confidence interval suggests that the model is less sure about it's counterfactual prediction - and this is all taken into account when we look to quantify the actual uplift.</p>
+<p>Just eyeing this first chart, it does indeed look like there is some increase in daily average spend for customers who joined the club, over-and-above what the model suggests they would have done, if the club was never in existence.  We will look at the actual numbers for this very soon.</p>
+<p><strong>Chart 2:  Pointwise Effects</strong></p>
+<p>This second chart shows us, for each day (or data point in general) in our time-series, the <em>raw differences</em> between the actual values and the values for the counterfactual.  It is plotting the <em>differences</em> from Chart 1.  As an example, if on Day 1 the actual and the counterfactual were the same, this chart would show a value of 0.  If the actual is higher than the counterfactual then we would see a positive value on this chart, and vice versa.  It is essentially showing how far above or below the counterfactual, the actual values are.</p>
+<p>What is interesting here is that for the pre-period we see a difference surrounding zero, but in the post period we see mostly positive values mirroring what we saw in Chart 1 where the actual average spend was greater than the counterfactual.</p>
+<p><strong>Chart 3:  Cumulative Effects</strong></p>
+<p>The bottom chart shows the cumulative uplift over time.  In other words this chart is effectively adding up the Pointwise contributions from the second chart over time.  This is very useful as it helps the viewer get a feel for what the total uplift or difference is at any point in time.</p>
+<p>As we would expect based on the other two charts, there does appear to be a cumulative uplift over time.</p>
+<h5>Interpreting The Numbers</h5>
+<p>The <em>pycausalimpact</em> library also makes interpreting the numbers very easy.  We can get a clean results summary with the following line of code:</p>
+<pre><code class="language-python">
+## results summary
+print(ci.summary())
+
+Posterior Inference {Causal Impact}
+                          Average            Cumulative
+Actual                    171.33             15762.67
+Prediction (s.d.)         121.42 (4.33)      11170.19 (398.51)
+95% CI                    [112.79, 129.77]   [10376.65, 11938.77]
+
+Absolute effect (s.d.)    49.92 (4.33)       4592.48 (398.51)
+95% CI                    [41.56, 58.54]     [3823.9, 5386.02]
+
+Relative effect (s.d.)    41.11% (3.57%)     41.11% (3.57%)
+95% CI                    [34.23%, 48.22%]   [34.23%, 48.22%]
+
+Posterior tail-area probability p: 0.0
+Posterior prob. of a causal effect: 100.0%
+
+</code></pre>
+<p>At the top of the results summary (above) we see that in the post-period the average actual daily sales per customer over the post-period was $171, higher than that of the counterfactual, which was $121.  This counterfactual prediction had 95% confidence intervals of $113 and $130.</p>
+<p>Below that we can see the <em>absolute effect</em> which is the difference between actual and counterfactual (so the difference between $171 and $121) - and this figure is essentially showing us the average daily <em>uplift</em> in sales over the post-period.  We also get the confidence intervals surrounding that effect, and since these do not pass through zero, we can confidently say that there <em>was</em> an uplift driven by the Delivery Club.</p>
+<p>Below that, we get these same numbers - as percentages.</p>
+<p>In the columns on the right of the summary, we see the <em>cumulative</em> values for these across the entire post-period, rather than the average per day.</p>
+<p>What is amazing about the <em>pycausalimpact</em> library is that, with an extra parameter, we can actually get all of this information provided as a written output.</p>
+<p>If we put:</p>
+<pre><code class="language-python">
+## results summary - report
+print(ci.summary(output = &quot;report&quot;))
+
+Analysis report {CausalImpact}
+
+During the post-intervention period, the response variable had an average value of approx. 171.33. By contrast, in the absence of an intervention, we would have expected an average response of 121.42.
+
+The 95% interval of this counterfactual prediction is [112.79, 129.77].
+
+Subtracting this prediction from the observed response yields an estimate of the causal effect the intervention had on the response variable. This effect is 49.92 with a 95% interval of [41.56, 58.54]. For a discussion of the significance of this effect, see below.
+
+Summing up the individual data points during the post-intervention period (which can only sometimes be meaningfully interpreted), the response variable had an overall value of 15762.67. By contrast, had the intervention not taken place, we would have expected a sum of 11170.19. The 95% interval of this prediction is [10376.65, 11938.77].
+
+The above results are given in terms of absolute numbers. In relative terms, the response variable showed an increase of +41.11%. The 95% interval of this percentage is [34.23%, 48.22%].
+
+This means that the positive effect observed during the intervention period is statistically significant and unlikely to be due to random fluctuations. It should be noted, however, that the question of whether this increase also bears substantive significance can only be answered by comparing the absolute effect (49.92) to the original goal
+of the underlying intervention.
+
+The probability of obtaining this effect by chance is very small (Bayesian one-sided tail-area probability p = 0.0). This means the causal effect can be considered statistically
+significant.
+
+</code></pre>
+<p>So, this is the same information as we saw above, but put into a written report which can go straight to the client.</p>
+<p>The high level story of this that, yes, we did see an uplift in sales for those customers that joined the Delivery Club, over and above what we believe they would have spent, had the club not been in existence.  This uplift was deemed to be significantly significant (@ 95%)</p>
+<hr />
+<h2>Growth &amp; Next Steps <a id="growth-next-steps"></a></h2>
+<p>It would be interesting to look at this pool of customers (both those who did and did not join the Delivery club) and investigate if there were any differences in sales in these time periods <em>last year</em> - this would help us understand if any of the uplift we are seeing here is actually the result of seasonality.</p>
+<p>It would be interesting to track this uplift over time and see if:</p>
+<ul>
+<li>It continues to grow</li>
+<li>It flattens or returns to normal</li>
+<li>We see any form of uplift pull-forward</li>
+</ul>
+<p>It would also be interesting to analyse what it is that is making up this uplift.  Are customers increasing their spend across the same categories - or are they buying into new categories</p>
+
+  <p class="back"><a href="/archive/">Back to the archive</a></p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span><a class="eml" href="/#contact" data-e="em.mp@gnitlusnoc.ia.rlv">Email me</a></span>
+    <span><a href="https://github.com/vlrmzz">GitHub</a> &nbsp; <a href="https://www.linkedin.com/in/vlrmzzz/">LinkedIn</a> &nbsp; <a href="https://x.com/vlraime">X</a></span>
+  </div>
+</footer>
+</body>
+</html>

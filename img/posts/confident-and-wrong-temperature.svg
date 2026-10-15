@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 296" width="1280" height="592" role="img" aria-label="The same five logits through a softmax at temperatures 0.5, 1 and 2. The top option&#x27;s probability is 0.78, 0.52 and 0.35, and the order of the options never changes.">
+<title>The same five logits through a softmax at temperatures 0.5, 1 and 2. The top option&#x27;s probability is 0.78, 0.52 and 0.35, and the order of the options never changes.</title>
+<style>
+svg { --paper:#FBFAF7; --panel:#FFFFFF; --soft:#F2F1EC; --ink:#1A1C1A; --muted:#6B7069;
+      --grid:#E4E2DA; --axis:#C9C6BB; --border:#D8D5CB; --accent:#1F5C46; --on-accent:#FFFFFF;
+      --s1:#2E8B68; --s2:#C9622A; --s3:#3A6BC4; --context:#A3A89F; }
+@media (prefers-color-scheme: dark) {
+  svg { --paper:#131614; --panel:#181C19; --soft:#1B1F1C; --ink:#E9E8E2; --muted:#969C93;
+        --grid:#272B27; --axis:#3D433D; --border:#343A35; --accent:#7FC8A3; --on-accent:#131614;
+        --s1:#3FA27A; --s2:#D9703A; --s3:#5B8DEF; --context:#5F665F; }
+}
+text { font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+.mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+</style>
+<rect x="0.0" y="0.0" width="640.0" height="296.0" style="fill:var(--paper)"/>
+<text x="16.0" y="28.0" font-size="14" font-weight="600" text-anchor="start" style="fill:var(--ink)">Temperature changes how sure the model sounds, not what it picks</text>
+<text x="50.0" y="64.0" font-size="13" font-weight="600" text-anchor="start" style="fill:var(--ink)">T = 0.5</text>
+<text x="50.0" y="81.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">sounds more sure</text>
+<line x1="50.0" y1="94.0" x2="214.0" y2="94.0" style="stroke:var(--grid);stroke-width:1"/>
+<text x="42.0" y="98.0" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">1.0</text>
+<line x1="50.0" y1="131.5" x2="214.0" y2="131.5" style="stroke:var(--grid);stroke-width:1"/>
+<text x="42.0" y="135.5" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)"></text>
+<line x1="50.0" y1="169.0" x2="214.0" y2="169.0" style="stroke:var(--grid);stroke-width:1"/>
+<text x="42.0" y="173.0" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">0.5</text>
+<line x1="50.0" y1="206.5" x2="214.0" y2="206.5" style="stroke:var(--grid);stroke-width:1"/>
+<text x="42.0" y="210.5" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)"></text>
+<line x1="50.0" y1="244.0" x2="214.0" y2="244.0" style="stroke:var(--axis);stroke-width:1"/>
+<text x="42.0" y="248.0" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">0</text>
+<path d="M56.4,244.0 L56.4,131.0 Q56.4,127.5 59.9,127.5 L72.9,127.5 Q76.4,127.5 76.4,131.0 L76.4,244.0 Z" style="fill:var(--s1)"/>
+<text x="66.4" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">A</text>
+<text x="66.4" y="120.5" font-size="12.5" font-weight="600" text-anchor="middle" style="fill:var(--ink)">0.78</text>
+<path d="M89.2,244.0 L89.2,224.0 Q89.2,220.5 92.7,220.5 L105.7,220.5 Q109.2,220.5 109.2,224.0 L109.2,244.0 Z" style="fill:var(--context)"/>
+<text x="99.2" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">B</text>
+<path d="M122.0,244.0 L122.0,240.4 Q122.0,236.9 125.5,236.9 L138.5,236.9 Q142.0,236.9 142.0,240.4 L142.0,244.0 Z" style="fill:var(--context)"/>
+<text x="132.0" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">C</text>
+<path d="M154.8,244.0 L154.8,244.0 Q154.8,241.9 156.9,241.9 L172.7,241.9 Q174.8,241.9 174.8,244.0 L174.8,244.0 Z" style="fill:var(--context)"/>
+<text x="164.8" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">D</text>
+<path d="M187.6,244.0 L187.6,244.0 Q187.6,243.2 188.4,243.2 L206.8,243.2 Q207.6,243.2 207.6,244.0 L207.6,244.0 Z" style="fill:var(--context)"/>
+<text x="197.6" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">E</text>
+<text x="252.0" y="64.0" font-size="13" font-weight="600" text-anchor="start" style="fill:var(--ink)">T = 1</text>
+<text x="252.0" y="81.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">unchanged</text>
+<line x1="252.0" y1="94.0" x2="416.0" y2="94.0" style="stroke:var(--grid);stroke-width:1"/>
+<line x1="252.0" y1="131.5" x2="416.0" y2="131.5" style="stroke:var(--grid);stroke-width:1"/>
+<line x1="252.0" y1="169.0" x2="416.0" y2="169.0" style="stroke:var(--grid);stroke-width:1"/>
+<line x1="252.0" y1="206.5" x2="416.0" y2="206.5" style="stroke:var(--grid);stroke-width:1"/>
+<line x1="252.0" y1="244.0" x2="416.0" y2="244.0" style="stroke:var(--axis);stroke-width:1"/>
+<path d="M258.4,244.0 L258.4,169.1 Q258.4,165.6 261.9,165.6 L274.9,165.6 Q278.4,165.6 278.4,169.1 L278.4,244.0 Z" style="fill:var(--s1)"/>
+<text x="268.4" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">A</text>
+<text x="268.4" y="158.6" font-size="12.5" font-weight="600" text-anchor="middle" style="fill:var(--ink)">0.52</text>
+<path d="M291.2,244.0 L291.2,212.3 Q291.2,208.8 294.7,208.8 L307.7,208.8 Q311.2,208.8 311.2,212.3 L311.2,244.0 Z" style="fill:var(--context)"/>
+<text x="301.2" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">B</text>
+<path d="M324.0,244.0 L324.0,228.2 Q324.0,224.7 327.5,224.7 L340.5,224.7 Q344.0,224.7 344.0,228.2 L344.0,244.0 Z" style="fill:var(--context)"/>
+<text x="334.0" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">C</text>
+<path d="M356.8,244.0 L356.8,236.9 Q356.8,233.4 360.3,233.4 L373.3,233.4 Q376.8,233.4 376.8,236.9 L376.8,244.0 Z" style="fill:var(--context)"/>
+<text x="366.8" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">D</text>
+<path d="M389.6,244.0 L389.6,241.1 Q389.6,237.6 393.1,237.6 L406.1,237.6 Q409.6,237.6 409.6,241.1 L409.6,244.0 Z" style="fill:var(--context)"/>
+<text x="399.6" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">E</text>
+<text x="454.0" y="64.0" font-size="13" font-weight="600" text-anchor="start" style="fill:var(--ink)">T = 2</text>
+<text x="454.0" y="81.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">sounds less sure</text>
+<line x1="454.0" y1="94.0" x2="618.0" y2="94.0" style="stroke:var(--grid);stroke-width:1"/>
+<line x1="454.0" y1="131.5" x2="618.0" y2="131.5" style="stroke:var(--grid);stroke-width:1"/>
+<line x1="454.0" y1="169.0" x2="618.0" y2="169.0" style="stroke:var(--grid);stroke-width:1"/>
+<line x1="454.0" y1="206.5" x2="618.0" y2="206.5" style="stroke:var(--grid);stroke-width:1"/>
+<line x1="454.0" y1="244.0" x2="618.0" y2="244.0" style="stroke:var(--axis);stroke-width:1"/>
+<path d="M460.4,244.0 L460.4,194.3 Q460.4,190.8 463.9,190.8 L476.9,190.8 Q480.4,190.8 480.4,194.3 L480.4,244.0 Z" style="fill:var(--s1)"/>
+<text x="470.4" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">A</text>
+<text x="470.4" y="183.8" font-size="12.5" font-weight="600" text-anchor="middle" style="fill:var(--ink)">0.35</text>
+<path d="M493.2,244.0 L493.2,211.9 Q493.2,208.4 496.7,208.4 L509.7,208.4 Q513.2,208.4 513.2,211.9 L513.2,244.0 Z" style="fill:var(--context)"/>
+<text x="503.2" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">B</text>
+<path d="M526.0,244.0 L526.0,221.1 Q526.0,217.6 529.5,217.6 L542.5,217.6 Q546.0,217.6 546.0,221.1 L546.0,244.0 Z" style="fill:var(--context)"/>
+<text x="536.0" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">C</text>
+<path d="M558.8,244.0 L558.8,227.9 Q558.8,224.4 562.3,224.4 L575.3,224.4 Q578.8,224.4 578.8,227.9 L578.8,244.0 Z" style="fill:var(--context)"/>
+<text x="568.8" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">D</text>
+<path d="M591.6,244.0 L591.6,232.3 Q591.6,228.8 595.1,228.8 L608.1,228.8 Q611.6,228.8 611.6,232.3 L611.6,244.0 Z" style="fill:var(--context)"/>
+<text x="601.6" y="261.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">E</text>
+<text x="132.0" y="282.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">option</text>
+<text x="18.0" y="169.0" font-size="12" font-weight="400" text-anchor="middle" transform="rotate(-90 18.0 169.0)" style="fill:var(--muted)">probability</text>
+</svg>

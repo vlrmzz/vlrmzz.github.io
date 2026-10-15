@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" href="/favicon.ico">
+<title>Is visual data really richer than text? – Vlr Mzz</title>
+<meta name="description" content="A toy world where a picture and a list of symbols carry exactly the same information. The picture model learns better, until you remove its convolution.">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-name" href="/">Vlr Mzz</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/work/">Work</a>
+      <a href="/projects/">Projects</a>
+      <a href="/writing/" aria-current="page">Writing</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <h1 class="page-title">Is visual data really richer than text?</h1>
+  <p class="post-meta">18 August 2026 &middot; Pixels against tokens in a toy projectile world</p>
+  <p class="post-meta"><a href="https://colab.research.google.com/github/vlrmzz/ai-claims-experiments/blob/main/pixels-vs-tokens/pixels_vs_tokens.ipynb">Run it in Colab</a> &middot; <a href="https://github.com/vlrmzz/ai-claims-experiments/tree/main/pixels-vs-tokens">Code on GitHub</a></p>
+
+  <p class="lede">I built a toy world in which a picture of a flying ball and a list of numbers that describe it carry <em>exactly the same</em> information. Then I trained models of the same size to predict where the ball goes next. The model that saw pictures beat the model that read symbols. Both lost to the model that read plain numbers. Then I removed the convolution from the picture model, and its advantage was gone. That last result is the real answer.</p>
+
+  <h2>The claim</h2>
+  <p>The argument is usually made with numbers. Yann LeCun states it most clearly.</p>
+  <p>Language is low bandwidth. A person reads about 4.5 words each second. At about two bytes for each token, that is <a href="https://x.com/ylecun/status/1766498677751787723">less than 12 bytes each second</a>. Vision is different. Two optic nerves have about a million fibres each, and each fibre carries about 10 bytes each second. A four-year-old who was awake for 16,000 hours took in about 10<sup>15</sup> bytes. A large language model trained on 10<sup>13</sup> tokens saw about 2&nbsp;&times;&nbsp;10<sup>13</sup> bytes. So <a href="https://x.com/ylecun/status/1750614681209983231">in four years a child sees fifty times more data</a> than the largest model trained on all the text of the internet.</p>
+  <p>The conclusion from this is strong. Text alone cannot lead to human-level machine intelligence, because text does not carry enough. If you want a system that understands how the world behaves, you must let it watch the world.</p>
+  <p>Be careful about what the argument says. LeCun does not say that bytes are information. He has <a href="https://www.linkedin.com/posts/yann-lecun_ive-made-that-point-before-llm-1e13-activity-7156484065603280896-QH63">said explicitly</a> that the visual signal is <em>more</em> redundant than text, and that self-supervised learning needs this redundancy to work.</p>
+  <p>So the claim that I test is not &ldquo;video has more bytes, so video is better&rdquo;. The claim is this: the <em>form</em> of high-bandwidth sensory data lets a model discover structure, and a compact symbolic encoding does not.</p>
+
+  <h2>Hypothesis</h2>
+  <p>With real data, you cannot test this cleanly. Vision and text never describe the same thing. A video of a falling ball and the sentence &ldquo;a ball fell&rdquo; differ in content, not only in format. Any comparison mixes the representation with the thing it represents.</p>
+  <p>So build a world where they cannot differ. Suppose that the numbers fully decide the image, and the image fully decides the numbers. Then the two representations carry the same information by construction. In that world:</p>
+  <ul class="plain">
+    <li>If the advantage of pixels comes from information, it must disappear. Neither model can see anything that the other cannot.</li>
+    <li>If the picture model still wins, the advantage comes from something else: the shape of the representation, or what the architecture that reads it assumes.</li>
+  </ul>
+  <p>The second result is the one that happened. But it came with a surprise.</p>
+
+  <h2>Setup</h2>
+  <p>The world is a grid of 32&nbsp;&times;&nbsp;32 pixels. A ball is launched from a random position near the bottom left, with a random speed, angle and gravity. It follows a parabola. I only keep launches for which the complete flight stays in the frame, so nothing is cut off.</p>
+  <p>At each step, the position of the ball is rounded to the nearest pixel. This rounding makes the comparison exact. The frame shows a small disc with its centre on that pixel. The disc is drawn from the two integers <code>(col, row)</code> and from nothing else. So the image contains exactly the information in those two integers: no detail below a pixel, no shading, no blur.</p>
+
+  <figure>
+    <img src="/img/posts/pixels-vs-tokens-representations.png" alt="The same flight shown as five frames and as five pairs of integers" width="1546" height="541">
+    <figcaption>The same flight in two forms: four frames that the model sees, and the target. The picture model sees the images. The token model reads the integers below them.</figcaption>
+  </figure>
+
+  <p><strong>The task.</strong> The model sees 4 steps. It must predict the position 4 steps after the last one. Four observations are enough to fix the flight, so this is not a guessing game. The question is whether a model can find the curve, and how much data it needs.</p>
+  <p><strong>The models.</strong> Three models predict the same target with the same loss. They have the same number of parameters to within 0.2&nbsp;% (about 147,000 each), and they train for the same 2,500 steps:</p>
+  <ul class="plain">
+    <li><strong>pixels</strong>: a small convolutional network that reads the four frames. A convolutional network is made for images. It assumes that pixels near each other belong together.</li>
+    <li><strong>tokens</strong>: the same positions as <em>symbols with no meaning</em>. Each column and each row has its own entry in a table. Nothing tells the model that 12 is next to 13. It must discover the order, as the picture model must.</li>
+    <li><strong>numeric</strong>: the same positions as ordinary numbers. Here the model gets the order for free.</li>
+  </ul>
+  <p>The first two are the fair comparison: neither is told the geometry. The third is a control, and it became the most important one. If &ldquo;text&rdquo; means <em>symbols whose meaning you must learn</em>, that is <code>tokens</code>. If it means <em>numbers whose order already means something</em>, that is <code>numeric</code>. The original question puts the two together, and that is where it goes wrong.</p>
+  <p>I chose the learning rate for each model with a pilot on validation data only. Each number below is the test error on 4,000 flights that the model did not see, as an average of 3 seeds. The unit is pixels, so the number means something physical.</p>
+
+  <h2>Experiment</h2>
+  <p>The table shows the test error in pixels, with one standard deviation. Lower is better. The fourth column is a control that I explain below: the same frames, read by a plain network with no convolution.</p>
+  <table>
+    <thead>
+      <tr><th>training flights</th><th>numeric</th><th>pixels, with convolution</th><th>pixels, no convolution</th><th>tokens</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>125</td><td><strong>2.25 ± 0.12</strong></td><td>3.27 ± 0.20</td><td>4.19 ± 0.11</td><td>4.74 ± 0.12</td></tr>
+      <tr><td>250</td><td><strong>2.10 ± 0.01</strong></td><td>2.98 ± 0.03</td><td>3.46 ± 0.15</td><td>3.60 ± 0.11</td></tr>
+      <tr><td>500</td><td><strong>2.06 ± 0.01</strong></td><td>2.48 ± 0.06</td><td>3.07 ± 0.16</td><td>3.10 ± 0.10</td></tr>
+      <tr><td>1000</td><td><strong>2.02 ± 0.01</strong></td><td>2.35 ± 0.05</td><td>2.71 ± 0.06</td><td>2.78 ± 0.09</td></tr>
+      <tr><td>2000</td><td><strong>2.00 ± 0.00</strong></td><td>2.23 ± 0.03</td><td>2.41 ± 0.03</td><td>2.54 ± 0.00</td></tr>
+      <tr><td>4000</td><td><strong>1.99 ± 0.01</strong></td><td>2.14 ± 0.01</td><td>2.25 ± 0.02</td><td>2.33 ± 0.02</td></tr>
+    </tbody>
+  </table>
+
+  <figure>
+    <img src="/img/posts/pixels-vs-tokens-curves.png" alt="Test error against the number of training flights for the four models" width="1265" height="841">
+    <figcaption>Each model sees the same information. The dashed line is the control: the same pixels with no convolution. It falls back to the token model, with 5.7 times the parameters.</figcaption>
+  </figure>
+
+  <p>The table says three things.</p>
+  <p><strong>Pixels beat tokens at every size.</strong> With 125 flights the difference is 1.47 pixels, a third of the error. So the intuition behind the claim is not empty. With the same information, an image helped more than symbols whose order the model must discover.</p>
+  <p><strong>Numbers beat pixels at every size, and much sooner.</strong> The numeric model is at 2.25 pixels with 125 flights. The picture model does not reach that with 2,000. The numeric model stops at about 2.0 pixels after 250 flights and does not improve. I take this as the floor of the task: each position is rounded to a whole pixel, and the rounding removes information that no model can get back. The numeric model reaches the floor with a twentieth of the data. The other two never reach it.</p>
+  <p><strong>The advantage of pixels over tokens does not fade.</strong> In pixels, the difference gets smaller with more data: 1.47, 0.62, 0.62, 0.43, 0.31, 0.19. At first I read this as an advantage that fades. That reading is wrong. Both curves approach the same floor, so the difference must get smaller, whatever the cause. Now measure the error above the floor. The token model has 2.14, 1.63, 2.25, 2.20, 2.30 and 2.18 times the error of the picture model: a constant factor of about 2.2 at every size. Two curves that approach a ceiling always get closer. That is not evidence of anything, and I should not have reported it as evidence.</p>
+
+  <h3>The controls</h3>
+  <p>Three objections need an answer before the conclusion.</p>
+  <p><strong>Did the cheap models train too little?</strong> One run of the picture model takes 195 seconds. One run of each of the other two takes 7 seconds. With the same number of steps, the picture model gets about 26 times the compute. So I trained the token and numeric models again with <strong>four times the steps</strong>, on 4,000 flights. Nothing changed: tokens went from 2.33 to 2.36 pixels, and numeric from 1.99 to 2.00. Both had finished learning. The picture model uses 26 times the compute and comes second.</p>
+  <p><strong>Is the task trivial?</strong> No. Fit a curve through the four rounded observations and extend it. That is the exact physics, applied without care, and it gives an error of 6.03 pixels. Every trained model is much better. The rounding makes the simple extension unstable, and the models learn which launches are probable to correct for it. They learn real structure.</p>
+  <p><strong>Is &ldquo;pixels beat tokens&rdquo; a fact about pixels at all?</strong> This is the important one, and I almost did not run it. A different architecture reads each representation. The picture model is a convolutional network. The other two are plain networks. So the result could be a fact about convolutions.</p>
+  <p>The test is to give the <em>same frames</em> to a plain network, with no knowledge of space in its architecture. To give it every chance, I kept the width of the other plain networks, which makes it much larger: 841,678 parameters against about 147,000. It still lost. And it lost <em>to almost exactly the level of the token model</em>: 3.07 against 3.10 pixels with 500 flights, and 2.25 against 2.33 with 4,000.</p>
+  <p>That is the complete result in one line. Remove the convolution, and pixels are worth almost nothing more than symbols with no meaning, with 5.7 times the parameters.</p>
+
+  <h2>Conclusion</h2>
+  <p>The claim was that high-bandwidth sensory data lets a model discover structure, and a compact symbolic encoding does not. In a world where the two carry the same information, the most compact encoding won, with a twentieth of the data.</p>
+  <p>The control gives the sharper finding. Pixels beat tokens by a factor of about 2.2 in error above the floor, at every training size. All of that advantage disappears when the convolution is removed. The images are the same and the information is the same. With no architecture made for space, the result falls back to the token model.</p>
+  <p>So the advantage was never in the pixels. It was in the fit between the representation and the thing that reads it. The three representations differ in one respect: how much of the order of positions they make available, and to what.</p>
+  <ul class="plain">
+    <li><strong>numeric</strong> states the order directly. 12 and 13 are neighbours, and 14 is twice as far, because that is what numbers mean. Any network can use it at once.</li>
+    <li><strong>pixels</strong> encode the order in space. Positions 12 and 13 give almost the same image. That is only useful to an architecture that is made to use local structure. To a convolution it is a large head start. To a plain network it is nothing.</li>
+    <li><strong>tokens</strong> hide the order completely. Two neighbouring positions are two unrelated rows in a table. The model must spend data to discover the number line before it can do any physics.</li>
+  </ul>
+  <p>This makes &ldquo;are pixels richer than text?&rdquo; the wrong question. Richness is not a property of a representation alone. It is a property of a representation <em>together with</em> the machinery that reads it. The same frames are worth a factor of two or nothing, and the reader decides which.</p>
+  <p>The argument from byte counts does not survive this. It predicts that the richest representation wins. Here the leanest one won, and the fit to the architecture decided the order of the others, not the volume. The argument from redundancy does better. An image is a redundant encoding, and its redundancy carries the geometry. But the control shows that redundancy is only useful when something is built to use its particular shape. That is a real claim about what architectures assume. It is much narrower than a claim about bandwidth.</p>
+
+  <h2>Limitations</h2>
+  <ul class="plain">
+    <li><strong>This is a toy world.</strong> The property that makes the test clean also makes it narrow. Five numbers fully describe a flight, so a lossless symbolic encoding exists. For a photograph of a street, no such encoding exists. This experiment can rule out one claim: that pixels help <em>because they carry more information</em>. It cannot tell you what happens when they do carry more.</li>
+    <li><strong>The models are small and the task is one step.</strong> Nothing here is about long sequences, objects that interact, or objects that hide each other. In those cases a visual model could have advantages that this setup cannot show.</li>
+    <li><strong>Other architectures would move the numbers.</strong> A transformer over the sequence of tokens, or a different convolutional network, would give different results. An equal number of parameters is one idea of fairness, not the only one. That is why the compute control above matters.</li>
+    <li><strong>The task is almost linear for the numeric model.</strong> This is the largest limitation. The ideal prediction from four exact observations is a fixed linear combination of them, plus a correction for the rounding. A plain network learns that easily. So the win of the numeric model is much less of a discovery than it looks: I chose a task that is simple in exactly that representation. The comparison of pixels with tokens does not have this problem, because neither gets the order for free. That is why the control matters more than the headline.</li>
+    <li><strong>The token model is a hard version of &ldquo;text&rdquo;.</strong> I gave it no information about order at all. A real tokeniser is kinder: &ldquo;13&rdquo; and &ldquo;14&rdquo; share a character, and an encoding by digits gives away a good part of the order. A model that reads digits would land between my token model and my numeric model. Remember this before you read the result as a statement about language models.</li>
+    <li><strong>The floor compresses the differences.</strong> The numeric model reaches the floor after 250 flights. After that, the others can only approach it. A harder task, with a longer prediction, a finer grid or several balls, would separate the three models more. That is the next thing to run.</li>
+  </ul>
+
+  <h2>Run it yourself</h2>
+  <p>The quickest way is the notebook. <a href="https://colab.research.google.com/github/vlrmzz/ai-claims-experiments/blob/main/pixels-vs-tokens/pixels_vs_tokens.ipynb">Open it in Colab</a> and it runs in your browser, with nothing to install. It shows one flight in all three forms, trains the models in a short run of about a minute, and draws the figure from the saved results of the full run.</p>
+  <p>To run the full experiment on your own machine, you need PyTorch, NumPy and Matplotlib. It runs on a CPU and takes about an hour.</p>
+  <pre><code>pip install torch numpy matplotlib
+python pixels_vs_tokens.py smoke   # two or three minutes, checks the setup
+python pixels_vs_tokens.py run     # the full experiment -> results.json
+python control_flat_pixels.py      # the control that decides it
+python viz.py                      # the figures and the table</code></pre>
+  <p>The code is here: <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/pixels-vs-tokens/pixels_vs_tokens.py">pixels_vs_tokens.py</a>, <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/pixels-vs-tokens/control_flat_pixels.py">control_flat_pixels.py</a> and <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/pixels-vs-tokens/viz.py">viz.py</a>, with the <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/pixels-vs-tokens/results.json">results of every run</a>.</p>
+  <p>Two things to change. The size of the grid sets how coarse the rounding is, and so how much noise the models must work against. <code>HORIZON</code> sets how far ahead the prediction goes, and how much the errors grow.</p>
+
+  <h2>Sources</h2>
+  <ul class="plain">
+    <li>The claim, from the person who states it most clearly: Yann LeCun on <a href="https://x.com/ylecun/status/1766498677751787723">language as a low-bandwidth channel</a>, on <a href="https://x.com/ylecun/status/1750614681209983231">a four-year-old who has seen fifty times more data than a language model</a>, and on <a href="https://www.linkedin.com/posts/yann-lecun_ive-made-that-point-before-llm-1e13-activity-7156484065603280896-QH63">why redundancy helps self-supervised learning</a>.</li>
+  </ul>
+
+  <p class="back"><a href="/writing/">Back to writing</a></p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span><a class="eml" href="/#contact" data-e="em.mp@gnitlusnoc.ia.rlv">Email me</a></span>
+    <span><a href="https://github.com/vlrmzz">GitHub</a> &nbsp; <a href="https://www.linkedin.com/in/vlrmzzz/">LinkedIn</a> &nbsp; <a href="https://x.com/vlraime">X</a></span>
+  </div>
+</footer>
+</body>
+</html>

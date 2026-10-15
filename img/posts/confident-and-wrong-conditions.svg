@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 352" width="1280" height="704" role="img" aria-label="Accuracy and mean confidence in five conditions. cross-entropy: like training (4 options) accuracy 0.84, confidence 0.85; 8 options accuracy 0.78, confidence 0.76; 12 options accuracy 0.73, confidence 0.70; unreadable log format accuracy 0.26, confidence 0.52; 90% benign traffic accuracy 0.86, confidence 0.69. Laya&#x27;s method: like training (4 options) accuracy 0.84, confidence 0.85; 8 options accuracy 0.78, confidence 0.77; 12 options accuracy 0.73, confidence 0.70; unreadable log format accuracy 0.27, confidence 0.49; 90% benign traffic accuracy 0.86, confidence 0.70. one point if right: like training (4 options) accuracy 0.84, confidence 0.99; 8 options accuracy 0.77, confidence 0.99; 12 options accuracy 0.73, confidence 0.98; unreadable log format accuracy 0.26, confidence 0.89; 90% benign traffic accuracy 0.86, confidence 0.99.">
+<title>Accuracy and mean confidence in five conditions. cross-entropy: like training (4 options) accuracy 0.84, confidence 0.85; 8 options accuracy 0.78, confidence 0.76; 12 options accuracy 0.73, confidence 0.70; unreadable log format accuracy 0.26, confidence 0.52; 90% benign traffic accuracy 0.86, confidence 0.69. Laya&#x27;s method: like training (4 options) accuracy 0.84, confidence 0.85; 8 options accuracy 0.78, confidence 0.77; 12 options accuracy 0.73, confidence 0.70; unreadable log format accuracy 0.27, confidence 0.49; 90% benign traffic accuracy 0.86, confidence 0.70. one point if right: like training (4 options) accuracy 0.84, confidence 0.99; 8 options accuracy 0.77, confidence 0.99; 12 options accuracy 0.73, confidence 0.98; unreadable log format accuracy 0.26, confidence 0.89; 90% benign traffic accuracy 0.86, confidence 0.99.</title>
+<style>
+svg { --paper:#FBFAF7; --panel:#FFFFFF; --soft:#F2F1EC; --ink:#1A1C1A; --muted:#6B7069;
+      --grid:#E4E2DA; --axis:#C9C6BB; --border:#D8D5CB; --accent:#1F5C46; --on-accent:#FFFFFF;
+      --s1:#2E8B68; --s2:#C9622A; --s3:#3A6BC4; --context:#A3A89F; }
+@media (prefers-color-scheme: dark) {
+  svg { --paper:#131614; --panel:#181C19; --soft:#1B1F1C; --ink:#E9E8E2; --muted:#969C93;
+        --grid:#272B27; --axis:#3D433D; --border:#343A35; --accent:#7FC8A3; --on-accent:#131614;
+        --s1:#3FA27A; --s2:#D9703A; --s3:#5B8DEF; --context:#5F665F; }
+}
+text { font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+.mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+</style>
+<rect x="0.0" y="0.0" width="640.0" height="352.0" style="fill:var(--paper)"/>
+<text x="16.0" y="28.0" font-size="14" font-weight="600" text-anchor="start" style="fill:var(--ink)">What each model claims and what it delivers, trained on 64,000 sessions</text>
+<circle cx="22.0" cy="49.0" r="5" style="fill:var(--ink)"/>
+<text x="33.0" y="53.0" font-size="12.5" font-weight="400" text-anchor="start" style="fill:var(--ink)">accuracy</text>
+<circle cx="112" cy="49" r="4.2" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.8"/>
+<text x="123.0" y="53.0" font-size="12.5" font-weight="400" text-anchor="start" style="fill:var(--ink)">mean confidence</text>
+<line x1="250.0" y1="43.0" x2="250.0" y2="55.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<text x="259.0" y="53.0" font-size="12.5" font-weight="400" text-anchor="start" style="fill:var(--ink)">best possible accuracy</text>
+<rect x="152.0" y="70.0" width="9.0" height="9.0" rx="2" style="fill:var(--s3)"/>
+<text x="166.0" y="79.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--ink)">cross-entropy</text>
+<line x1="152.0" y1="90.0" x2="152.0" y2="286.0" style="stroke:var(--axis);stroke-width:1"/>
+<text x="152.0" y="304.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">0%</text>
+<line x1="217.0" y1="90.0" x2="217.0" y2="286.0" style="stroke:var(--grid);stroke-width:1"/>
+<text x="217.0" y="304.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">50%</text>
+<line x1="282.0" y1="90.0" x2="282.0" y2="286.0" style="stroke:var(--grid);stroke-width:1"/>
+<text x="282.0" y="304.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">100%</text>
+<text x="16.0" y="110.0" font-size="12.5" font-weight="400" text-anchor="start" style="fill:var(--ink)">like training (4 options)</text>
+<line x1="262.0" y1="97.0" x2="262.0" y2="115.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="261.8" y1="106.0" x2="262.1" y2="106.0" style="stroke:var(--s3);stroke-width:2"/>
+<circle cx="261.8" cy="106.0" r="5" style="fill:var(--s3);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="262.1" cy="106.0" r="4.2" style="fill:var(--paper);stroke:var(--s3);stroke-width:1.8"/>
+<text x="16.0" y="150.0" font-size="12.5" font-weight="400" text-anchor="start" style="fill:var(--ink)">8 options</text>
+<line x1="253.0" y1="137.0" x2="253.0" y2="155.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="252.9" y1="146.0" x2="251.4" y2="146.0" style="stroke:var(--s3);stroke-width:2"/>
+<circle cx="252.9" cy="146.0" r="5" style="fill:var(--s3);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="251.4" cy="146.0" r="4.2" style="fill:var(--paper);stroke:var(--s3);stroke-width:1.8"/>
+<text x="16.0" y="190.0" font-size="12.5" font-weight="400" text-anchor="start" style="fill:var(--ink)">12 options</text>
+<line x1="247.4" y1="177.0" x2="247.4" y2="195.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="247.1" y1="186.0" x2="243.6" y2="186.0" style="stroke:var(--s3);stroke-width:2"/>
+<circle cx="247.1" cy="186.0" r="5" style="fill:var(--s3);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="243.6" cy="186.0" r="4.2" style="fill:var(--paper);stroke:var(--s3);stroke-width:1.8"/>
+<text x="16.0" y="230.0" font-size="12.5" font-weight="400" text-anchor="start" style="fill:var(--ink)">unreadable log format</text>
+<line x1="184.1" y1="217.0" x2="184.1" y2="235.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="185.8" y1="226.0" x2="219.4" y2="226.0" style="stroke:var(--s3);stroke-width:2"/>
+<circle cx="185.8" cy="226.0" r="5" style="fill:var(--s3);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="219.4" cy="226.0" r="4.2" style="fill:var(--paper);stroke:var(--s3);stroke-width:1.8"/>
+<text x="16.0" y="270.0" font-size="12.5" font-weight="400" text-anchor="start" style="fill:var(--ink)">90% benign traffic</text>
+<line x1="278.8" y1="257.0" x2="278.8" y2="275.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="263.3" y1="266.0" x2="241.2" y2="266.0" style="stroke:var(--s3);stroke-width:2"/>
+<circle cx="263.3" cy="266.0" r="5" style="fill:var(--s3);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="241.2" cy="266.0" r="4.2" style="fill:var(--paper);stroke:var(--s3);stroke-width:1.8"/>
+<rect x="316.0" y="70.0" width="9.0" height="9.0" rx="2" style="fill:var(--s1)"/>
+<text x="330.0" y="79.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--ink)">Laya&#x27;s method</text>
+<line x1="316.0" y1="90.0" x2="316.0" y2="286.0" style="stroke:var(--axis);stroke-width:1"/>
+<text x="316.0" y="304.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">0%</text>
+<line x1="381.0" y1="90.0" x2="381.0" y2="286.0" style="stroke:var(--grid);stroke-width:1"/>
+<text x="381.0" y="304.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">50%</text>
+<line x1="446.0" y1="90.0" x2="446.0" y2="286.0" style="stroke:var(--grid);stroke-width:1"/>
+<text x="446.0" y="304.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">100%</text>
+<line x1="426.0" y1="97.0" x2="426.0" y2="115.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="425.8" y1="106.0" x2="426.9" y2="106.0" style="stroke:var(--s1);stroke-width:2"/>
+<circle cx="425.8" cy="106.0" r="5" style="fill:var(--s1);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="426.9" cy="106.0" r="4.2" style="fill:var(--paper);stroke:var(--s1);stroke-width:1.8"/>
+<line x1="417.0" y1="137.0" x2="417.0" y2="155.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="416.8" y1="146.0" x2="415.7" y2="146.0" style="stroke:var(--s1);stroke-width:2"/>
+<circle cx="416.8" cy="146.0" r="5" style="fill:var(--s1);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="415.7" cy="146.0" r="4.2" style="fill:var(--paper);stroke:var(--s1);stroke-width:1.8"/>
+<line x1="411.4" y1="177.0" x2="411.4" y2="195.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="411.1" y1="186.0" x2="407.2" y2="186.0" style="stroke:var(--s1);stroke-width:2"/>
+<circle cx="411.1" cy="186.0" r="5" style="fill:var(--s1);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="407.2" cy="186.0" r="4.2" style="fill:var(--paper);stroke:var(--s1);stroke-width:1.8"/>
+<line x1="348.1" y1="217.0" x2="348.1" y2="235.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="351.0" y1="226.0" x2="380.3" y2="226.0" style="stroke:var(--s1);stroke-width:2"/>
+<circle cx="351.0" cy="226.0" r="5" style="fill:var(--s1);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="380.3" cy="226.0" r="4.2" style="fill:var(--paper);stroke:var(--s1);stroke-width:1.8"/>
+<line x1="442.8" y1="257.0" x2="442.8" y2="275.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="427.6" y1="266.0" x2="407.0" y2="266.0" style="stroke:var(--s1);stroke-width:2"/>
+<circle cx="427.6" cy="266.0" r="5" style="fill:var(--s1);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="407.0" cy="266.0" r="4.2" style="fill:var(--paper);stroke:var(--s1);stroke-width:1.8"/>
+<rect x="480.0" y="70.0" width="9.0" height="9.0" rx="2" style="fill:var(--s2)"/>
+<text x="494.0" y="79.0" font-size="12.5" font-weight="600" text-anchor="start" style="fill:var(--ink)">one point if right</text>
+<line x1="480.0" y1="90.0" x2="480.0" y2="286.0" style="stroke:var(--axis);stroke-width:1"/>
+<text x="480.0" y="304.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">0%</text>
+<line x1="545.0" y1="90.0" x2="545.0" y2="286.0" style="stroke:var(--grid);stroke-width:1"/>
+<text x="545.0" y="304.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">50%</text>
+<line x1="610.0" y1="90.0" x2="610.0" y2="286.0" style="stroke:var(--grid);stroke-width:1"/>
+<text x="610.0" y="304.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">100%</text>
+<line x1="590.0" y1="97.0" x2="590.0" y2="115.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="589.5" y1="106.0" x2="608.8" y2="106.0" style="stroke:var(--s2);stroke-width:2"/>
+<circle cx="589.5" cy="106.0" r="5" style="fill:var(--s2);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="608.8" cy="106.0" r="4.2" style="fill:var(--paper);stroke:var(--s2);stroke-width:1.8"/>
+<line x1="581.0" y1="137.0" x2="581.0" y2="155.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="580.4" y1="146.0" x2="608.4" y2="146.0" style="stroke:var(--s2);stroke-width:2"/>
+<circle cx="580.4" cy="146.0" r="5" style="fill:var(--s2);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="608.4" cy="146.0" r="4.2" style="fill:var(--paper);stroke:var(--s2);stroke-width:1.8"/>
+<line x1="575.4" y1="177.0" x2="575.4" y2="195.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="574.9" y1="186.0" x2="607.9" y2="186.0" style="stroke:var(--s2);stroke-width:2"/>
+<circle cx="574.9" cy="186.0" r="5" style="fill:var(--s2);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="607.9" cy="186.0" r="4.2" style="fill:var(--paper);stroke:var(--s2);stroke-width:1.8"/>
+<line x1="512.1" y1="217.0" x2="512.1" y2="235.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="513.3" y1="226.0" x2="595.8" y2="226.0" style="stroke:var(--s2);stroke-width:2"/>
+<circle cx="513.3" cy="226.0" r="5" style="fill:var(--s2);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="595.8" cy="226.0" r="4.2" style="fill:var(--paper);stroke:var(--s2);stroke-width:1.8"/>
+<line x1="606.8" y1="257.0" x2="606.8" y2="275.0" style="stroke:var(--muted);stroke-width:2;stroke-linecap:round"/>
+<line x1="591.6" y1="266.0" x2="608.4" y2="266.0" style="stroke:var(--s2);stroke-width:2"/>
+<circle cx="591.6" cy="266.0" r="5" style="fill:var(--s2);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="608.4" cy="266.0" r="4.2" style="fill:var(--paper);stroke:var(--s2);stroke-width:1.8"/>
+</svg>

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 470" width="1280" height="940" role="img" aria-label="An alert passes a format check, then a decision model answers an attack-type question, a severity question and an exfiltration question in one forward pass. A confidence gate sends the result to one of three outcomes: close as benign, contain automatically, or escalate to an analyst.">
+<title>An alert passes a format check, then a decision model answers an attack-type question, a severity question and an exfiltration question in one forward pass. A confidence gate sends the result to one of three outcomes: close as benign, contain automatically, or escalate to an analyst.</title>
+<style>
+svg { --paper:#FBFAF7; --panel:#FFFFFF; --soft:#F2F1EC; --ink:#1A1C1A; --muted:#6B7069;
+      --grid:#E4E2DA; --axis:#C9C6BB; --border:#D8D5CB; --accent:#1F5C46; --on-accent:#FFFFFF;
+      --s1:#2E8B68; --s2:#C9622A; --s3:#3A6BC4; --context:#A3A89F; }
+@media (prefers-color-scheme: dark) {
+  svg { --paper:#131614; --panel:#181C19; --soft:#1B1F1C; --ink:#E9E8E2; --muted:#969C93;
+        --grid:#272B27; --axis:#3D433D; --border:#343A35; --accent:#7FC8A3; --on-accent:#131614;
+        --s1:#3FA27A; --s2:#D9703A; --s3:#5B8DEF; --context:#5F665F; }
+}
+text { font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+.mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+</style>
+<rect x="0.0" y="0.0" width="640.0" height="470.0" style="fill:var(--paper)"/>
+<text x="16.0" y="28.0" font-size="14" font-weight="600" text-anchor="start" style="fill:var(--ink)">Where a decision model sits in alert triage</text>
+<rect x="98.0" y="46.0" width="168.0" height="44.0" rx="7" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="182.0" y="66.0" font-size="13" font-weight="600" text-anchor="middle" style="fill:var(--ink)">Alert</text>
+<text x="182.0" y="82.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">a session of log events</text>
+<line x1="266.0" y1="68.0" x2="289.0" y2="68.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="296.0,68.0 289.0,64.4 289.0,71.6" style="fill:var(--muted)"/>
+<rect x="298.0" y="46.0" width="244.0" height="44.0" rx="7" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="420.0" y="66.0" font-size="13" font-weight="600" text-anchor="middle" style="fill:var(--ink)">Format check</text>
+<text x="420.0" y="82.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">can the model read this log source?</text>
+<line x1="320.0" y1="90.0" x2="320.0" y2="104.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="320.0,111.0 323.6,104.0 316.4,104.0" style="fill:var(--muted)"/>
+<rect x="16.0" y="114.0" width="608.0" height="124.0" rx="8" style="fill:var(--paper);stroke:var(--border);stroke-width:1"/>
+<rect x="16.0" y="122.0" width="3.0" height="108.0" rx="1.5" style="fill:var(--accent)"/>
+<text x="32.0" y="138.0" font-size="13" font-weight="600" text-anchor="start" style="fill:var(--ink)">Decision model</text>
+<text x="145.7" y="138.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">all questions answered in one forward pass</text>
+<rect x="32.0" y="154.0" width="186.0" height="68.0" rx="6" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="44.0" y="176.0" font-size="13" font-weight="600" text-anchor="start" style="fill:var(--ink)">Attack type</text>
+<rect x="152.5" y="163.0" width="53.5" height="19.0" rx="4" style="fill:var(--paper);stroke:var(--axis);stroke-width:1"/>
+<text x="179.2" y="176.5" class="mono" font-size="11.5" font-weight="400" text-anchor="middle" style="fill:var(--muted)">choice</text>
+<text x="44.0" y="204.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">Which kind of attack is it?</text>
+<rect x="227.0" y="154.0" width="186.0" height="68.0" rx="6" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="239.0" y="176.0" font-size="13" font-weight="600" text-anchor="start" style="fill:var(--ink)">Severity</text>
+<rect x="354.4" y="163.0" width="46.6" height="19.0" rx="4" style="fill:var(--paper);stroke:var(--axis);stroke-width:1"/>
+<text x="377.7" y="176.5" class="mono" font-size="11.5" font-weight="400" text-anchor="middle" style="fill:var(--muted)">score</text>
+<text x="239.0" y="204.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">How severe, 0 to 3?</text>
+<rect x="422.0" y="154.0" width="186.0" height="68.0" rx="6" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="434.0" y="176.0" font-size="13" font-weight="600" text-anchor="start" style="fill:var(--ink)">Exfiltration</text>
+<rect x="542.5" y="163.0" width="53.5" height="19.0" rx="4" style="fill:var(--paper);stroke:var(--axis);stroke-width:1"/>
+<text x="569.2" y="176.5" class="mono" font-size="11.5" font-weight="400" text-anchor="middle" style="fill:var(--muted)">yes/no</text>
+<text x="434.0" y="204.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">Is data leaving?</text>
+<line x1="320.0" y1="238.0" x2="320.0" y2="252.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="320.0,259.0 323.6,252.0 316.4,252.0" style="fill:var(--muted)"/>
+<rect x="210.0" y="262.0" width="220.0" height="44.0" rx="7" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<rect x="210.0" y="269.0" width="3.0" height="30.0" rx="1.5" style="fill:var(--s2)"/>
+<text x="320.0" y="282.0" font-size="13" font-weight="600" text-anchor="middle" style="fill:var(--ink)">Confidence gate</text>
+<text x="320.0" y="298.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">is it above the threshold?</text>
+<line x1="320.0" y1="306.0" x2="320.0" y2="324.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<line x1="111.0" y1="324.0" x2="529.0" y2="324.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<line x1="111.0" y1="324.0" x2="111.0" y2="342.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="111.0,349.0 114.6,342.0 107.4,342.0" style="fill:var(--muted)"/>
+<rect x="16.0" y="352.0" width="190.0" height="44.0" rx="7" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="111.0" y="372.0" font-size="13" font-weight="600" text-anchor="middle" style="fill:var(--ink)">Close as benign</text>
+<text x="111.0" y="388.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">no analyst time spent</text>
+<line x1="320.0" y1="324.0" x2="320.0" y2="342.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="320.0,349.0 323.6,342.0 316.4,342.0" style="fill:var(--muted)"/>
+<rect x="225.0" y="352.0" width="190.0" height="44.0" rx="7" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="320.0" y="372.0" font-size="13" font-weight="600" text-anchor="middle" style="fill:var(--ink)">Contain automatically</text>
+<text x="320.0" y="388.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">block, isolate, reset</text>
+<line x1="529.0" y1="324.0" x2="529.0" y2="342.0" style="stroke:var(--muted);stroke-width:1.4"/>
+<polygon points="529.0,349.0 532.6,342.0 525.4,342.0" style="fill:var(--muted)"/>
+<rect x="434.0" y="352.0" width="190.0" height="44.0" rx="7" style="fill:var(--panel);stroke:var(--border);stroke-width:1"/>
+<text x="529.0" y="372.0" font-size="13" font-weight="600" text-anchor="middle" style="fill:var(--ink)">Escalate</text>
+<text x="529.0" y="388.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">to an analyst</text>
+<text x="119.0" y="341.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">confident</text>
+<text x="328.0" y="341.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">confident</text>
+<text x="537.0" y="341.0" font-size="12" font-weight="400" text-anchor="start" style="fill:var(--muted)">unsure</text>
+<rect x="16.0" y="414.0" width="608.0" height="34.0" rx="7" style="fill:var(--soft)"/>
+<text x="320.0" y="435.5" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">Log each decision with its probabilities, compare with outcomes, refit the threshold.</text>
+</svg>

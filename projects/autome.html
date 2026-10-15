@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" href="/favicon.ico">
+<title>autome – Vlr Mzz</title>
+<meta name="description" content="autome: a personal AI assistant in Telegram. Send it messages, voice notes, photos and documents, and it files them into a wiki that you can ask questions of.">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-name" href="/">Vlr Mzz</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/work/">Work</a>
+      <a href="/projects/" aria-current="page">Projects</a>
+      <a href="/writing/">Writing</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <h1 class="page-title">autome</h1>
+  <p class="lede">A personal AI assistant that lives in Telegram. Send it a message, a voice note, a photo, a PDF or a link. It files the result into a wiki that you can ask questions of. It also keeps trackers and reminders, and spaces that you share with other people.</p>
+  <dl class="facts">
+    <dt>Status</dt><dd>My own product, live at <a href="https://autome.click">autome.click</a>, with a paid plan</dd>
+    <dt>Stack</dt><dd>Python, FastAPI, LangGraph, Postgres, object storage, Telegram Bot API</dd>
+    <dt>Methods</dt><dd>Tool-calling agents, hybrid retrieval, speech, document understanding</dd>
+  </dl>
+
+  <h2>The problem</h2>
+  <p>To save something is easy, and almost useless. Note apps and read-it-later apps collect a pile that nobody opens again. They ask you where a thing belongs at the moment when you least want to decide.</p>
+  <p>autome starts from two ideas. To capture something must cost nothing: you forward a message, or you hold a button and talk. And the filing must happen later, without you.</p>
+  <p>That only works if the assistant is in a place where you already are. So the product is a Telegram bot, not an app that you install.</p>
+
+  <h2>What I built</h2>
+  <p>One agent with a large set of tools, behind an interface that most people already have open.</p>
+  <figure>
+    <svg class="diagram" viewBox="0 0 760 270" role="img" aria-label="What you send goes to one agent with tools, which writes the wiki, the trackers, the reminders and the shared spaces" xmlns="http://www.w3.org/2000/svg" font-size="13">
+      <defs><marker id="autome-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+      <text x="24" y="30" font-size="15" font-weight="600" fill="var(--ink)">You send it anything. It decides where it goes.</text>
+      <g fill="none" stroke="var(--muted)" stroke-width="1.25">
+        <rect x="24" y="56" width="150" height="32" rx="8"/><rect x="24" y="98" width="150" height="32" rx="8"/><rect x="24" y="140" width="150" height="32" rx="8"/><rect x="24" y="182" width="150" height="32" rx="8"/>
+        <path d="M174 72H206V135H288" marker-end="url(#autome-arrow)"/><path d="M174 114H206"/><path d="M174 156H206V135"/><path d="M174 198H206V156"/>
+        <path d="M470 135H520V72H584" marker-end="url(#autome-arrow)"/><path d="M520 114H584" marker-end="url(#autome-arrow)"/><path d="M520 135V156H584" marker-end="url(#autome-arrow)"/><path d="M520 156V198H584" marker-end="url(#autome-arrow)"/>
+        <rect x="586" y="56" width="150" height="32" rx="8"/><rect x="586" y="98" width="150" height="32" rx="8"/><rect x="586" y="140" width="150" height="32" rx="8"/><rect x="586" y="182" width="150" height="32" rx="8"/>
+      </g>
+      <rect x="290" y="96" width="180" height="78" rx="8" fill="var(--accent)" fill-opacity="0.12" stroke="var(--accent)" stroke-width="2"/>
+      <g fill="var(--ink)" text-anchor="middle">
+        <text x="99" y="77">a message</text><text x="99" y="119">a voice note</text><text x="99" y="161">a photo or a PDF</text><text x="99" y="203">a link</text>
+        <text x="380" y="128" font-weight="600">one agent</text><text x="380" y="147" font-size="11.5" fill="var(--muted)">search, save, track, remind</text><text x="380" y="163" font-size="11.5" fill="var(--muted)">extract text, read images</text>
+        <text x="661" y="77">wiki pages</text><text x="661" y="119">trackers</text><text x="661" y="161">reminders</text><text x="661" y="203">shared spaces</text>
+      </g>
+      <text x="24" y="250" font-size="11.5" fill="var(--muted)">Everything arrives through Telegram. A small web app inside Telegram shows what a chat shows badly: lists and charts.</text>
+    </svg>
+    <figcaption>You do not choose a destination. The agent chooses the tool.</figcaption>
+  </figure>
+  <ul class="plain">
+    <li><strong>The wiki.</strong> Each thing you send becomes a page with a title and a summary, linked to related pages that the agent finds as it saves. Search combines meaning and keywords, with a plain text search as the fallback when both are wrong.</li>
+    <li><strong>Trackers that define themselves.</strong> &ldquo;Baby drank 170ml at 3pm&rdquo; creates the tracker and its fields the first time. You define no schema.</li>
+    <li><strong>Voice.</strong> You talk, it writes back what it heard, then it answers.</li>
+    <li><strong>Photos and documents.</strong> The text is extracted and analysed. A receipt, a whiteboard or a PDF becomes something that you can search, not an attachment.</li>
+    <li><strong>Shared spaces.</strong> Several people put their knowledge together. To share is to point at an item, not to copy it, so each item has one version.</li>
+    <li><strong>A small app inside Telegram</strong> for the things that a chat does badly: lists, charts and grids.</li>
+    <li><strong>The plain half.</strong> Reminders and scheduled jobs, limits for each plan, payment through Stripe and Telegram Stars, and five languages.</li>
+  </ul>
+
+  <h2>What I learned</h2>
+  <ul class="plain">
+    <li><strong>Charge the user only when the action succeeded.</strong> At first a failed transcription used one of the user's voice notes for the month. Now the count goes up after success. And if the database cannot answer the limit check, the check lets a paying user through.</li>
+    <li><strong>Speech models invent words when there is silence.</strong> So a loudness check rejects a silent clip before any model hears it. And the transcript is shown before the reply, so a wrong hearing is visible and the agent does not act on it in secret.</li>
+    <li><strong>Do the exact work in code, not in the prompt.</strong> 170ml becomes the number 170 in code, whether or not the model followed its instructions. Then the series can always be plotted.</li>
+    <li><strong>A memory product must not limit memory.</strong> The free plan had a limit on stored items. I removed it. A limit on what you can remember breaks the promise of the product.</li>
+    <li><strong>Most of a working agent product is not the prompt.</strong> It is limits, payment, failures and their fallbacks.</li>
+    <li><strong>One process is simple, and it has a ceiling.</strong> The app runs as one process and keeps some state in memory. That is correct for now. A second copy of the app would break it, and I wrote down where.</li>
+  </ul>
+
+  <p class="back"><a href="/projects/">Back to projects</a></p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span><a class="eml" href="/#contact" data-e="em.mp@gnitlusnoc.ia.rlv">Email me</a></span>
+    <span><a href="https://github.com/vlrmzz">GitHub</a> &nbsp; <a href="https://www.linkedin.com/in/vlrmzzz/">LinkedIn</a> &nbsp; <a href="https://x.com/vlraime">X</a></span>
+  </div>
+</footer>
+</body>
+</html>

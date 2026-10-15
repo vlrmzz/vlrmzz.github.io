@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 366" width="1280" height="732" role="img" aria-label="Calibration error where the models were trained, against training-set size, for the three rewards. cross-entropy: 0.198, 0.152, 0.016, 0.009. Laya&#x27;s method: 0.201, 0.108, 0.019, 0.011. one point if right: 0.209, 0.163, 0.153, 0.148.">
+<title>Calibration error where the models were trained, against training-set size, for the three rewards. cross-entropy: 0.198, 0.152, 0.016, 0.009. Laya&#x27;s method: 0.201, 0.108, 0.019, 0.011. one point if right: 0.209, 0.163, 0.153, 0.148.</title>
+<style>
+svg { --paper:#FBFAF7; --panel:#FFFFFF; --soft:#F2F1EC; --ink:#1A1C1A; --muted:#6B7069;
+      --grid:#E4E2DA; --axis:#C9C6BB; --border:#D8D5CB; --accent:#1F5C46; --on-accent:#FFFFFF;
+      --s1:#2E8B68; --s2:#C9622A; --s3:#3A6BC4; --context:#A3A89F; }
+@media (prefers-color-scheme: dark) {
+  svg { --paper:#131614; --panel:#181C19; --soft:#1B1F1C; --ink:#E9E8E2; --muted:#969C93;
+        --grid:#272B27; --axis:#3D433D; --border:#343A35; --accent:#7FC8A3; --on-accent:#131614;
+        --s1:#3FA27A; --s2:#D9703A; --s3:#5B8DEF; --context:#5F665F; }
+}
+text { font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+.mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+</style>
+<rect x="0.0" y="0.0" width="640.0" height="366.0" style="fill:var(--paper)"/>
+<text x="16.0" y="28.0" font-size="14" font-weight="600" text-anchor="start" style="fill:var(--ink)">Calibration error against the amount of training data (lower is better)</text>
+<line x1="62.0" y1="300.0" x2="446.0" y2="300.0" style="stroke:var(--axis);stroke-width:1"/>
+<text x="53.0" y="304.0" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">0.00</text>
+<line x1="62.0" y1="250.0" x2="446.0" y2="250.0" style="stroke:var(--grid);stroke-width:1"/>
+<text x="53.0" y="254.0" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">0.05</text>
+<line x1="62.0" y1="200.0" x2="446.0" y2="200.0" style="stroke:var(--grid);stroke-width:1"/>
+<text x="53.0" y="204.0" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">0.10</text>
+<line x1="62.0" y1="150.0" x2="446.0" y2="150.0" style="stroke:var(--grid);stroke-width:1"/>
+<text x="53.0" y="154.0" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">0.15</text>
+<line x1="62.0" y1="100.0" x2="446.0" y2="100.0" style="stroke:var(--grid);stroke-width:1"/>
+<text x="53.0" y="104.0" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">0.20</text>
+<line x1="62.0" y1="50.0" x2="446.0" y2="50.0" style="stroke:var(--grid);stroke-width:1"/>
+<text x="53.0" y="54.0" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">0.25</text>
+<line x1="62.0" y1="300.0" x2="62.0" y2="304.0" style="stroke:var(--axis);stroke-width:1"/>
+<text x="62.0" y="319.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">1,000</text>
+<line x1="190.0" y1="300.0" x2="190.0" y2="304.0" style="stroke:var(--axis);stroke-width:1"/>
+<text x="190.0" y="319.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">4,000</text>
+<line x1="318.0" y1="300.0" x2="318.0" y2="304.0" style="stroke:var(--axis);stroke-width:1"/>
+<text x="318.0" y="319.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">16,000</text>
+<line x1="446.0" y1="300.0" x2="446.0" y2="304.0" style="stroke:var(--axis);stroke-width:1"/>
+<text x="446.0" y="319.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">64,000</text>
+<text x="254.0" y="342.0" font-size="12" font-weight="400" text-anchor="middle" style="fill:var(--muted)">training sessions</text>
+<text x="18.0" y="175.0" font-size="12" font-weight="400" text-anchor="middle" transform="rotate(-90 18.0 175.0)" style="fill:var(--muted)">calibration error</text>
+<line x1="62.0" y1="290.0" x2="446.0" y2="290.0" style="stroke:var(--muted);stroke-width:1.2"/>
+<polygon points="62.0,96.8 190.0,133.3 318.0,282.0 446.0,289.2 446.0,292.8 318.0,285.6 190.0,163.6 62.0,107.7" style="fill:var(--s3);opacity:0.14"/>
+<path d="M62.0,102.2 L190.0,148.4 L318.0,283.8 L446.0,291.0"  style="fill:none;stroke:var(--s3);stroke-width:2;stroke-linejoin:round;stroke-linecap:round"/>
+<circle cx="62.0" cy="102.2" r="4" style="fill:var(--s3);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="190.0" cy="148.4" r="4" style="fill:var(--s3);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="318.0" cy="283.8" r="4" style="fill:var(--s3);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="446.0" cy="291.0" r="4" style="fill:var(--s3);stroke:var(--paper);stroke-width:1.5"/>
+<polygon points="62.0,96.2 190.0,181.4 318.0,277.4 446.0,287.4 446.0,291.3 318.0,284.7 190.0,202.3 62.0,101.7" style="fill:var(--s1);opacity:0.14"/>
+<path d="M62.0,98.9 L190.0,191.8 L318.0,281.0 L446.0,289.4"  style="fill:none;stroke:var(--s1);stroke-width:2;stroke-linejoin:round;stroke-linecap:round"/>
+<circle cx="62.0" cy="98.9" r="4" style="fill:var(--s1);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="190.0" cy="191.8" r="4" style="fill:var(--s1);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="318.0" cy="281.0" r="4" style="fill:var(--s1);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="446.0" cy="289.4" r="4" style="fill:var(--s1);stroke:var(--paper);stroke-width:1.5"/>
+<polygon points="62.0,87.2 190.0,134.1 318.0,144.0 446.0,148.2 446.0,155.0 318.0,150.5 190.0,139.1 62.0,94.8" style="fill:var(--s2);opacity:0.14"/>
+<path d="M62.0,91.0 L190.0,136.6 L318.0,147.3 L446.0,151.6"  style="fill:none;stroke:var(--s2);stroke-width:2;stroke-linejoin:round;stroke-linecap:round"/>
+<circle cx="62.0" cy="91.0" r="4" style="fill:var(--s2);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="190.0" cy="136.6" r="4" style="fill:var(--s2);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="318.0" cy="147.3" r="4" style="fill:var(--s2);stroke:var(--paper);stroke-width:1.5"/>
+<circle cx="446.0" cy="151.6" r="4" style="fill:var(--s2);stroke:var(--paper);stroke-width:1.5"/>
+<line x1="453.0" y1="291.0" x2="466.0" y2="291.0" style="stroke:var(--s3);stroke-width:1.2"/>
+<text x="471.0" y="295.0" font-size="12.5" font-weight="400" text-anchor="start" style="fill:var(--ink)">cross-entropy</text>
+<text x="624.0" y="295.0" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">0.009</text>
+<line x1="453.0" y1="290.0" x2="466.0" y2="272.0" style="stroke:var(--muted);stroke-width:1.2"/>
+<text x="471.0" y="276.0" font-size="12.5" font-weight="400" text-anchor="start" style="fill:var(--ink)">best possible</text>
+<text x="624.0" y="276.0" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">0.010</text>
+<line x1="453.0" y1="289.4" x2="466.0" y2="253.0" style="stroke:var(--s1);stroke-width:1.2"/>
+<text x="471.0" y="257.0" font-size="12.5" font-weight="400" text-anchor="start" style="fill:var(--ink)">Laya&#x27;s method</text>
+<text x="624.0" y="257.0" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">0.011</text>
+<line x1="453.0" y1="151.6" x2="466.0" y2="151.6" style="stroke:var(--s2);stroke-width:1.2"/>
+<text x="471.0" y="155.6" font-size="12.5" font-weight="400" text-anchor="start" style="fill:var(--ink)">one point if right</text>
+<text x="624.0" y="155.6" font-size="12" font-weight="400" text-anchor="end" style="fill:var(--muted)">0.148</text>
+</svg>
