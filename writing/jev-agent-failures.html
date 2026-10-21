@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="icon" href="/favicon.ico">
-<title>Can a decision model find where an agent failed? – Vlr Mzz</title>
+<title>Agent failure attribution: can a decision model find the step that went wrong? – Vlr Mzz</title>
 <meta name="description" content="A benchmark of Jev, TypeSafe's decision model, on failed AI-agent runs: which step went wrong, which agent, which kind of failure. Measured on 257 human-labelled runs, against published results and against a frontier model, for $0.44 in total.">
 <script src="/assets/site.js" defer></script>
 </head>
@@ -27,13 +27,13 @@
   </div>
 </header>
 <main class="wrap">
-  <h1 class="page-title">Can a decision model find where an agent failed?</h1>
+  <h1 class="page-title">Agent failure attribution: can a decision model find the step that went wrong?</h1>
   <p class="post-meta">6 October 2026 &middot; Jev on 257 human-labelled failed runs, against published results and a frontier model</p>
   <p class="post-meta"><a href="https://colab.research.google.com/github/vlrmzz/ai-claims-experiments/blob/main/agent-trace-failures/agent_trace_failures.ipynb">See the results in Colab</a> &middot; <a href="https://github.com/vlrmzz/ai-claims-experiments/tree/main/agent-trace-failures">Code on GitHub</a></p>
 
   <p class="lede">When an AI agent fails a task, a person must read the run and find the step where it went wrong. That work is slow. Jev is a decision model: it does not write text, and it answers typed questions with probabilities for a fraction of a cent. I did a test of Jev on 257 failed agent runs that people annotated by hand. On runs that fit in its window, it finds the failing step approximately as often as a frontier model. It cannot name the kind of failure, but its confidence tells you which answers to trust.</p>
 
-  <p>This post is the practical half of a pair. <a href="/writing/confident-and-wrong.html">Confident and wrong</a> uses a toy world to examine when you can trust the confidence of a decision model. This post does a test of a real decision model on a real job.</p>
+  <p>This post is the practical half of a pair. The other half, <a href="/writing/confident-and-wrong.html">on model calibration</a>, uses a toy world to examine when you can trust the confidence of a decision model. This post does a test of a real decision model on a real job.</p>
 
   <h2>The claim</h2>
   <p>Decision models are sold as a cheap layer for routing and classification. You give the model some text and a closed set of options, and it returns a choice with a probability, in milliseconds. The pitch is that this covers the many small decisions in a software system that do not need a text-generating model.</p>
