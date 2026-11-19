@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" href="/favicon.ico">
+<title>Self-repair loops for coding agents: does running the tests make the code correct? – Vlr Mzz</title>
+<meta name="description" content="A loop that runs the tests and lets the model fix its code got the tests to pass in 90 of 100 runs. Only 48 of the programs were correct. A test of self-repair loops on three models, with held-out tests that no loop sees.">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-name" href="/">Vlr Mzz</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/work/">Work</a>
+      <a href="/projects/">Projects</a>
+      <a href="/writing/" aria-current="page">Writing</a>
+      <a href="/radar/">Radar</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <h1 class="page-title">Self-repair loops for coding agents: does running the tests make the code correct?</h1>
+  <p class="post-meta">22 October 2026 &middot; My agent's tests passed. The code was still wrong.</p>
+  <p class="post-meta"><a href="https://github.com/vlrmzz/ai-claims-experiments/tree/main/verification-harness">Code on GitHub</a></p>
+
+  <p class="lede">I gave a coding model a simple loop: write the code, run the tests, and if they fail, read the errors and fix the code. In 90 of 100 runs, the loop got the tests to pass. Only 48 of those programs were correct.</p>
+
+  <p>The tests were not wrong. They were just few, like the tests most people write first. The loop did exactly what it was built to do: it made them pass. To see whether the code was right, I kept back 224 more tests that the loop never saw.</p>
+  <p>I repeated this on three small models and ten tasks, for $1.44. Every loop made its own tests pass far more often than it made the code correct. The 90 against 48 above is the widest gap of the five loops; the narrowest was 97 against 87.</p>
+
+  <figure>
+    <svg class="diagram" viewBox="0 0 760 300" role="img" aria-label="Paired bars for five loops. Haiku harness: visible tests pass 90 percent, correct 48. DeepSeek harness: 98 and 81. DeepSeek self-test harness: 97 and 87. GLM harness: 97 and 78. GLM self-test harness: 93 and 77." xmlns="http://www.w3.org/2000/svg" font-size="12">
+      <g font-size="11.5" fill="var(--ink)">
+        <rect x="210" y="16" width="12" height="12" fill="var(--muted)" fill-opacity="0.45"/><text x="228" y="26">the visible tests pass</text>
+        <rect x="400" y="16" width="12" height="12" fill="var(--accent)"/><text x="418" y="26">the code is correct (held-out tests too)</text>
+      </g>
+      <g stroke="var(--rule)" stroke-width="1"><path d="M210 44V272"/><path d="M450 44V272" stroke-dasharray="3 3"/><path d="M690 44V272" stroke-dasharray="3 3"/></g>
+      <g fill="var(--muted)" font-size="10.5" text-anchor="middle"><text x="210" y="288">0%</text><text x="450" y="288">50%</text><text x="690" y="288">100%</text></g>
+      <!-- 4.8 px per percentage point, from x = 210 -->
+      <g fill="var(--ink)" font-weight="600">
+        <text x="24" y="70">Haiku 4.5, harness</text>
+        <text x="24" y="116">DeepSeek, harness</text>
+        <text x="24" y="162">DeepSeek, self-test</text>
+        <text x="24" y="208">GLM, harness</text>
+        <text x="24" y="254">GLM, self-test</text>
+      </g>
+      <g>
+        <rect x="210" y="52" width="432" height="14" fill="var(--muted)" fill-opacity="0.45"/><rect x="210" y="68" width="230.4" height="14" fill="var(--accent)"/>
+        <rect x="210" y="98" width="470.4" height="14" fill="var(--muted)" fill-opacity="0.45"/><rect x="210" y="114" width="388.8" height="14" fill="var(--accent)"/>
+        <rect x="210" y="144" width="465.6" height="14" fill="var(--muted)" fill-opacity="0.45"/><rect x="210" y="160" width="417.6" height="14" fill="var(--accent)"/>
+        <rect x="210" y="190" width="465.6" height="14" fill="var(--muted)" fill-opacity="0.45"/><rect x="210" y="206" width="374.4" height="14" fill="var(--accent)"/>
+        <rect x="210" y="236" width="446.4" height="14" fill="var(--muted)" fill-opacity="0.45"/><rect x="210" y="252" width="369.6" height="14" fill="var(--accent)"/>
+      </g>
+      <g fill="var(--ink)" font-size="11">
+        <text x="648" y="63">90%</text><text x="446" y="79">48%</text>
+        <text x="686" y="109">98%</text><text x="605" y="125">81%</text>
+        <text x="681" y="155">97%</text><text x="633" y="171">87%</text>
+        <text x="681" y="201">97%</text><text x="590" y="217">78%</text>
+        <text x="662" y="247">93%</text><text x="585" y="263">77%</text>
+      </g>
+    </svg>
+    <figcaption>Final code of each loop, 100 runs per pair. The grey bar is what the developer's tests say; the green bar is what is true.</figcaption>
+  </figure>
+
+  <h2>The claim</h2>
+  <p>A popular claim says that a simple verification loop makes a coding agent much better: <em>generate, run the tests, and on failure let the model critique and fix its code.</em> Research systems such as <a href="https://arxiv.org/abs/2303.11366">Reflexion</a>, <a href="https://arxiv.org/abs/2304.05128">Self-Debugging</a> and <a href="https://arxiv.org/abs/2401.08500">AlphaCodium</a> build on this idea, and most coding agents run some version of it.</p>
+  <p>The catch is in the word &ldquo;success&rdquo;. A loop stops when its tests pass, so by its own measure it always succeeds. The real question is whether passing the loop's tests means the code is correct.</p>
+  <p>The gap between passing tests and correct code is not new. <a href="https://arxiv.org/abs/2305.01210">EvalPlus</a> (Liu et al., 2023) added many more tests to the HumanEval benchmark, and the pass rates of the models it tested went down. A benchmark with few tests overrates a model. This post asks the same question of a loop, which is built to make its few tests pass.</p>
+
+  <h2>Hypothesis</h2>
+  <ul class="plain">
+    <li>A loop over a few given tests helps, but less than the claim says, because it can only fix the bugs those tests show.</li>
+    <li>A loop where the model first writes its own tests helps more, because it checks more of the specification.</li>
+    <li>Both loops sometimes stop with their tests passing and the code wrong.</li>
+  </ul>
+
+  <h2>Setup</h2>
+  <h3>Ten tasks, two sets of tests</h3>
+  <p>Each task is one Python function with an exact specification: a SemVer sorter, a glob matcher, a cron scheduler, an expression evaluator, an ISO 8601 duration parser, a strict Roman numeral parser, a byte formatter, a strict CSV parser, a smallest longest-common-subsequence, and an LRU cache with expiry. Each has a few rules that are easy to miss.</p>
+  <ul class="plain">
+    <li><strong>Visible tests</strong>, 36 in total: the examples from the prompt and one or two more. A loop may see these.</li>
+    <li><strong>Held-out tests</strong>, 224 in total: the rest of the specification. No loop sees them. They only score the final code.</li>
+  </ul>
+  <p>Here is part of the evaluator task. The prompt states the rule about <code>-2^2</code>. No visible test checks it.</p>
+  <pre><code># prompt.md (excerpt)
+Unary - binds more loosely than ^, so -2^2 is -(2^2) = -4.
+
+# tests.py (excerpt)
+CASES = [                       # visible: the loop sees these
+    (("1 + 2 * 3",), "7"),
+    (("2 ^ 3 ^ 2",), "512"),
+]
+HIDDEN = [                      # held out: only for scoring
+    (("-2^2",), "-4"),
+    (("2^(1/2)",), ValueError), # must raise
+]</code></pre>
+  <p>The expected values come from reference solutions that the model never sees. Two of them I also checked with a brute force.</p>
+
+  <h3>Three conditions</h3>
+  <figure>
+    <svg class="diagram" viewBox="0 0 760 330" role="img" aria-label="Three conditions. Baseline: the prompt gives code once. Harness: the code runs against the visible tests, and failures go back to the model, up to three attempts. Self-test harness: the model first writes its own tests from the specification, then the loop runs the visible tests plus those. All three are scored on visible plus held-out tests." xmlns="http://www.w3.org/2000/svg" font-size="13">
+      <defs><marker id="loop-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+      <g fill="var(--ink)" font-weight="600">
+        <text x="24" y="41">baseline</text>
+        <text x="24" y="131">harness</text>
+        <text x="24" y="226">self-test</text>
+        <text x="24" y="242">harness</text>
+      </g>
+      <g fill="none" stroke="var(--muted)" stroke-width="1.25">
+        <rect x="150" y="20" width="110" height="34" rx="8"/>
+        <path d="M260 37H318" marker-end="url(#loop-arrow)"/>
+        <rect x="320" y="20" width="110" height="34" rx="8"/>
+        <path d="M430 37H578" marker-end="url(#loop-arrow)"/>
+
+        <rect x="150" y="110" width="110" height="34" rx="8"/>
+        <path d="M260 127H318" marker-end="url(#loop-arrow)"/>
+        <rect x="320" y="110" width="110" height="34" rx="8"/>
+        <path d="M430 127H458" marker-end="url(#loop-arrow)"/>
+        <rect x="460" y="110" width="100" height="34" rx="8" fill="var(--soft)"/>
+        <path d="M560 127H578" marker-end="url(#loop-arrow)"/>
+        <path d="M510 144V168H375V146" marker-end="url(#loop-arrow)" stroke-dasharray="4 3"/>
+
+        <rect x="150" y="212" width="110" height="34" rx="8" fill="var(--soft)"/>
+        <path d="M260 229H318" marker-end="url(#loop-arrow)"/>
+        <rect x="320" y="212" width="110" height="34" rx="8"/>
+        <path d="M430 229H458" marker-end="url(#loop-arrow)"/>
+        <rect x="460" y="212" width="100" height="34" rx="8" fill="var(--soft)"/>
+        <path d="M560 229H578" marker-end="url(#loop-arrow)"/>
+        <path d="M510 246V270H375V248" marker-end="url(#loop-arrow)" stroke-dasharray="4 3"/>
+      </g>
+      <rect x="580" y="20" width="156" height="226" rx="8" fill="var(--accent)" fill-opacity="0.10" stroke="var(--accent)" stroke-width="2"/>
+      <g fill="var(--ink)" text-anchor="middle">
+        <text x="205" y="41">prompt</text><text x="375" y="41">code</text>
+        <text x="205" y="131">prompt</text><text x="375" y="131">code</text><text x="510" y="131">visible tests</text>
+        <text x="442" y="186" font-size="11.5" fill="var(--muted)">fail: errors back, fix (max 3)</text>
+        <text x="205" y="226" font-size="12">model writes</text><text x="205" y="240" font-size="12">its own tests</text>
+        <text x="375" y="233">code</text>
+        <text x="510" y="226" font-size="12">visible tests</text><text x="510" y="240" font-size="12">+ its own</text>
+        <text x="442" y="288" font-size="11.5" fill="var(--muted)">fail: errors back, fix (max 3)</text>
+        <text x="658" y="118" font-weight="600">score</text>
+        <text x="658" y="138" font-size="12">visible tests</text>
+        <text x="658" y="154" font-size="12">+ 224 held-out</text>
+        <text x="658" y="170" font-size="12" fill="var(--muted)">no loop sees these</text>
+      </g>
+      <text x="24" y="318" font-size="11.5" fill="var(--muted)">A loop stops when its own tests pass. Every condition is scored the same way, on tests it never saw.</text>
+    </svg>
+    <figcaption>All three start from the same prompt, so each loop's first attempt is an independent repeat of the baseline: a free check on noise.</figcaption>
+  </figure>
+  <ul class="plain">
+    <li><strong>Baseline:</strong> one answer.</li>
+    <li><strong>Harness:</strong> run the visible tests; on failure, send back the code and the test output, and ask for a short diagnosis and a fixed version. At most 3 attempts.</li>
+    <li><strong>Self-test harness:</strong> first, in a separate call, the model writes its own test cases from the specification, without seeing any code. The loop then runs the visible tests plus those. This is closer to Reflexion and AlphaCodium.</li>
+  </ul>
+  <p>The loop is a few lines. This is the core of <a href="https://github.com/vlrmzz/ai-claims-experiments/blob/main/verification-harness/run.py"><code>run.py</code></a>, simplified:</p>
+  <pre><code>attempts = [attempt(first_prompt(task))]
+if condition != "baseline":
+    # stop when the loop's own tests pass, or after 3 attempts
+    while not attempts[-1].passed_loop and len(attempts) &lt; 3:
+        last = attempts[-1]
+        prompt = repair_prompt(task, last.code, last.feedback)
+        attempts.append(attempt(prompt))
+# the only score: visible plus held-out tests
+success = run_tests(attempts[-1].code, visible + held_out)</code></pre>
+  <p>The feedback is the test runner's output, such as <code>FAIL parse_csv_line('a,,'): expected ['a', '', ''], got ['a', '']</code>.</p>
+  <p>Three small, cheap models ran every task 10 times in every condition: <strong>Claude Haiku 4.5</strong> through the Claude Code command line, with tools and thinking off; <strong>DeepSeek V4.1 Flash</strong> through OpenRouter, reasoning off, temperature 0.2; and <strong>GLM 5.3 Flash</strong> through OpenRouter, temperature 0.2, where the provider does not allow reasoning to be switched off. Haiku did not run the self-test harness, which I added later.</p>
+
+  <h2>Experiment</h2>
+  <h3>How often the final code was correct</h3>
+  <figure>
+    <svg class="diagram" viewBox="0 0 760 300" role="img" aria-label="Grouped bar chart of the share of runs whose final code passed every test. Haiku: baseline 43 percent, harness 48. DeepSeek: baseline 77, harness 81, self-test harness 87. GLM: baseline 56, harness 78, self-test harness 77." xmlns="http://www.w3.org/2000/svg" font-size="12">
+      <g stroke="var(--rule)" stroke-width="1">
+        <path d="M70 40H740"/><path d="M70 130H740"/><path d="M70 220H740"/>
+      </g>
+      <g fill="var(--muted)" text-anchor="end" font-size="11">
+        <text x="62" y="44">100%</text><text x="62" y="134">50%</text><text x="62" y="224">0%</text>
+      </g>
+      <!-- 1.8 px per percentage point, from y = 220 -->
+      <g>
+        <rect x="110" y="142.6" width="44" height="77.4" fill="var(--muted)" fill-opacity="0.55"/>
+        <rect x="160" y="133.6" width="44" height="86.4" fill="var(--accent)" fill-opacity="0.55"/>
+        <rect x="320" y="81.4" width="44" height="138.6" fill="var(--muted)" fill-opacity="0.55"/>
+        <rect x="370" y="74.2" width="44" height="145.8" fill="var(--accent)" fill-opacity="0.55"/>
+        <rect x="420" y="63.4" width="44" height="156.6" fill="var(--accent)"/>
+        <rect x="540" y="119.2" width="44" height="100.8" fill="var(--muted)" fill-opacity="0.55"/>
+        <rect x="590" y="79.6" width="44" height="140.4" fill="var(--accent)" fill-opacity="0.55"/>
+        <rect x="640" y="81.4" width="44" height="138.6" fill="var(--accent)"/>
+      </g>
+      <g fill="var(--ink)" text-anchor="middle" font-size="11.5">
+        <text x="132" y="137">43%</text><text x="182" y="128">48%</text>
+        <text x="342" y="76">77%</text><text x="392" y="69">81%</text><text x="442" y="58">87%</text>
+        <text x="562" y="114">56%</text><text x="612" y="74">78%</text><text x="662" y="76">77%</text>
+      </g>
+      <g fill="var(--ink)" text-anchor="middle" font-weight="600">
+        <text x="157" y="242">Haiku 4.5</text><text x="392" y="242">DeepSeek V4.1 Flash</text><text x="612" y="242">GLM 5.3 Flash</text>
+      </g>
+      <text x="157" y="258" text-anchor="middle" font-size="11" fill="var(--muted)">no self-test run</text>
+      <g font-size="11.5" fill="var(--ink)">
+        <rect x="70" y="276" width="10" height="10" fill="var(--muted)" fill-opacity="0.55"/><text x="86" y="285">baseline</text>
+        <rect x="170" y="276" width="10" height="10" fill="var(--accent)" fill-opacity="0.55"/><text x="186" y="285">harness (visible tests)</text>
+        <rect x="350" y="276" width="10" height="10" fill="var(--accent)"/><text x="366" y="285">self-test harness</text>
+      </g>
+    </svg>
+    <figcaption>Share of 100 runs per bar (10 tasks &times; 10 repeats) whose final code passed the visible and the held-out tests.</figcaption>
+  </figure>
+  <table>
+    <thead>
+      <tr><th>model</th><th>baseline</th><th>harness</th><th>self-test</th><th>noise: first attempts</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Haiku 4.5</td><td>43%</td><td>48% (p = 0.42)</td><td>&ndash;</td><td>45%</td></tr>
+      <tr><td>DeepSeek V4.1 Flash</td><td>77%</td><td>81% (p = 0.48)</td><td>87% (p = 0.05)</td><td>71%, 75%</td></tr>
+      <tr><td>GLM 5.3 Flash</td><td>56%</td><td>78% (p &lt; 0.001)</td><td>77% (p = 0.001)</td><td>63%, 56%</td></tr>
+    </tbody>
+  </table>
+  <p>The p-values are exact McNemar tests against the baseline, on the same task and repeat. The last column is the noise check. Each loop's first attempt is a fresh baseline, and it drifted by up to 7 points. A gain smaller than that is chance. So the plain harness did little for Haiku and DeepSeek and a lot for GLM, and the self-test harness was the best condition for DeepSeek.</p>
+
+  <h3>Where the gains came from</h3>
+  <p>Compare each loop's final code with its own first attempt, and ask what each repair started from:</p>
+  <table>
+    <thead>
+      <tr><th>model, loop</th><th>runs repaired</th><th>from an empty or cut-off answer</th><th>from test feedback</th><th>correct code made wrong</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Haiku, harness</td><td>3</td><td>0</td><td>3</td><td>0</td></tr>
+      <tr><td>DeepSeek, harness</td><td>10</td><td>1</td><td>9</td><td>0</td></tr>
+      <tr><td>DeepSeek, self-test</td><td>13</td><td>2</td><td>11</td><td>1</td></tr>
+      <tr><td>GLM, harness</td><td>15</td><td>9</td><td>6</td><td>0</td></tr>
+      <tr><td>GLM, self-test</td><td>25</td><td>10</td><td>15</td><td>4</td></tr>
+    </tbody>
+  </table>
+  <p>GLM's large gain is mostly not about tests. GLM sometimes reasons until it reaches the output limit of 8,000 tokens and then writes no code at all: 57 of its 425 answers were empty. The loop repairs most of them by asking again, which any retry would do. In the plain harness, test feedback itself repaired 3 to 9 runs in 100.</p>
+
+  <h3>Three runs, close up</h3>
+  <p><strong>A rule that no test checks.</strong> Haiku's evaluator passed all 5 visible tests on the first try, so the harness stopped. The held-out tests then failed on <code>-2^2</code>: it returned <code>4</code>, not <code>-4</code>. The prompt states this rule in words. That case failed in 16 of Haiku's 17 failed runs on this task, and the harness never found out.</p>
+  <p><strong>An empty answer.</strong> On the subsequence task, GLM's baseline was correct in 1 run of 10 and its harness in 10 of 10. In all 8 runs that the harness repaired, the first answer was empty, and the feedback was <code>No code block found in the reply.</code> No test was involved.</p>
+  <p><strong>A wrong test written by the model.</strong> DeepSeek wrote 28 tests for the evaluator; 27 were right. The wrong one expected <code>2 ^ 1/2</code> to raise an error, as if it meant 2 to the power of one half. By the specification it is <code>(2^1)/2 = 1</code>, and the first code was correct. The loop &ldquo;fixed&rdquo; it to raise the error, and the change broke <code>2^64 / 2^62</code> in the held-out tests.</p>
+
+  <h3>The model's own tests</h3>
+  <p>The self-written tests were mostly right: 96&nbsp;% of DeepSeek's 2,997 cases and of GLM's 1,746. But only about half of the test files were right in every case (34 of 72 usable files, and 35 of 65), and one wrong case keeps a loop going. Both models also wrote far more cases than the 10 to 25 I asked for, and often ran out of output tokens before the list was finished. Those runs fell back to the visible tests. The self-test harness cost about 4 times the baseline; the plain harness about 1.3 to 1.5 times.</p>
+
+  <h2>What this means if you build agents</h2>
+  <ul class="plain">
+    <li><strong>Score the loop on tests it never sees.</strong> Its own pass rate said 90&nbsp;% where the truth was 48&nbsp;%. Keep a held-out set, even a small one, and report both numbers.</li>
+    <li><strong>A loop can only fix what its tests check.</strong> A rule stated in the specification but not tested, like <code>-2^2</code>, stays broken. If something matters, turn it into a test.</li>
+    <li><strong>Separate retry from repair.</strong> Before you credit the tests, add a plain retry for empty or cut-off answers and check the stop reason. Much of one model's gain was exactly that.</li>
+    <li><strong>Let the model write tests, but do not trust them blindly.</strong> Ask for them from the specification, before the code. Expect a few to be wrong, tell the repair step that the specification wins, and cap the attempts. Watch for loops that rewrite code that was already correct.</li>
+    <li><strong>Watch the output budget.</strong> A model that reasons can spend its whole limit thinking and return nothing.</li>
+    <li><strong>Price it.</strong> Here a plain loop added 30 to 50&nbsp;% to the cost, and a self-test loop multiplied it by about 4. That is worth it where a wrong answer is expensive.</li>
+  </ul>
+
+  <h3>What about frontier models?</h3>
+  <p>These are small models on purpose: they fail often enough for a loop to have work. Frontier models reason before they answer, and that reasoning is already a check of its own. I saw this by accident. With Claude Code's default thinking on, Haiku's one-shot answers used about 15,000 output tokens for a reply of about 800, and its baseline passed 9 of 10 hard tasks in a pilot. With thinking off, it passed 8 of 20. For a model that reasons, the useful question is what the loop checks that the reasoning cannot: running the code, and behaviour that no visible test covers.</p>
+
+  <h2>How I got here</h2>
+  <p>The first version could not answer the question. On ten textbook tasks, Haiku passed 29 of 30 runs at once, so there was nothing to fix. It was also thinking in secret, as above. And the loop saw every test with its expected value, so a repair could copy the answer. The harder tasks, thinking switched off and the held-out tests came from those three problems. One GLM run also crashed at run 231 of 300 on a dropped connection and wrote nothing; I ran it again. Its log shows the same gains at a lower level: 37&nbsp;% for the baseline, 57&nbsp;% and 64&nbsp;% for the loops.</p>
+
+  <h2>Choices and trade-offs</h2>
+  <ul class="plain">
+    <li><strong>One message per attempt, not a chat.</strong> Each repair prompt holds the task, the last code and the test output. That is the same for every model and easy to log, but the model does not see its earlier reasoning.</li>
+    <li><strong>The model's tests see no code.</strong> Otherwise it tests what the code does, not what the specification says. The price: the tests are blind to the code's weak points.</li>
+    <li><strong>At most 3 attempts.</strong> The third attempt added 0 to 4 points, except in DeepSeek's self-test loop, which went from 77&nbsp;% to 87&nbsp;% on it.</li>
+    <li><strong>8,000 output tokens.</strong> Enough for every task, but not for a model that reasons at length. A higher limit would have raised GLM's baseline and shrunk its loop gains.</li>
+    <li><strong>Temperature 0.2 and a $2 cap.</strong> The runner stops when the reported cost reaches a limit and keeps only whole repeats. Through the Claude Code command line, temperature cannot be set.</li>
+  </ul>
+
+  <h2>Conclusion</h2>
+  <p>Two expectations held and one held in part. A loop over a few given tests helped less than the claim says: within noise for two models, and for the third mostly through retries. Writing its own tests first was the best loop for DeepSeek and as good as the plain loop for GLM, at about 4 times the cost. And every loop stopped, in 8 to 42 runs in 100, with its tests passing and the code wrong.</p>
+  <p>So the claim holds in a weaker form. A verification loop helps about as much as its checks cover. Measure it on tests it never sees, or its own success rate will tell you what you want to hear.</p>
+
+  <h2>Limitations</h2>
+  <p>Ten tasks, written by me, all about following an exact specification. A loop may help more where mistakes crash, or where the visible tests are the whole specification. The ten repeats of one task are not independent, so the p-values are optimistic. The models are small, and the three routes differ: no temperature for Haiku, reasoning that cannot be switched off for GLM. The two GLM runs agree on the gains but not on the level, and I did not record which provider served them. The self-test harness was not run on Haiku.</p>
+
+  <h2>Run it yourself</h2>
+  <p>The code, the tasks, every answer and every test result are in <a href="https://github.com/vlrmzz/ai-claims-experiments/tree/main/verification-harness">the repository</a>. Each run writes a <code>results.json</code> with every attempt and a <code>summary.md</code> with per-task results, failure kinds and cost.</p>
+  <pre><code>python run.py --task-set hard --backend fake    # offline check
+python run.py --task-set hard --backend openrouter \
+    --model deepseek/deepseek-v4.1-flash \
+    --repeats 10 --max-cost 0.90
+python run.py --summarize hard_models/deepseek-v4.1-flash</code></pre>
+
+  <h2>Sources</h2>
+  <ul class="plain">
+    <li>Shinn et al., <a href="https://arxiv.org/abs/2303.11366">Reflexion: language agents with verbal reinforcement learning</a> (2023).</li>
+    <li>Chen et al., <a href="https://arxiv.org/abs/2304.05128">Teaching large language models to self-debug</a> (2023).</li>
+    <li>Ridnik et al., <a href="https://arxiv.org/abs/2401.08500">Code generation with AlphaCodium: from prompt engineering to flow engineering</a> (2024).</li>
+    <li>Liu et al., <a href="https://arxiv.org/abs/2305.01210">Is your code generated by ChatGPT really correct? Rigorous evaluation of large language models for code generation</a> (EvalPlus, 2023).</li>
+    <li>The tasks, tests and reference solutions are my own, in the repository above.</li>
+  </ul>
+
+  <p>Deciding what an agent's loop checks, and measuring whether those checks help, is a large part of building an agent harness.</p>
+
+  <p class="post-meta">I used Claude, Anthropic&rsquo;s model, as a coding and writing assistant for this experiment.</p>
+
+  <p class="back"><a href="/writing/">Back to writing</a></p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span><a class="eml" href="/#contact" data-e="em.mp@gnitlusnoc.ia.rlv">Email me</a></span>
+    <span><a href="https://github.com/vlrmzz">GitHub</a> &nbsp; <a href="https://www.linkedin.com/in/vlrmzzz/">LinkedIn</a> &nbsp; <a href="https://x.com/vlraime">X</a></span>
+  </div>
+</footer>
+</body>
+</html>
