@@ -44,6 +44,7 @@
     <dt>Project</dt><dd><a href="https://ihi-search.eu">SEARCH</a>, the Synthetic Healthcare Data Governance Hub</dd>
     <dt>Funding</dt><dd>Innovative Health Initiative Joint Undertaking, grant agreement No. 101172997</dd>
     <dt>Role</dt><dd>Senior AI engineer</dd>
+    <dt>Framework</dt><dd>SDAC: Synthetic Data Assessment and Credibility</dd>
     <dt>Size</dt><dd>A consortium of 26 institutions</dd>
   </dl>
 
@@ -59,8 +60,16 @@
   <p>So the first question for SEARCH is not how to generate synthetic health data. There are many methods. The first question is how a person who receives a dataset can know whether to rely on it, and how much checking is in proportion to its use.</p>
 
   <h2>What I work on</h2>
-  <p>SDAC is the assessment side of that question: the criteria and the method that are used to evaluate a synthetic dataset before anyone trusts it, for each type of data in the project.</p>
-  <p>The project documents on this subject are not public. This page describes the problem, not the framework.</p>
+  <p>I work on SDAC, the Synthetic Data Assessment and Credibility framework. It is the assessment side of that question: the method that is used to evaluate a synthetic dataset before anyone trusts it, for each type of data in the project.</p>
+  <p>The framework puts four checks into one validation process:</p>
+  <ul class="plain">
+    <li><strong>Privacy.</strong> Does the dataset expose the people behind the real data?</li>
+    <li><strong>Fidelity.</strong> Does it have the statistical structure of the real data?</li>
+    <li><strong>Utility.</strong> Does an analysis on it give the answer that the real data would give?</li>
+    <li><strong>Fairness.</strong> Does that hold for every group of patients, and not only on average?</li>
+  </ul>
+  <p>The project has delivered the first version of the framework.</p>
+  <p>The name and the four checks come from the <a href="https://cordis.europa.eu/project/id/101172997/reporting">public project report on CORDIS</a>, the European Commission's database of funded research. The short explanations of the checks are mine. The framework documents are not public, so this page does not describe the method.</p>
 
   <h2>How it connects to my own research</h2>
   <p>This work has a pair. <a href="/work/mimic-iv.html">My model for relational health records</a> generates synthetic patients. SDAC asks how you can decide whether to trust records like those.</p>
