@@ -10,9 +10,24 @@
 <link rel="icon" href="/favicon.ico">
 <title>Pixels vs tokens: is visual data richer than text, or is it the convolution? – Vlr Mzz</title>
 <meta name="description" content="A toy world where a picture and a list of symbols carry exactly the same information. The picture model learns better, until you remove its convolution.">
+<link rel="canonical" href="https://vlrmzz.github.io/writing/pixels-vs-tokens.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Vlr Mzz">
+<meta property="og:title" content="Pixels vs tokens: is visual data richer than text, or is it the convolution?">
+<meta property="og:description" content="A toy world where a picture and a list of symbols carry exactly the same information. The picture model learns better, until you remove its convolution.">
+<meta property="og:url" content="https://vlrmzz.github.io/writing/pixels-vs-tokens.html">
+<meta property="og:image" content="https://vlrmzz.github.io/img/og/pixels-vs-tokens.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-08-18">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@vlraime">
+<link rel="alternate" type="application/atom+xml" title="Vlr Mzz: writing" href="/feed.xml">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Pixels vs tokens: is visual data richer than text, or is it the convolution?", "description": "A toy world where a picture and a list of symbols carry exactly the same information. The picture model learns better, until you remove its convolution.", "datePublished": "2026-08-18", "url": "https://vlrmzz.github.io/writing/pixels-vs-tokens.html", "image": "https://vlrmzz.github.io/img/og/pixels-vs-tokens.png", "author": {"@type": "Person", "name": "Vlr Mzz", "url": "https://vlrmzz.github.io/about/"}}</script>
 <script src="/assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap">
     <a class="site-name" href="/">Vlr Mzz</a>
@@ -25,9 +40,9 @@
     </nav>
   </div>
 </header>
-<main class="wrap">
+<main id="main" class="wrap">
   <h1 class="page-title">Pixels vs tokens: is visual data richer than text, or is it the convolution?</h1>
-  <p class="post-meta">18 August 2026 &middot; A toy projectile world where a picture and a list of symbols carry the same information</p>
+  <p class="post-meta"><time datetime="2026-08-18">18 August 2026</time> &middot; A toy projectile world where a picture and a list of symbols carry the same information</p>
   <p class="post-meta"><a href="https://colab.research.google.com/github/vlrmzz/ai-claims-experiments/blob/main/pixels-vs-tokens/pixels_vs_tokens.ipynb">Run it in Colab</a> &middot; <a href="https://github.com/vlrmzz/ai-claims-experiments/tree/main/pixels-vs-tokens">Code on GitHub</a></p>
 
   <p class="lede">I built a toy world in which a picture of a flying ball and a list of numbers that describe it carry <em>exactly the same</em> information. Then I trained models of the same size to predict where the ball goes next. The model that saw pictures beat the model that read symbols. Both lost to the model that read plain numbers. Then I removed the convolution from the picture model, and its advantage was gone. That last result is the real answer.</p>
@@ -84,7 +99,7 @@
   </table>
 
   <figure>
-    <img src="/img/posts/pixels-vs-tokens-curves.png" alt="Test error against the number of training flights for the four models" width="1265" height="841">
+    <img loading="lazy" decoding="async" src="/img/posts/pixels-vs-tokens-curves.png" alt="Test error against the number of training flights for the four models" width="1265" height="841">
     <figcaption>Each model sees the same information. The dashed line is the control: the same pixels with no convolution. It falls back to the token model, with 5.7 times the parameters.</figcaption>
   </figure>
 

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Vlr Mzz: writing</title>
+  <subtitle>Small experiments that take a popular claim about AI and test it.</subtitle>
+  <link href="https://vlrmzz.github.io/feed.xml" rel="self"/>
+  <link href="https://vlrmzz.github.io/writing/"/>
+  <id>https://vlrmzz.github.io/writing/</id>
+  <updated>2026-10-22T00:00:00Z</updated>
+  <author><name>Vlr Mzz</name></author>
+  <entry>
+    <title>Self-repair loops for coding agents: does running the tests make the code correct?</title>
+    <link href="https://vlrmzz.github.io/writing/self-repair-loops.html"/>
+    <id>https://vlrmzz.github.io/writing/self-repair-loops.html</id>
+    <published>2026-10-22T00:00:00Z</published>
+    <updated>2026-10-22T00:00:00Z</updated>
+    <summary>A loop that runs the tests and lets the model fix its code got the tests to pass in 90 of 100 runs. Only 48 of the programs were correct. A test of self-repair loops on three models, with held-out tests that no loop sees.</summary>
+  </entry>
+  <entry>
+    <title>Agent failure attribution: can a decision model find the step that went wrong?</title>
+    <link href="https://vlrmzz.github.io/writing/jev-agent-failures.html"/>
+    <id>https://vlrmzz.github.io/writing/jev-agent-failures.html</id>
+    <published>2026-10-06T00:00:00Z</published>
+    <updated>2026-10-06T00:00:00Z</updated>
+    <summary>A benchmark of Jev, TypeSafe's decision model, on failed AI-agent runs: which step went wrong, which agent, which kind of failure. Measured on 257 human-labelled runs, against published results and against a frontier model, for $0.44 in total.</summary>
+  </entry>
+  <entry>
+    <title>Model calibration: when can you trust a model’s confidence?</title>
+    <link href="https://vlrmzz.github.io/writing/confident-and-wrong.html"/>
+    <id>https://vlrmzz.github.io/writing/confident-and-wrong.html</id>
+    <published>2026-10-02T00:00:00Z</published>
+    <updated>2026-10-02T00:00:00Z</updated>
+    <summary>A small model that sorts security alerts and says how sure it is, trained three ways in a toy world where the right level of confidence is known. How it was trained mattered less than how much data it saw.</summary>
+  </entry>
+  <entry>
+    <title>Pixels vs tokens: is visual data richer than text, or is it the convolution?</title>
+    <link href="https://vlrmzz.github.io/writing/pixels-vs-tokens.html"/>
+    <id>https://vlrmzz.github.io/writing/pixels-vs-tokens.html</id>
+    <published>2026-08-18T00:00:00Z</published>
+    <updated>2026-08-18T00:00:00Z</updated>
+    <summary>A toy world where a picture and a list of symbols carry exactly the same information. The picture model learns better, until you remove its convolution.</summary>
+  </entry>
+  <entry>
+    <title>Nobody taught it grammar: parts of speech from next-word prediction</title>
+    <link href="https://vlrmzz.github.io/writing/nobody-told-it-what-a-noun-is.html"/>
+    <id>https://vlrmzz.github.io/writing/nobody-told-it-what-a-noun-is.html</id>
+    <published>2026-07-21T00:00:00Z</published>
+    <updated>2026-07-21T00:00:00Z</updated>
+    <summary>A one-head attention model reads four novels and learns to predict the next word. Nouns, verbs, adjectives and adverbs separate inside it, with no grammar in the training. With shuffled word order, they do not.</summary>
+  </entry>
+</feed>

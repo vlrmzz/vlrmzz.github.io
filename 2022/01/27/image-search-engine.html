@@ -10,9 +10,22 @@
 <link rel="icon" href="/favicon.ico">
 <title>Creating An Image Search Engine Using Deep Learning – Vlr Mzz</title>
 <meta name="description" content="In this project we build a Deep Learning based Image Search Engine that will help customers find similar products to ones they want!">
+<link rel="canonical" href="https://vlrmzz.github.io/2022/01/27/image-search-engine.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Vlr Mzz">
+<meta property="og:title" content="Creating An Image Search Engine Using Deep Learning">
+<meta property="og:description" content="In this project we build a Deep Learning based Image Search Engine that will help customers find similar products to ones they want!">
+<meta property="og:url" content="https://vlrmzz.github.io/2022/01/27/image-search-engine.html">
+<meta property="og:image" content="https://vlrmzz.github.io/img/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2022-01-27">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@vlraime">
 <script src="/assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap">
     <a class="site-name" href="/">Vlr Mzz</a>
@@ -25,10 +38,10 @@
     </nav>
   </div>
 </header>
-<main class="wrap">
+<main id="main" class="wrap">
   <h1 class="page-title">Creating An Image Search Engine Using Deep Learning</h1>
-  <p class="post-meta">27 January 2022 &middot; From the 2021&ndash;22 archive</p>
-  <figure><img src="/img/posts/dl-search-engine-title-img.png" alt=""></figure>
+  <p class="post-meta"><time datetime="2022-01-27">27 January 2022</time> &middot; From the 2021&ndash;22 archive</p>
+  <figure><img width="1920" height="1080" src="/img/posts/dl-search-engine-title-img.png" alt=""></figure>
 <p>In this project we build a Deep Learning based Image Search Engine that will help customers find similar products to ones they want!</p>
 <h2>Table of contents</h2>
 <ul>
@@ -73,7 +86,7 @@
 <h2>Sample Data Overview  <a id="sample-data-overview"></a></h2>
 <p>For our proof on concept we are working in only one section of the client's product base, women's shoes.</p>
 <p>We have been provided with images of the 300 shoes that are currently available to purchase.  A random selection of 18 of these can be seen in the image below.</p>
-<p><img alt="alt text" src="/img/posts/search-engine-image-examples.png" title="Deep Learning Search Engine - Image Examples" /></p>
+<p><img width="1920" height="1080" loading="lazy" decoding="async" alt="alt text" src="/img/posts/search-engine-image-examples.png" title="Deep Learning Search Engine - Image Examples" /></p>
 <p>We will need to extract &amp; capture the "features" of this base image set, and compare them to the "features" found in any given search image.  The images with the closest match will be returned to the customer!</p>
 <hr />
 <h2>Transfer Learning Overview  <a id="transfer-learning-overview"></a></h2>
@@ -82,7 +95,7 @@
 <p>For image based tasks this often means using all the the <em>pre-learned</em> features from a large network, so all of the convolutional filter values and feature maps, and instead of using it to predict what the network was originally designed for, piggybacking it, and training just the last part for some other task.</p>
 <p>The hope is, that the features which have already been learned will be good enough to differentiate between our new classes, and we’ll save a whole lot of training time (and be able to utilise a network architecture that has potentially already been optimised).</p>
 <p>For our Fruit Classification task we will be utilising a famous network known as <strong>VGG16</strong>.  This was designed back in 2014, but even by todays standards is a fairly heft network.  It was trained on the famous <em>ImageNet</em> dataset, with over a million images across one thousand different image classes. Everything from goldfish to cauliflowers to bottles of wine, to scuba divers!</p>
-<p><img alt="alt text" src="/img/posts/vgg16-architecture.png" title="VGG16 Architecture" /></p>
+<p><img width="1520" height="866" loading="lazy" decoding="async" alt="alt text" src="/img/posts/vgg16-architecture.png" title="VGG16 Architecture" /></p>
 <p>The VGG16 network won the 2014 ImageNet competition, meaning that it predicted more accurately than any other model on that set of images (although this has now been surpassed).</p>
 <p>If we can get our hands on the fully trained VGG16 model object, built to differentiate between all of those one thousand different image classes, the features that are contained in the layer prior to flattening will be very rich, and could be very useful for predicting all sorts of other images too without having to (a) re-train this entire architecture, which would be computationally, very expensive or (b) having to come up with our very own complex architecture, which we know can take a lot of trial and error to get right!</p>
 <p>All the hard work has been done, we just want to "transfer" those "learnings" to our own problem space.</p>
@@ -277,7 +290,7 @@ search_image = 'search_image_02.jpg'
 
 </code></pre>
 <p>The search image we are going to use for illustration here is below:</p>
-<p><img alt="alt text" src="/img/posts/search-engine-search1.jpg" title="VGG16 Architecture" /></p>
+<p><img width="200" height="294" loading="lazy" decoding="async" alt="alt text" src="/img/posts/search-engine-search1.jpg" title="VGG16 Architecture" /></p>
 <h5>Preprocess &amp; Featurise Search Image</h5>
 <p>Using the same helper functions, we apply the preprocessing &amp; featurising logic to the search image - the output again being a vector containing 512 numeric values.</p>
 <pre><code class="language-python">
@@ -336,15 +349,15 @@ plt.show()
 </code></pre>
 <p>The search image, and search results are below:</p>
 <p><strong>Search Image</strong></p>
-<p><img alt="alt text" src="/img/posts/search-engine-search1.jpg" title="Search 1: Search Image" /></p>
+<p><img width="200" height="294" loading="lazy" decoding="async" alt="alt text" src="/img/posts/search-engine-search1.jpg" title="Search 1: Search Image" /></p>
 <p><strong>Search Results</strong>
-<img alt="alt text" src="/img/posts/search-engine-search1-results.png" title="Search 1: Search Results" /></p>
+<img width="1064" height="860" loading="lazy" decoding="async" alt="alt text" src="/img/posts/search-engine-search1-results.png" title="Search 1: Search Results" /></p>
 <p>Very impressive results!  From the 300 base-set images, these are the eight that have been deemed to be <em>most similar</em>!</p>
 <p>Let's take a look at a second search image...</p>
 <p><strong>Search Image</strong></p>
-<p><img alt="alt text" src="/img/posts/search-engine-search2.jpg" title="Search 2: Search Image" /></p>
+<p><img width="200" height="200" loading="lazy" decoding="async" alt="alt text" src="/img/posts/search-engine-search2.jpg" title="Search 2: Search Image" /></p>
 <p><strong>Search Results</strong>
-<img alt="alt text" src="/img/posts/search-engine-search2-results.png" title="Search 2: Search Results" /></p>
+<img width="1045" height="860" loading="lazy" decoding="async" alt="alt text" src="/img/posts/search-engine-search2-results.png" title="Search 2: Search Results" /></p>
 <p>Again, these have come out really well - the features from VGG16 combined with Cosine Similarity have done a great job!</p>
 <hr />
 <h2>Discussion, Growth &amp; Next Steps <a id="growth-next-steps"></a></h2>

@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
@@ -11,9 +10,24 @@
 <link rel="icon" href="/favicon.ico">
 <title>Agent failure attribution: can a decision model find the step that went wrong? – Vlr Mzz</title>
 <meta name="description" content="A benchmark of Jev, TypeSafe's decision model, on failed AI-agent runs: which step went wrong, which agent, which kind of failure. Measured on 257 human-labelled runs, against published results and against a frontier model, for $0.44 in total.">
+<link rel="canonical" href="https://vlrmzz.github.io/writing/jev-agent-failures.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Vlr Mzz">
+<meta property="og:title" content="Agent failure attribution: can a decision model find the step that went wrong?">
+<meta property="og:description" content="A benchmark of Jev, TypeSafe's decision model, on failed AI-agent runs: which step went wrong, which agent, which kind of failure. Measured on 257 human-labelled runs, against published results and against a frontier model, for $0.44 in total.">
+<meta property="og:url" content="https://vlrmzz.github.io/writing/jev-agent-failures.html">
+<meta property="og:image" content="https://vlrmzz.github.io/img/og/jev-agent-failures.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-10-06">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@vlraime">
+<link rel="alternate" type="application/atom+xml" title="Vlr Mzz: writing" href="/feed.xml">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Agent failure attribution: can a decision model find the step that went wrong?", "description": "A benchmark of Jev, TypeSafe's decision model, on failed AI-agent runs: which step went wrong, which agent, which kind of failure. Measured on 257 human-labelled runs, against published results and against a frontier model, for $0.44 in total.", "datePublished": "2026-10-06", "url": "https://vlrmzz.github.io/writing/jev-agent-failures.html", "image": "https://vlrmzz.github.io/img/og/jev-agent-failures.png", "author": {"@type": "Person", "name": "Vlr Mzz", "url": "https://vlrmzz.github.io/about/"}}</script>
 <script src="/assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap">
     <a class="site-name" href="/">Vlr Mzz</a>
@@ -26,9 +40,9 @@
     </nav>
   </div>
 </header>
-<main class="wrap">
+<main id="main" class="wrap">
   <h1 class="page-title">Agent failure attribution: can a decision model find the step that went wrong?</h1>
-  <p class="post-meta">6 October 2026 &middot; Jev on 257 human-labelled failed runs, against published results and a frontier model</p>
+  <p class="post-meta"><time datetime="2026-10-06">6 October 2026</time> &middot; Jev on 257 human-labelled failed runs, against published results and a frontier model</p>
   <p class="post-meta"><a href="https://colab.research.google.com/github/vlrmzz/ai-claims-experiments/blob/main/agent-trace-failures/agent_trace_failures.ipynb">See the results in Colab</a> &middot; <a href="https://github.com/vlrmzz/ai-claims-experiments/tree/main/agent-trace-failures">Code on GitHub</a></p>
 
   <p class="lede">When an AI agent fails a task, a person must read the run and find the step where it went wrong. That work is slow. Jev is a decision model: it does not write text, and it answers typed questions with probabilities for a fraction of a cent. I did a test of Jev on 257 failed agent runs that people annotated by hand. On runs that fit in its window, it finds the failing step approximately as often as a frontier model. It cannot name the kind of failure, but its confidence tells you which answers to trust.</p>
@@ -155,7 +169,7 @@
   <p>Even the frontier model matches the human step in less than half of the runs. Part of that is real error. Part of it is probably disagreement on which step is the decisive one. Each run has one annotation, so I cannot separate the two.</p>
 
   <figure>
-    <img src="/img/posts/agent-trace-failures-confidence.png" alt="Two bar charts. For Jev and for Claude, the share of correct step answers rises with the confidence the model gave its own answer. Jev goes from 6 percent to 73 percent; Claude from 31 percent to 80 percent." width="1168" height="544">
+    <img loading="lazy" decoding="async" src="/img/posts/agent-trace-failures-confidence.png" alt="Two bar charts. For Jev and for Claude, the share of correct step answers rises with the confidence the model gave its own answer. Jev goes from 6 percent to 73 percent; Claude from 31 percent to 80 percent." width="1168" height="544">
     <figcaption>Confidence means something for both. When Jev gave its answer a probability of 0.7 or more, it was right in 30 of 41 runs. Below 0.3, in 1 of 16.</figcaption>
   </figure>
 
@@ -165,7 +179,7 @@
   <p>The human-labelled sets measure whether Jev can point at a step. A second question is whether it can detect known failure patterns across many runs. For that I used a set without human labels: the 159 failed runs of GPT-5 on <a href="https://github.com/sierra-research/tau2-bench">tau2-bench</a>, airline and retail. They come from Sierra's own leaderboard run of August 2025: 656 runs, 4 trials per task. In that run, 73 of the 164 tasks had at least one failure.</p>
 
   <figure>
-    <img src="/img/posts/agent-trace-failures-sample.png" alt="Grid of all 656 runs, one cell per run, four trials per task. The failed runs cluster on some tasks." width="1346" height="424">
+    <img loading="lazy" decoding="async" src="/img/posts/agent-trace-failures-sample.png" alt="Grid of all 656 runs, one cell per run, four trials per task. The failed runs cluster on some tasks." width="1346" height="424">
     <figcaption>Every run as one cell. 73 of the 164 tasks account for all 159 failed runs.</figcaption>
   </figure>
 
@@ -173,7 +187,7 @@
   <p>By that reading, 128 of the 159 failed runs were the benchmark's fault, not the agent's. The task expected an action that the policy forbids (49 runs). The simulated customer left its script (39). The script did not specify a detail that the grader checked (14). The expected action contradicted the data (13). The agent's own mistakes were 19 runs, with 12 more shared.</p>
 
   <figure>
-    <img src="/img/posts/agent-trace-failures-patterns.png" alt="Horizontal bar chart of the eight failure patterns by number of runs, each bar split by whose fault the run was. The three largest patterns are almost entirely the benchmark's fault." width="1508" height="737">
+    <img loading="lazy" decoding="async" src="/img/posts/agent-trace-failures-patterns.png" alt="Horizontal bar chart of the eight failure patterns by number of runs, each bar split by whose fault the run was. The three largest patterns are almost entirely the benchmark's fault." width="1508" height="737">
     <figcaption>The 8 patterns in the 159 runs, by number of runs, as read by Claude. Colour shows whose fault the reader gave for each run.</figcaption>
   </figure>
 

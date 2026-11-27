@@ -8,11 +8,24 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="icon" href="/favicon.ico">
-<title>Vlr Mzz</title>
+<title>Vlr Mzz – AI engineer and tech lead, Zurich</title>
 <meta name="description" content="AI engineer and tech lead in Zurich. I build agent harness systems, fine-tune models for specific domains with supervised or reinforcement learning, and work on foundation models for structured data.">
+<link rel="canonical" href="https://vlrmzz.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vlr Mzz">
+<meta property="og:title" content="Vlr Mzz – AI engineer and tech lead, Zurich">
+<meta property="og:description" content="AI engineer and tech lead in Zurich. I build agent harness systems, fine-tune models for specific domains with supervised or reinforcement learning, and work on foundation models for structured data.">
+<meta property="og:url" content="https://vlrmzz.github.io/">
+<meta property="og:image" content="https://vlrmzz.github.io/img/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@vlraime">
+<link rel="alternate" type="application/atom+xml" title="Vlr Mzz: writing" href="/feed.xml">
 <script src="/assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap">
     <a class="site-name" href="/">Vlr Mzz</a>
@@ -25,7 +38,7 @@
     </nav>
   </div>
 </header>
-<main class="wrap">
+<main id="main" class="wrap">
   <section class="intro">
     <div class="intro-head">
       <img src="/img/valerio-round.jpg" alt="Cartoon of Valerio in a hoodie, smiling, with both arms up and making an OK sign" width="128" height="128">
@@ -38,11 +51,6 @@
 
   <h2 class="sec-label" id="work"><a href="/work/">Selected work</a></h2>
   <ul class="entries">
-    <li>
-      <h3><a href="/work/mimic-iv.html">A generative model for relational health records</a></h3>
-      <p>A model that learns from hospital records as linked tables, ordered in time, and writes synthetic patient records with the same structure.</p>
-      <span class="meta">My own research, in progress</span>
-    </li>
     <li>
       <h3><a href="/work/rl-pentesting.html">Reinforcement learning for an autonomous pentesting agent</a></h3>
       <p>I fine-tuned Qwen 32B with reinforcement learning for a multi-agent penetration-testing system. The training worked, and the frontier models still moved faster. Here is when fine-tuning pays.</p>
@@ -57,6 +65,11 @@
       <h3><a href="/work/search-sdac.html">SDAC: assessing synthetic health data</a></h3>
       <p>SEARCH is a European project for health research with synthetic data. I work on the part about trust: does a synthetic dataset protect the people behind the real data, and is it still good enough to use?</p>
       <span class="meta">EU project, a consortium of 26 institutions</span>
+    </li>
+    <li>
+      <h3><a href="/work/mimic-iv.html">A generative model for relational health records</a></h3>
+      <p>A model that learns from hospital records as linked tables, ordered in time, and writes synthetic patient records with the same structure.</p>
+      <span class="meta">My own research, in progress</span>
     </li>
   </ul>
 
@@ -82,27 +95,27 @@
     <li>
       <h3><a href="/writing/self-repair-loops.html">Self-repair loops for coding agents: does running the tests make the code correct?</a></h3>
       <p>A loop that runs the tests and lets the model fix its code got the tests to pass in 90 of 100 runs. Only 48 of those programs were correct. Every loop I tested made its own tests pass far more often than it made the code correct.</p>
-      <span class="meta">22 October 2026</span>
+      <span class="meta"><time datetime="2026-10-22">22 October 2026</time></span>
     </li>
     <li>
       <h3><a href="/writing/jev-agent-failures.html">Agent failure attribution: can a decision model find the step that went wrong?</a></h3>
       <p>I tested Jev, a decision model, on 257 failed agent runs that people labelled by hand. On runs that fit in its window, it finds the failing step about as often as a frontier model. It cannot name the kind of failure. It knows when it is unsure.</p>
-      <span class="meta">6 October 2026</span>
+      <span class="meta"><time datetime="2026-10-06">6 October 2026</time></span>
     </li>
     <li>
       <h3><a href="/writing/confident-and-wrong.html">Model calibration: when can you trust a model&rsquo;s confidence?</a></h3>
       <p>When can you trust a model that says how sure it is? I built a toy security world where the right confidence is known. Two of three training methods became honest, but only with enough data. Unfamiliar input broke all three.</p>
-      <span class="meta">2 October 2026</span>
+      <span class="meta"><time datetime="2026-10-02">2 October 2026</time></span>
     </li>
     <li>
       <h3><a href="/writing/pixels-vs-tokens.html">Pixels vs tokens: is visual data richer than text, or is it the convolution?</a></h3>
       <p>A picture and a list of symbols that carry exactly the same information about a toy world. The picture model learns better. Take away its convolution and the advantage is gone.</p>
-      <span class="meta">18 August 2026</span>
+      <span class="meta"><time datetime="2026-08-18">18 August 2026</time></span>
     </li>
     <li>
       <h3><a href="/writing/nobody-told-it-what-a-noun-is.html">Nobody taught it grammar: parts of speech from next-word prediction</a></h3>
       <p>A very small language model reads four novels for five minutes. Nouns, verbs, adjectives and adverbs separate inside it, and nothing in the training mentions grammar. With shuffled word order, they do not.</p>
-      <span class="meta">21 July 2026</span>
+      <span class="meta"><time datetime="2026-07-21">21 July 2026</time></span>
     </li>
   </ul>
   <p class="meta"><a href="/archive/">Older data-science projects, 2021&ndash;22</a></p>

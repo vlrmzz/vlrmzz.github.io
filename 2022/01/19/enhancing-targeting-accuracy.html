@@ -10,9 +10,22 @@
 <link rel="icon" href="/favicon.ico">
 <title>Enhancing Targeting Accuracy Using ML – Vlr Mzz</title>
 <meta name="description" content="Our client, a grocery retailer, wants to utilise Machine Learning to reduce mailing costs, and improve ROI!">
+<link rel="canonical" href="https://vlrmzz.github.io/2022/01/19/enhancing-targeting-accuracy.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Vlr Mzz">
+<meta property="og:title" content="Enhancing Targeting Accuracy Using ML">
+<meta property="og:description" content="Our client, a grocery retailer, wants to utilise Machine Learning to reduce mailing costs, and improve ROI!">
+<meta property="og:url" content="https://vlrmzz.github.io/2022/01/19/enhancing-targeting-accuracy.html">
+<meta property="og:image" content="https://vlrmzz.github.io/img/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2022-01-19">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@vlraime">
 <script src="/assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap">
     <a class="site-name" href="/">Vlr Mzz</a>
@@ -25,10 +38,10 @@
     </nav>
   </div>
 </header>
-<main class="wrap">
+<main id="main" class="wrap">
   <h1 class="page-title">Enhancing Targeting Accuracy Using ML</h1>
-  <p class="post-meta">19 January 2022 &middot; From the 2021&ndash;22 archive</p>
-  <figure><img src="/img/posts/classification-title-img.png" alt=""></figure>
+  <p class="post-meta"><time datetime="2022-01-19">19 January 2022</time> &middot; From the 2021&ndash;22 archive</p>
+  <figure><img width="1920" height="1080" src="/img/posts/classification-title-img.png" alt=""></figure>
 <p>Our client, a grocery retailer, wants to utilise Machine Learning to reduce mailing costs, and improve ROI!</p>
 <h2>Table of contents</h2>
 <ul>
@@ -423,7 +436,7 @@ plt.show()
 
 </code></pre>
 <p>This creates the below plot, which shows us that the highest cross-validated classification accuracy (0.904) is when we include seven of our original input variables.  The variable that has been dropped is <em>total_sales</em> but from the chart we can see that the difference is negligible.  However, we will continue on with the selected seven!</p>
-<p><img alt="alt text" src="/img/posts/log-reg-feature-selection-plot.png" title="Logistic Regression Feature Selection Plot" /></p>
+<p><img width="1144" height="640" loading="lazy" decoding="async" alt="alt text" src="/img/posts/log-reg-feature-selection-plot.png" title="Logistic Regression Feature Selection Plot" /></p>
 <h4>Model Training <a id="logreg-model-training"></a></h4>
 <p>Instantiating and training our Logistic Regression model is done using the below code.  We use the <em>random_state</em> parameter to ensure reproducible results, meaning any refinements can be compared to past results.  We also specify <em>max_iter = 1000</em> to allow the solver more attempts at finding an optimal regression line, as the default value of 100 was not enough.</p>
 <pre><code class="language-python">
@@ -463,7 +476,7 @@ for (i, j), corr_value in np.ndenumerate(conf_matrix):
 plt.show()
 
 </code></pre>
-<p><img alt="alt text" src="/img/posts/log-reg-confusion-matrix.png" title="Logistic Regression Confusion Matrix" /></p>
+<p><img width="1920" height="1080" loading="lazy" decoding="async" alt="alt text" src="/img/posts/log-reg-confusion-matrix.png" title="Logistic Regression Confusion Matrix" /></p>
 <p>The aim is to have a high proportion of observations falling into the top left cell (predicted non-signup and actual non-signup) and the bottom right cell (predicted signup and actual signup).</p>
 <p>Since the proportion of signups in our data was around 30:70 we will next analyse not only Classification Accuracy, but also Precision, Recall, and F1-Score which will help us assess how well our model has performed in reality.</p>
 <h6>Classification Performance Metrics</h6>
@@ -552,7 +565,7 @@ plt.tight_layout()
 plt.show()
 
 </code></pre>
-<p><img alt="alt text" src="/img/posts/log-reg-optimal-threshold-plot.png" title="Logistic Regression Optimal Threshold Plot" /></p>
+<p><img width="1144" height="640" loading="lazy" decoding="async" alt="alt text" src="/img/posts/log-reg-optimal-threshold-plot.png" title="Logistic Regression Optimal Threshold Plot" /></p>
 <p>Along the x-axis of the above plot we have the different classification thresholds that were testing.  Along the y-axis we have the performance score for each of our three metrics.  As per the legend, we have Precision as a blue dotted line, Recall as an orange dotted line, and F1-Score as a thick green line.  You can see the interesting "zero-sum" relationship between Precision &amp; Recall <em>and</em> you can see that the point where Precision &amp; Recall meet is where F1-Score is maximised.</p>
 <p>As you can see at the top of the plot, the optimal F1-Score for this model 0.78 and this is obtained at a classification threshold of 0.44.  This is higher than the F1-Score of 0.734 that we achieved at the default classification threshold of 0.50!</p>
 <hr />
@@ -687,7 +700,7 @@ for (i, j), corr_value in np.ndenumerate(conf_matrix):
 plt.show()
 
 </code></pre>
-<p><img alt="alt text" src="/img/posts/clf-tree-confusion-matrix.png" title="Decision Tree Confusion Matrix" /></p>
+<p><img width="1920" height="1080" loading="lazy" decoding="async" alt="alt text" src="/img/posts/clf-tree-confusion-matrix.png" title="Decision Tree Confusion Matrix" /></p>
 <p>The aim is to have a high proportion of observations falling into the top left cell (predicted non-signup and actual non-signup) and the bottom right cell (predicted signup and actual signup).</p>
 <p>Since the proportion of signups in our data was around 30:70 we will again analyse not only Classification Accuracy, but also Precision, Recall, and F1-Score as they will help us assess how well our model has performed from different points of view.</p>
 <h6>Classification Performance Metrics</h6>
@@ -729,7 +742,7 @@ tree = plot_tree(clf,
 
 </code></pre>
 <p>That code gives us the below plot:</p>
-<p><img alt="alt text" src="/img/posts/clf-tree-nodes-plot.png" title="Decision Tree Max Depth Plot" /></p>
+<p><img width="1467" height="829" loading="lazy" decoding="async" alt="alt text" src="/img/posts/clf-tree-nodes-plot.png" title="Decision Tree Max Depth Plot" /></p>
 <p>This is a very powerful visual, and one that can be shown to stakeholders in the business to ensure they understand exactly what is driving the predictions.</p>
 <p>One interesting thing to note is that the <em>very first split</em> appears to be using the variable <em>distance from store</em> so it would seem that this is a very important variable when it comes to predicting signups to the delivery club!</p>
 <h4>Decision Tree Regularisation <a id="clftree-model-regularisation"></a></h4>
@@ -768,7 +781,7 @@ plt.show()
 
 </code></pre>
 <p>That code gives us the below plot - which visualises the results!</p>
-<p><img alt="alt text" src="/img/posts/clf-tree-max-depth-plot.png" title="Decision Tree Max Depth Plot" /></p>
+<p><img width="1144" height="640" loading="lazy" decoding="async" alt="alt text" src="/img/posts/clf-tree-max-depth-plot.png" title="Decision Tree Max Depth Plot" /></p>
 <p>In the plot we can see that the <em>maximum</em> F1-Score on the test set is found when applying a <em>max_depth</em> value of 9 which takes our F1-Score up to 0.925</p>
 <hr />
 <h2>Random Forest <a id="rf-title"></a></h2>
@@ -900,7 +913,7 @@ for (i, j), corr_value in np.ndenumerate(conf_matrix):
 plt.show()
 
 </code></pre>
-<p><img alt="alt text" src="/img/posts/rf-confusion-matrix.png" title="Random Forest Confusion Matrix" /></p>
+<p><img width="1920" height="1080" loading="lazy" decoding="async" alt="alt text" src="/img/posts/rf-confusion-matrix.png" title="Random Forest Confusion Matrix" /></p>
 <p>The aim is to have a high proportion of observations falling into the top left cell (predicted non-signup and actual non-signup) and the bottom right cell (predicted signup and actual signup).</p>
 <p>Since the proportion of signups in our data was around 30:70 we will again analyse not only Classification Accuracy, but also Precision, Recall, and F1-Score as they will help us assess how well our model has performed from different points of view.</p>
 <h6>Classification Performance Metrics</h6>
@@ -975,8 +988,8 @@ plt.show()
 
 </code></pre>
 <p>That code gives us the below plots - the first being for <em>Feature Importance</em> and the second for <em>Permutation Importance</em>!</p>
-<p><img alt="alt text" src="/img/posts/rf-classification-feature-importance.png" title="Random Forest Feature Importance Plot" /></p>
-<p><img alt="alt text" src="/img/posts/rf-classification-permutation-importance.png" title="Random Forest Permutation Importance Plot" /></p>
+<p><img width="1144" height="640" loading="lazy" decoding="async" alt="alt text" src="/img/posts/rf-classification-feature-importance.png" title="Random Forest Feature Importance Plot" /></p>
+<p><img width="1144" height="640" loading="lazy" decoding="async" alt="alt text" src="/img/posts/rf-classification-permutation-importance.png" title="Random Forest Permutation Importance Plot" /></p>
 <p>The overall story from both approaches is very similar, in that by far, the most important or impactful input variables are <em>distance_from_store</em> and <em>transaction_count</em></p>
 <p>Surprisingly, <em>average_basket_size</em> was not as important as hypothesised.</p>
 <p>There are slight differences in the order or "importance" for the remaining variables but overall they have provided similar findings.</p>
@@ -1250,7 +1263,7 @@ plt.show()
 </code></pre>
 <p>This creates the below plot, which shows us that the highest cross-validated classification accuracy (0.9472) is when we include six of our original input variables - although there isn't much difference in predictive performance between using three variables through to eight variables - and this syncs with what we saw in the Random Forest section above where only three of the input variables scored highly when assessing Feature Importance &amp; Permutation Importance.</p>
 <p>The variables that have been dropped are <em>total_items</em> and <em>credit score</em> - we will continue on with the remaining six!</p>
-<p><img alt="alt text" src="/img/posts/knn-feature-selection-plot.png" title="KNN Feature Selection Plot" /></p>
+<p><img width="1144" height="640" loading="lazy" decoding="async" alt="alt text" src="/img/posts/knn-feature-selection-plot.png" title="KNN Feature Selection Plot" /></p>
 <h4>Model Training <a id="knn-model-training"></a></h4>
 <p>Instantiating and training our KNN model is done using the below code.  At this stage we will just use the default parameters, meaning that the algorithm:</p>
 <ul>
@@ -1294,7 +1307,7 @@ for (i, j), corr_value in np.ndenumerate(conf_matrix):
 plt.show()
 
 </code></pre>
-<p><img alt="alt text" src="/img/posts/knn-confusion-matrix.png" title="KNN Confusion Matrix" /></p>
+<p><img width="1920" height="1080" loading="lazy" decoding="async" alt="alt text" src="/img/posts/knn-confusion-matrix.png" title="KNN Confusion Matrix" /></p>
 <p>The aim is to have a high proportion of observations falling into the top left cell (predicted non-signup and actual non-signup) and the bottom right cell (predicted signup and actual signup).</p>
 <p>The results here are interesting - all of the errors are where the model incorrectly classified <em>delivery club</em> signups as non-signups - the model made no errors when classifying non-signups non-signups.</p>
 <p>Since the proportion of signups in our data was around 30:70 we will next analyse not only Classification Accuracy, but also Precision, Recall, and F1-Score which will help us assess how well our model has performed in reality.</p>
@@ -1358,7 +1371,7 @@ plt.show()
 
 </code></pre>
 <p>That code gives us the below plot - which visualises the results!</p>
-<p><img alt="alt text" src="/img/posts/knn-optimal-k-value-plot.png" title="KNN Optimal k Value Plot" /></p>
+<p><img width="1144" height="640" loading="lazy" decoding="async" alt="alt text" src="/img/posts/knn-optimal-k-value-plot.png" title="KNN Optimal k Value Plot" /></p>
 <p>In the plot we can see that the <em>maximum</em> F1-Score on the test set is found when applying a k value of 5 - which is exactly what we started with, so nothing needs to change!</p>
 <hr />
 <h2>Modelling Summary  <a id="modelling-summary"></a></h2>

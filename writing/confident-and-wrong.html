@@ -10,9 +10,24 @@
 <link rel="icon" href="/favicon.ico">
 <title>Model calibration: when can you trust a model's confidence? – Vlr Mzz</title>
 <meta name="description" content="A small model that sorts security alerts and says how sure it is, trained three ways in a toy world where the right level of confidence is known. How it was trained mattered less than how much data it saw.">
+<link rel="canonical" href="https://vlrmzz.github.io/writing/confident-and-wrong.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Vlr Mzz">
+<meta property="og:title" content="Model calibration: when can you trust a model's confidence?">
+<meta property="og:description" content="A small model that sorts security alerts and says how sure it is, trained three ways in a toy world where the right level of confidence is known. How it was trained mattered less than how much data it saw.">
+<meta property="og:url" content="https://vlrmzz.github.io/writing/confident-and-wrong.html">
+<meta property="og:image" content="https://vlrmzz.github.io/img/og/confident-and-wrong.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-10-02">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@vlraime">
+<link rel="alternate" type="application/atom+xml" title="Vlr Mzz: writing" href="/feed.xml">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Model calibration: when can you trust a model’s confidence?", "description": "A small model that sorts security alerts and says how sure it is, trained three ways in a toy world where the right level of confidence is known. How it was trained mattered less than how much data it saw.", "datePublished": "2026-10-02", "url": "https://vlrmzz.github.io/writing/confident-and-wrong.html", "image": "https://vlrmzz.github.io/img/og/confident-and-wrong.png", "author": {"@type": "Person", "name": "Vlr Mzz", "url": "https://vlrmzz.github.io/about/"}}</script>
 <script src="/assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap">
     <a class="site-name" href="/">Vlr Mzz</a>
@@ -25,9 +40,9 @@
     </nav>
   </div>
 </header>
-<main class="wrap">
+<main id="main" class="wrap">
   <h1 class="page-title">Model calibration: when can you trust a model&rsquo;s confidence?</h1>
-  <p class="post-meta">2 October 2026 &middot; Confident and wrong: three training methods in a toy security-alert world</p>
+  <p class="post-meta"><time datetime="2026-10-02">2 October 2026</time> &middot; Confident and wrong: three training methods in a toy security-alert world</p>
   <p class="post-meta"><a href="https://colab.research.google.com/github/vlrmzz/ai-claims-experiments/blob/main/confident-and-wrong/confident_and_wrong.ipynb">Run it in Colab</a> &middot; <a href="https://github.com/vlrmzz/ai-claims-experiments/tree/main/confident-and-wrong">Code on GitHub</a></p>
 
   <p class="lede">Some AI models do not write text. You give them a text and a list of possible answers, and they give back a probability for each answer. The promise is that you can rely on that probability: let the model act when it says 95&nbsp;%, send the case to a person when it says 60&nbsp;%. I built a small model of this kind for sorting security alerts and tested where that reliability comes from. The way the model was trained mattered far less than its makers suggest. What mattered was how much data it had seen and whether the input looked like that data. On logs it could not read, it was right 26&nbsp;% of the time and still 52&nbsp;% sure.</p>
@@ -68,14 +83,14 @@
   <p>A chatbot-style model writes its answer in small pieces, each a word or part of a word. Every piece needs one full run of the network, and each new piece is fed back in to produce the next. If you ask it how sure it is, that number is written text as well, and nothing ties it to how often the model is right. A decision model runs the network once and reads the probabilities directly.</p>
 
   <figure>
-    <img src="/img/posts/confident-and-wrong-llm-vs-decision.svg" alt="A generative LLM writes its answer one piece at a time and the text is then parsed; a decision model returns one probability per option in a single run" width="1280" height="692">
+    <img loading="lazy" decoding="async" src="/img/posts/confident-and-wrong-llm-vs-decision.svg" alt="A generative LLM writes its answer one piece at a time and the text is then parsed; a decision model returns one probability per option in a single run" width="1280" height="692">
     <figcaption>The same decision, two ways.</figcaption>
   </figure>
 
   <p>Inside Laya the trick is in how the input is laid out. For each question it builds one sequence: the question, then every option with a placeholder in front of it, written <code>[MASK]</code>, then the text to judge.</p>
 
   <figure>
-    <img src="/img/posts/confident-and-wrong-architecture.svg" alt="The input passes through an encoder and a decision head; the output at each MASK position is turned into a raw score per option, and a formula called softmax turns the scores into probabilities" width="1280" height="1208">
+    <img loading="lazy" decoding="async" src="/img/posts/confident-and-wrong-architecture.svg" alt="The input passes through an encoder and a decision head; the output at each MASK position is turned into a raw score per option, and a formula called softmax turns the scores into probabilities" width="1280" height="1208">
     <figcaption>Laya's design, drawn from the code in its repository, with a security example. The scores are made up for illustration.</figcaption>
   </figure>
 
@@ -101,7 +116,7 @@
   <p>Because I wrote the program that generates the sessions, I can calculate the exact probability of each class for any session. A short, ambiguous session has an honest answer that is well below 100&nbsp;%.</p>
 
   <figure>
-    <img src="/img/posts/confident-and-wrong-world.svg" alt="An example session of five events and the exact probability of each of four offered classes: brute force 0.63, credential stuffing 0.34, phishing 0.00, benign 0.02" width="1280" height="428">
+    <img loading="lazy" decoding="async" src="/img/posts/confident-and-wrong-world.svg" alt="An example session of five events and the exact probability of each of four offered classes: brute force 0.63, credential stuffing 0.34, phishing 0.00, benign 0.02" width="1280" height="428">
     <figcaption>Two failed logins among ordinary activity. An ideal model would say 63&nbsp;% brute force, and no more.</figcaption>
   </figure>
 
@@ -148,7 +163,7 @@
   </table>
 
   <figure>
-    <img src="/img/posts/confident-and-wrong-sizes.svg" alt="Calibration error against training-set size: cross-entropy and Laya's method fall together from 0.20 to 0.01, one point if right stays near 0.15" width="1280" height="732">
+    <img loading="lazy" decoding="async" src="/img/posts/confident-and-wrong-sizes.svg" alt="Calibration error against training-set size: cross-entropy and Laya's method fall together from 0.20 to 0.01, one point if right stays near 0.15" width="1280" height="732">
     <figcaption>The shaded band is the spread between the 3 runs. The grey line is the best achievable.</figcaption>
   </figure>
 
@@ -173,7 +188,7 @@
   </table>
 
   <figure>
-    <img src="/img/posts/confident-and-wrong-conditions.svg" alt="Accuracy and confidence in five situations for the three training methods; they coincide like training and with more options, and separate on the unreadable format and under 90 percent benign traffic" width="1280" height="704">
+    <img loading="lazy" decoding="async" src="/img/posts/confident-and-wrong-conditions.svg" alt="Accuracy and confidence in five situations for the three training methods; they coincide like training and with more options, and separate on the unreadable format and under 90 percent benign traffic" width="1280" height="704">
     <figcaption>The filled dot is accuracy, the ring is confidence. Where they sit together the model is calibrated; the further apart, the less its confidence means.</figcaption>
   </figure>
 
@@ -201,7 +216,7 @@
   <p>The usual repair uses the temperature from the diagram. Take some examples with known answers that the model was not trained on, try different temperatures, and keep the one that makes confidence match accuracy. It is one number, and it cannot change which option the model picks.</p>
 
   <figure>
-    <img src="/img/posts/confident-and-wrong-temperature.svg" alt="The same five raw scores at temperatures 0.5, 1 and 2: the top probability is 0.78, 0.52 and 0.35 and the order of options does not change" width="1280" height="592">
+    <img loading="lazy" decoding="async" src="/img/posts/confident-and-wrong-temperature.svg" alt="The same five raw scores at temperatures 0.5, 1 and 2: the top probability is 0.78, 0.52 and 0.35 and the order of options does not change" width="1280" height="592">
     <figcaption>The same raw scores at three temperatures. The winner stays the winner; only how sure the model sounds changes.</figcaption>
   </figure>
 
@@ -225,7 +240,7 @@
   <p>My unreadable-format test has a direct counterpart. Laya comes in an English version and a multilingual one, and the project tested both on the same 20-option question in 51 languages, 100 cases each.</p>
 
   <figure>
-    <img src="/img/posts/confident-and-wrong-languages.svg" alt="Confidence against accuracy for 51 languages and two versions of Laya; every point lies below the diagonal of perfect calibration" width="1280" height="972">
+    <img loading="lazy" decoding="async" src="/img/posts/confident-and-wrong-languages.svg" alt="Confidence against accuracy for 51 languages and two versions of Laya; every point lies below the diagonal of perfect calibration" width="1280" height="972">
     <figcaption>Laya's own measurement, re-plotted from its result files. On the diagonal a model is calibrated; every dot is below it, so the model is more sure than it is right.</figcaption>
   </figure>
 
@@ -233,7 +248,7 @@
   <p>The repair has a counterpart too. Choosing a new temperature on separate examples, across 49 test sets, takes the English version's average calibration error from 0.466 to 0.081.</p>
 
   <figure>
-    <img src="/img/posts/confident-and-wrong-refit.svg" alt="Calibration error on 49 test sets for two versions of Laya: averages of 0.466 and 0.314 as released, 0.081 and 0.106 after choosing a new temperature" width="1280" height="1094">
+    <img loading="lazy" decoding="async" src="/img/posts/confident-and-wrong-refit.svg" alt="Calibration error on 49 test sets for two versions of Laya: averages of 0.466 and 0.314 as released, 0.081 and 0.106 after choosing a new temperature" width="1280" height="1094">
     <figcaption>Laya's own measurement, re-plotted from its result files. Each dot is one test set; the tick marks the average.</figcaption>
   </figure>
 
@@ -246,7 +261,7 @@
   <p>So the confidence of a decision model is a raw signal. It ranks answers well. It becomes a probability you can act on only after it has been checked, and usually adjusted, on examples from the place where it will be used. That checking is the job of whoever puts the model to work.</p>
 
   <figure>
-    <img src="/img/posts/confident-and-wrong-pipeline.svg" alt="An alert passes a format check, a decision model answers attack type, severity and exfiltration questions in one run, and a confidence rule sends the result to close as benign, contain automatically, or escalate to an analyst" width="1280" height="940">
+    <img loading="lazy" decoding="async" src="/img/posts/confident-and-wrong-pipeline.svg" alt="An alert passes a format check, a decision model answers attack type, severity and exfiltration questions in one run, and a confidence rule sends the result to close as benign, contain automatically, or escalate to an analyst" width="1280" height="940">
     <figcaption>Where such a model sits in alert triage, with the two things the experiment says it needs: a check before it and a feedback loop after it.</figcaption>
   </figure>
 

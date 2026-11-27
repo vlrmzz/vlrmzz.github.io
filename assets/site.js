@@ -8,7 +8,17 @@
     ['pointerenter', 'focus', 'touchstart'].forEach(function (ev) {
       a.addEventListener(ev, function () { arm(a); }, { once: true, passive: true });
     });
-    a.addEventListener('click', function () { arm(a); });
+    a.addEventListener('click', function () {
+      arm(a);
+      // Contact lines also show the address as text, for a reader with no mail program set up.
+      if (a.hasAttribute('data-keep') && !a.dataset.shown) {
+        a.dataset.shown = '1';
+        var s = document.createElement('span');
+        s.className = 'eml-shown';
+        s.textContent = address(a);
+        a.after(' (', s, ')');
+      }
+    });
   });
 
   // The CV shows the address in full on paper and in the PDF, and only there.

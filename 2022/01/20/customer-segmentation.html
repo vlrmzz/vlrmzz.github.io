@@ -10,9 +10,22 @@
 <link rel="icon" href="/favicon.ico">
 <title>The &quot;You Are What You Eat&quot; Customer Segmentation – Vlr Mzz</title>
 <meta name="description" content="In this project we use k-means clustering to segment up the customer base in order to increase business understanding, and to enhance the relevancy of targeted messaging &amp;amp; customer communications.">
+<link rel="canonical" href="https://vlrmzz.github.io/2022/01/20/customer-segmentation.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Vlr Mzz">
+<meta property="og:title" content="The &quot;You Are What You Eat&quot; Customer Segmentation">
+<meta property="og:description" content="In this project we use k-means clustering to segment up the customer base in order to increase business understanding, and to enhance the relevancy of targeted messaging &amp;amp; customer communications.">
+<meta property="og:url" content="https://vlrmzz.github.io/2022/01/20/customer-segmentation.html">
+<meta property="og:image" content="https://vlrmzz.github.io/img/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2022-01-20">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@vlraime">
 <script src="/assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap">
     <a class="site-name" href="/">Vlr Mzz</a>
@@ -25,10 +38,10 @@
     </nav>
   </div>
 </header>
-<main class="wrap">
+<main id="main" class="wrap">
   <h1 class="page-title">The &quot;You Are What You Eat&quot; Customer Segmentation</h1>
-  <p class="post-meta">20 January 2022 &middot; From the 2021&ndash;22 archive</p>
-  <figure><img src="/img/posts/clustering-title-img.png" alt=""></figure>
+  <p class="post-meta"><time datetime="2022-01-20">20 January 2022</time> &middot; From the 2021&ndash;22 archive</p>
+  <figure><img width="1920" height="1080" src="/img/posts/clustering-title-img.png" alt=""></figure>
 <p>In this project we use k-means clustering to segment up the customer base in order to increase business understanding, and to enhance the relevancy of targeted messaging &amp; customer communications.</p>
 <h2>Table of contents</h2>
 <ul>
@@ -252,7 +265,7 @@ plt.show()
 
 </code></pre>
 <p>That code gives us the below plot - which visualises our results!</p>
-<p><img alt="alt text" src="/img/posts/kmeans-optimal-k-value-plot.png" title="K-Means Optimal k Value Plot" /></p>
+<p><img width="1144" height="640" loading="lazy" decoding="async" alt="alt text" src="/img/posts/kmeans-optimal-k-value-plot.png" title="K-Means Optimal k Value Plot" /></p>
 <p>Based upon the shape of the above plot - there does appear to be an elbow at k = 3.  Prior to that we see a significant drop in the WCSS score, but following the decreases are much smaller, meaning this could be a point that suggests adding <em>more clusters</em> will provide little extra benefit in terms of separating our data.  A small number of clusters can be beneficial when considering how easy it is for the business to focus on, and understand, each - so we will continue on, and fit our k-means clustering solution with k = 3.</p>
 <h4>Model Fitting <a id="kmeans-model-fitting"></a></h4>
 <p>The below code will instantiate our k-means object using a value for k equal to 3.  We then fit this object to our scaled dataset to separate our data into three distinct segments or clusters.</p>

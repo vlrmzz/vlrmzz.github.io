@@ -10,9 +10,24 @@
 <link rel="icon" href="/favicon.ico">
 <title>Nobody taught it grammar: parts of speech from next-word prediction – Vlr Mzz</title>
 <meta name="description" content="A one-head attention model reads four novels and learns to predict the next word. Nouns, verbs, adjectives and adverbs separate inside it, with no grammar in the training. With shuffled word order, they do not.">
+<link rel="canonical" href="https://vlrmzz.github.io/writing/nobody-told-it-what-a-noun-is.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Vlr Mzz">
+<meta property="og:title" content="Nobody taught it grammar: parts of speech from next-word prediction">
+<meta property="og:description" content="A one-head attention model reads four novels and learns to predict the next word. Nouns, verbs, adjectives and adverbs separate inside it, with no grammar in the training. With shuffled word order, they do not.">
+<meta property="og:url" content="https://vlrmzz.github.io/writing/nobody-told-it-what-a-noun-is.html">
+<meta property="og:image" content="https://vlrmzz.github.io/img/og/nobody-told-it-what-a-noun-is.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-07-21">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@vlraime">
+<link rel="alternate" type="application/atom+xml" title="Vlr Mzz: writing" href="/feed.xml">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Nobody taught it grammar: parts of speech from next-word prediction", "description": "A one-head attention model reads four novels and learns to predict the next word. Nouns, verbs, adjectives and adverbs separate inside it, with no grammar in the training. With shuffled word order, they do not.", "datePublished": "2026-07-21", "url": "https://vlrmzz.github.io/writing/nobody-told-it-what-a-noun-is.html", "image": "https://vlrmzz.github.io/img/og/nobody-told-it-what-a-noun-is.png", "author": {"@type": "Person", "name": "Vlr Mzz", "url": "https://vlrmzz.github.io/about/"}}</script>
 <script src="/assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap">
     <a class="site-name" href="/">Vlr Mzz</a>
@@ -25,9 +40,9 @@
     </nav>
   </div>
 </header>
-<main class="wrap">
+<main id="main" class="wrap">
   <h1 class="page-title">Nobody taught it grammar: parts of speech from next-word prediction</h1>
-  <p class="post-meta">21 July 2026 &middot; Nobody told it what a noun is: a one-head attention model, with a shuffled-order control</p>
+  <p class="post-meta"><time datetime="2026-07-21">21 July 2026</time> &middot; Nobody told it what a noun is: a one-head attention model, with a shuffled-order control</p>
   <p class="post-meta"><a href="https://colab.research.google.com/github/vlrmzz/ai-claims-experiments/blob/main/nobody-told-it-what-a-noun-is/nobody_told_it.ipynb">Run it in Colab</a> &middot; <a href="https://github.com/vlrmzz/ai-claims-experiments/tree/main/nobody-told-it-what-a-noun-is">Code on GitHub</a></p>
 
   <p class="lede">I trained a very small language model on four novels for five minutes. It had one task: predict the next word. I never mentioned grammar. At the end, nouns, verbs, adjectives and adverbs sat in different regions inside the model, and a simple test could read a word's class from its position 83&nbsp;% of the time. Then I shuffled the words inside each sentence and trained again. This time, nothing of the kind happened.</p>
@@ -199,7 +214,7 @@ output_i = Σ w_j v_j                       a mix of the values, by weight</code
   </table>
   <p>Before training, every number is at chance. There is no structure at the start. After five minutes, the neighbours of a word share its class almost twice as often as chance, and the probe reads the class correctly 83&nbsp;% of the time. The loss went from 8.4 to 4.25 in the same steps. The loss falls and the two measures rise together.</p>
   <figure>
-    <img src="/img/posts/pos-emergence.png" alt="Four scatter plots of the words during training, the loss curve, and the two measures rising above chance" width="1362" height="881">
+    <img loading="lazy" decoding="async" src="/img/posts/pos-emergence.png" alt="Four scatter plots of the words during training, the loss curve, and the two measures rising above chance" width="1362" height="881">
     <figcaption>Top row: the same 1,320 words at four moments, on axes fixed from the final state. Bottom left: the loss, which is the only thing that the training looks at. Bottom right: the share of neighbours with the same class, for each class, against its chance level (dotted), and the probe (dashed).</figcaption>
   </figure>
 
@@ -218,7 +233,7 @@ output_i = Σ w_j v_j                       a mix of the values, by weight</code
   </table>
   <p>The shuffled model still learns. Its loss falls from 8.4 to 5.45, because it can still learn which words are frequent and which words occur in the same sentence. But both measures stay at chance. Word classes come from what stands <em>next to</em> a word, and the shuffle removes exactly that.</p>
   <figure>
-    <img src="/img/posts/pos-control.png" alt="Loss, neighbours and probe for real and shuffled text: only the real text rises above chance" width="1635" height="453">
+    <img loading="lazy" decoding="async" src="/img/posts/pos-control.png" alt="Loss, neighbours and probe for real and shuffled text: only the real text rises above chance" width="1635" height="453">
     <figcaption>Real text against shuffled text. The loss falls in both. The two measures rise only for the real text.</figcaption>
   </figure>
 
